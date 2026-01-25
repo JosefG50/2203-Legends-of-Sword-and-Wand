@@ -11,13 +11,7 @@ class Hero {
     'Uniervsal Stats per level gives points before the class bonus is applied per level up'
     - UniversalSPL: int[attackstat = 1, defensestat = 1, healthstat = 5, manastat = 2]
     - Maxhealth: int = 100 + healthstat
-    - health: int = 100
-    - Mana: int = 50
     - level: int = 1
-    - gold: int = 0
-    - experience: int = 0
-    - defnese: int = 5
-    - attack: int = 5
     'Add class Abstract class with all classes'
     - health: int
     - Mana: int
