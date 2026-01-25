@@ -2,7 +2,8 @@
 'add abstract class enetity' 
 class Hero {
     - name: String
-    - class: String   
+    - class: String
+    - isDead: bool = false    
     - mageSPL: int[manastat = 5, attackstat = 1]
     - warriorSPL: int[attackstat = 2, defensestat = 3]
     - orderSPL: int[manastat = 5, defensestat = 2]
