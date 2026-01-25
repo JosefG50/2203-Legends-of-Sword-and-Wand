@@ -1,0 +1,25 @@
+@startuml Intereact with Inn
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+class Door{
+
+}
+abstract class Room{
+    - height: int 
+    - width: int 
+    - layout: int[][]
+    - battleChance: float 
+    - roomCounter: int
+    + setBattleChance(percent: float): void
+
+} 
+class Inn {
+
+}
+class BattleRoom
+class Spawn
+
+Room <|-- Inn
+Room <|-- BattleRoom
+Room <|-- Spawn
+@enduml
