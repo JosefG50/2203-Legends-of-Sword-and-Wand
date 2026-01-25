@@ -1,33 +1,21 @@
 @startuml
-'add abstract class enetity' 
-class Hero {
-    - name: String
-    - class: String
-    - isDead: bool = false    
+'add abstract class enetity'
+'Make a abstract class for entity builds'
+class Hero {   
     - mageSPL: int[manastat = 5, attackstat = 1]
     - warriorSPL: int[attackstat = 2, defensestat = 3]
     - orderSPL: int[manastat = 5, defensestat = 2]
     - chaosSPL: int[attackstat = 3, healthstat = 5]
     'Uniervsal Stats per level gives points before the class bonus is applied per level up'
     - UniversalSPL: int[attackstat = 1, defensestat = 1, healthstat = 5, manastat = 2]
-    - Maxhealth: int = 100 + healthstat
-    - level: int = 1
     'Add class Abstract class with all classes'
-    - health: int
-    - Mana: int
     'add -levels for each class'
     - gold: int
     - experience: int
     'add to check if enough experience to level up'
     - levelup(level : int): levelup(level - 1) + 500 + 75*level + 20*level^2
     - experienceThreshold: int
-    - defnese: int
-    - attack: int
     '-spells: List[Spells]'
-    + GetHealth(): int
-    + SetHealth(health: int): void
-    + GetMana(): int
-    + SetMana(mana: int): void
     + Getlevel(): int
     + SetlevelUp(level: int): void
     + SetlevelUp(amount: int): void 
@@ -37,12 +25,6 @@ class Hero {
     + SetGold(gold: int): void 
     + GetExperience(): int
     + SetExperience(exp: int): void
-    + GetDefense(): int
-    + SetDefense(damage: int): void
-    + Getattack(): int
-    + Setattack(attack: int): void
-    + ClassType(Class: String): void
-    + Setattack(amount: int): void
 }
 
 
@@ -56,8 +38,18 @@ class Enemy {
     'The enemy party level is divided equally among the enemies in the party'
     'There is a chance for the enemy to pick a class so the enemy can have stats to that specific class'
     'but usually the stats will be evenly distributed among all stats'
+    'G(L) = 75*L that is the gold given to hero on defeat'
+    + GiveGold(level: int): int level * 75
+    'Exp(L)=50*L that is the experience given to hero on defeat'
+    + GiveExperience(level: int): int level * 50
+}
+
+abstract class 'LivingEntity'
+{
     - name: String
-    - Maxhealth: int = 100 + healthstat
+    - class: String
+    - isDead: bool = false   
+    - Maxhealth: int = 100
     - health: int = 100
     - Mana: int = 50
     - level: int = 1
@@ -72,23 +64,20 @@ class Enemy {
     + SetDefense(damage: int): void
     + Getattack(): int
     + Setattack(attack: int): void
-    'G(L) = 75*L that is the gold given to hero on defeat'
-    + GiveGold(level: int): int level * 75
-    'Exp(L)=50*L that is the experience given to hero on defeat'
-    + GiveExperience(level: int): int level * 50
 }
 
+'Order'  +5 Mana
+'Order'  +2 Defense
+'Order'  Heals/Shields
+'Chaos'  +3 Attack
+'Chaos'  +5 HP
+'Chaos'  Fireball/Lightning
+'Warrior'  +2 Attack
+'Warrior'  +3 Defense
+'Warrior'  Cleave/PHYSICAL
+'Mage'  +5 Mana
+'Mage'  +1 Attack
+'Mage'  Mana Replenish
 
-'Order' <|-- Hero : +5 Mana
-'Order' <|-- Hero : +2 Defense
-'Order' <|-- Hero : Heals/Shields
-'Chaos' <|-- Hero : +3 Attack
-'Chaos' <|-- Hero : +5 HP
-'Chaos' <|-- Hero : Fireball/Lightning
-'Warrior' <|-- Hero : +2 Attack
-'Warrior' <|-- Hero : +3 Defense
-'Warrior' <|-- Hero : Cleave/PHYSICAL
-'Mage' <|-- Hero : +5 Mana
-'Mage' <|-- Hero : +1 Attack
-'Mage' <|-- Hero : Mana Replenish
+
 @enduml
