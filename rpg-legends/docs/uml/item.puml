@@ -1,0 +1,44 @@
+@startuml Intereact with Inn
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+abstract class Item{
+    - cost: int
+    - hpHeal: int
+    - manaHeal: int
+    - canRevive: boolean
+    + getCost(): int
+    + getHpHeal(): int
+    + getManaHeal(): int
+    + getcanRevive(): boolean
+}
+class Bread{
+
+}
+class Cheese{
+    
+}
+class Steak{
+    
+}
+class Water{
+    
+}
+class Juice{
+    
+}
+class Wine{
+    
+}
+class Elixir{
+    
+}
+
+Item <- Bread
+Item <- Cheese
+Item <- Steak
+Item <- Water
+Item <- Juice
+Item <- Wine
+Item <- Elixir
+@enduml

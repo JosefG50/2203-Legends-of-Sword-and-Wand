@@ -1,23 +1,29 @@
 @startuml Intereact with Inn
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
-class Door{
 
-}
+
+
 abstract class Room{
-    - height: int 
-    - width: int 
-    - layout: int[][]
-    - battleChance: float 
-    - roomCounter: int
+    -_battleChance: float 
+    -_roomCounter: int
+    + getBattleChance(): float
     + setBattleChance(percent: float): void
-
+    + getRoomCounter(): int
+    + increaseRoomCounter(): void
+    + nextRoom(): Room
 } 
 class Inn {
 
+    +recover(): void
+    +buy(id: int): Item
+    +recruit(id: int): Hero
 }
-class BattleRoom
-class Spawn
+class BattleRoom{
+}
+class Spawn{
+
+}
 
 Room <|-- Inn
 Room <|-- BattleRoom
