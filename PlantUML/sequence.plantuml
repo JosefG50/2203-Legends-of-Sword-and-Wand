@@ -1,0 +1,43 @@
+@startuml
+class Hero {
+    - name: String
+    - class: String
+    - health: int
+    - Mana: int
+    - level: int
+    - gold: int
+    - experience: int
+    - defnese: int
+    - attack: int
+    + GetHealth(): int
+    + SetHealth(amount: int): void
+    + GetMana(): int
+    + SetMana(amount: int): void
+    + Getlevel(): int
+    + SetlevelUp(amount: int): void
+    + GetGold(): int
+    + SetGold(amount: int): void 
+    + GetExperience(): int
+    + SetExperience(exp: int): void
+    + GetDefense(): int
+    + SetDefense(damage: int): void
+    + Getattack(): int
+    + Setattack(amount: int): void
+    
+    
+    
+}
+
+'Order' <|-- Hero : +5 Mana
+'Order' <|-- Hero : +2 Defense
+'Order' <|-- Hero : Heals/Shields
+'Chaos' <|-- Hero : +3 Attack
+'Chaos' <|-- Hero : +5 HP
+'Chaos' <|-- Hero : Fireball/Lightning
+'Warrior' <|-- Hero : +2 Attack
+'Warrior' <|-- Hero : +3 Defense
+'Warrior' <|-- Hero : Cleave/PHYSICAL
+'Mage' <|-- Hero : +5 Mana
+'Mage' <|-- Hero : +1 Attack
+'Mage' <|-- Hero : Mana Replenish
+@enduml
