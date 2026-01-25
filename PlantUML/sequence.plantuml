@@ -1,26 +1,31 @@
 @startuml
 class Hero {
     - name: String
+    - class: String
     - health: int
     - Mana: int
-    - class: String
     - level: int
     - gold: int
     - experience: int
     - defnese: int
     - attack: int
-    + levelUp(): void 
-    + attack(): int
-    + GetMana(): int
-    + SetMana(amount: int): void
     + GetHealth(): int
     + SetHealth(amount: int): void
-    + GetDefense(): int
-    + SetDefense(damage: int): void
+    + GetMana(): int
+    + SetMana(amount: int): void
+    + Getlevel(): int
+    + SetlevelUp(amount: int): void
+    + GetGold(): int
+    + SetGold(amount: int): void 
     + GetExperience(): int
     + SetExperience(exp: int): void
-    + GetGold(): int
-    + SetGold(amount: int): void
+    + GetDefense(): int
+    + SetDefense(damage: int): void
+    + Getattack(): int
+    + Setattack(amount: int): void
+    
+    
+    
 }
 
 'Order' <|-- Hero : +5 Mana
