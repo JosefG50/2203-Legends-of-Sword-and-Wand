@@ -5,8 +5,8 @@ skinparam SequenceMessageAlignment center
 
 
 abstract class Room{
-    -_battleChance: float 
-    -_roomCounter: int
+    #_battleChance: float 
+    #_roomCounter: int
     + getBattleChance(): float
     + setBattleChance(percent: float): void
     + getRoomCounter(): int
