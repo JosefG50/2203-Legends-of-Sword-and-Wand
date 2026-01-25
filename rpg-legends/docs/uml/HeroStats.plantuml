@@ -7,6 +7,8 @@ class Hero {
     - warriorSPL: int[attack = 2, defense = 3]
     - orderSPL: int[mana = 5, defense = 2]
     - chaosSPL: int[attack = 3, health = 5]
+    'Uniervsal Stats per level gives points before the class bonus is applied per level up'
+    - UniversalSPL: int[attack = 1, defense = 1, health = 5, mana = 2]
     - health: int = 100
     - Mana: int = 50
     - level: int = 1
@@ -36,6 +38,7 @@ class Hero {
     + SetlevelUp(level: int): void
     + SetlevelUp(amount: int): void 
     'Change to levelUp():void' that increases level by 1'
+    + levelUp(attackstats, defensestats, healthstats, manastats): void
     + GetGold(): int
     + SetGold(gold: int): void 
     + GetExperience(): int
@@ -45,8 +48,6 @@ class Hero {
     + Getattack(): int
     + Setattack(attack: int): void
     + ClassType(Class: String): void
-    
-    
     + Setattack(amount: int): void
 }
 
