@@ -2,7 +2,6 @@
 'add abstract class enetity' 
 class Hero {
     - name: String
-<<<<<<< Updated upstream:rpg-legends/docs/uml/HeroStats.plantuml
     - class: String   
     - mageSPL: int[mana = 5, attack = 1]
     - warriorSPL: int[attack = 2, defense = 3]
@@ -16,7 +15,6 @@ class Hero {
     - defnese: int = 5
     - attack: int = 5
     - Exp(L) = Exp(L-1)+500+75*L+20*L2
-=======
     - class: String
     'Add class Abstract class with all classes'
     - health: int
@@ -30,18 +28,14 @@ class Hero {
     - defnese: int
     - attack: int
     '-spells: List[Spells]'
->>>>>>> Stashed changes:PlantUML/sequence.plantuml
     + GetHealth(): int
     + SetHealth(health: int): void
     + GetMana(): int
     + SetMana(mana: int): void
     + Getlevel(): int
-<<<<<<< Updated upstream:rpg-legends/docs/uml/HeroStats.plantuml
     + SetlevelUp(level: int): void
-=======
     + SetlevelUp(amount: int): void 
     'Change to levelUp():void' that increases level by 1'
->>>>>>> Stashed changes:PlantUML/sequence.plantuml
     + GetGold(): int
     + SetGold(gold: int): void 
     + GetExperience(): int
@@ -49,15 +43,40 @@ class Hero {
     + GetDefense(): int
     + SetDefense(damage: int): void
     + Getattack(): int
-<<<<<<< Updated upstream:rpg-legends/docs/uml/HeroStats.plantuml
     + Setattack(attack: int): void
     + ClassType(Class: String): void
     
     
-=======
     + Setattack(amount: int): void
->>>>>>> Stashed changes:PlantUML/sequence.plantuml
 }
+
+
+class Enemy {
+    - name: String
+    - health: int = 100
+    - Mana: int = 50
+    - level: int = 1
+    - gold: int = 0
+    - experience: int = 0
+    - defnese: int = 5
+    - attack: int = 5
+    - Exp(L) = Exp(L-1)+500+75*L+20*L2
+    + GetHealth(): int
+    + SetHealth(health: int): void
+    + GetMana(): int
+    + SetMana(mana: int): void
+    + Getlevel(): int
+    + SetlevelUp(level: int): void
+    + GetGold(): int
+    + SetGold(gold: int): void 
+    + GetExperience(): int
+    + SetExperience(exp: int): void
+    + GetDefense(): int
+    + SetDefense(damage: int): void
+    + Getattack(): int
+    + Setattack(attack: int): void
+}
+
 
 'Order' <|-- Hero : +5 Mana
 'Order' <|-- Hero : +2 Defense
