@@ -3,12 +3,13 @@
 class Hero {
     - name: String
     - class: String   
-    - mageSPL: int[mana = 5, attack = 1]
-    - warriorSPL: int[attack = 2, defense = 3]
-    - orderSPL: int[mana = 5, defense = 2]
-    - chaosSPL: int[attack = 3, health = 5]
+    - mageSPL: int[manastat = 5, attackstat = 1]
+    - warriorSPL: int[attackstat = 2, defensestat = 3]
+    - orderSPL: int[manastat = 5, defensestat = 2]
+    - chaosSPL: int[attackstat = 3, healthstat = 5]
     'Uniervsal Stats per level gives points before the class bonus is applied per level up'
-    - UniversalSPL: int[attack = 1, defense = 1, health = 5, mana = 2]
+    - UniversalSPL: int[attackstat = 1, defensestat = 1, healthstat = 5, manastat = 2]
+    - Maxhealth: int = 100 + healthstat
     - health: int = 100
     - Mana: int = 50
     - level: int = 1
@@ -16,15 +17,14 @@ class Hero {
     - experience: int = 0
     - defnese: int = 5
     - attack: int = 5
-    - Exp(L) = Exp(L-1)+500+75*L+20*L2
     'Add class Abstract class with all classes'
     - health: int
     - Mana: int
-    - level: int
     'add -levels for each class'
     - gold: int
     - experience: int
     'add to check if enough experience to level up'
+    - levelup(level : int): levelup(level - 1) + 500 + 75*level + 20*level^2
     - experienceThreshold: int
     - defnese: int
     - attack: int
@@ -62,6 +62,7 @@ class Enemy {
     'There is a chance for the enemy to pick a class so the enemy can have stats to that specific class'
     'but usually the stats will be evenly distributed among all stats'
     - name: String
+    - Maxhealth: int = 100 + healthstat
     - health: int = 100
     - Mana: int = 50
     - level: int = 1
