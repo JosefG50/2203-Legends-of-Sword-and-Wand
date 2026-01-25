@@ -56,7 +56,11 @@ class Enemy {
     'level from 1 to 10'
     'the actual level of the enemy party is determined by the culmative level of the hero party'
     'if hero party has a culmative level of 5 the enemy party will have a culmative level of 5-0'
+    'or hero culmative stats - 10 would be the enemies minimum and the hero culmative level would be the maximum'
     'The maximum level of a full enemy party culmative level is 50'
+    'The enemy party level is divided equally among the enemies in the party'
+    'There is a chance for the enemy to pick a class so the enemy can have stats to that specific class'
+    'but usually the stats will be evenly distributed among all stats'
     - name: String
     - health: int = 100
     - Mana: int = 50
