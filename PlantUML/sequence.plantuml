@@ -7,11 +7,18 @@ class Hero {
     - level: int
     - gold: int
     - experience: int
+    - defnese: int
+    - attack: int
     + attack(): int
-    + defend(damage: int): void
-    + levelUp(): void
-    + GetExperience(exp: int): void
-    + GetGold(amount: int): void
+    + GetHealth(): int
+    + Setheal(amount: int): void
+    + GetDefense(): int
+    + SetDefense(damage: int): void
+    + levelUp(): void 
+    + GetExperience(): int
+    + SetExperience(exp: int): void
+    + GetGold(): int
+    + SetGold(amount: int): void
 }
 
 'Order' <|-- Hero : +5 Mana
