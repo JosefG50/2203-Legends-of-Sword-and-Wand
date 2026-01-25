@@ -1,29 +1,34 @@
 @startuml
 class Hero {
     - name: String
-    - class: String
-    - health: int
-    - Mana: int
-    - level: int
-    - gold: int
-    - experience: int
-    - defnese: int
-    - attack: int
+    - class: String   
+    - mageSPL: int[mana = 5, attack = 1]
+    - warriorSPL: int[attack = 2, defense = 3]
+    - orderSPL: int[mana = 5, defense = 2]
+    - chaosSPL: int[attack = 3, health = 5]
+    - health: int = 100
+    - Mana: int = 50
+    - level: int = 1
+    - gold: int = 0
+    - experience: int = 0
+    - defnese: int = 5
+    - attack: int = 5
+    - Exp(L) = Exp(L-1)+500+75*L+20*L2
     + GetHealth(): int
-    + SetHealth(amount: int): void
+    + SetHealth(health: int): void
     + GetMana(): int
-    + SetMana(amount: int): void
+    + SetMana(mana: int): void
     + Getlevel(): int
-    + SetlevelUp(amount: int): void
+    + SetlevelUp(level: int): void
     + GetGold(): int
-    + SetGold(amount: int): void 
+    + SetGold(gold: int): void 
     + GetExperience(): int
     + SetExperience(exp: int): void
     + GetDefense(): int
     + SetDefense(damage: int): void
     + Getattack(): int
-    + Setattack(amount: int): void
-    
+    + Setattack(attack: int): void
+    + ClassType(Class: String): void
     
     
 }
