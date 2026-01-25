@@ -9,12 +9,14 @@ class Hero {
     - experience: int
     - defnese: int
     - attack: int
+    + levelUp(): void 
     + attack(): int
+    + GetMana(): int
+    + SetMana(amount: int): void
     + GetHealth(): int
-    + Setheal(amount: int): void
+    + SetHealth(amount: int): void
     + GetDefense(): int
     + SetDefense(damage: int): void
-    + levelUp(): void 
     + GetExperience(): int
     + SetExperience(exp: int): void
     + GetGold(): int
