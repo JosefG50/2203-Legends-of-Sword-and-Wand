@@ -17,7 +17,6 @@ class Hero {
     - defnese: int = 5
     - attack: int = 5
     - Exp(L) = Exp(L-1)+500+75*L+20*L2
-    - class: String
     'Add class Abstract class with all classes'
     - health: int
     - Mana: int
@@ -53,29 +52,30 @@ class Hero {
 
 
 class Enemy {
+    '1 to 5 enemies'
+    'level from 1 to 10'
+    'the actual level of the enemy party is determined by the culmative level of the hero party'
+    'if hero party has a culmative level of 5 the enemy party will have a culmative level of 5-0'
+    'The maximum level of a full enemy party culmative level is 50'
     - name: String
     - health: int = 100
     - Mana: int = 50
     - level: int = 1
-    - gold: int = 0
-    - experience: int = 0
     - defnese: int = 5
     - attack: int = 5
-    - Exp(L) = Exp(L-1)+500+75*L+20*L2
     + GetHealth(): int
     + SetHealth(health: int): void
     + GetMana(): int
     + SetMana(mana: int): void
     + Getlevel(): int
-    + SetlevelUp(level: int): void
-    + GetGold(): int
-    + SetGold(gold: int): void 
-    + GetExperience(): int
-    + SetExperience(exp: int): void
     + GetDefense(): int
     + SetDefense(damage: int): void
     + Getattack(): int
     + Setattack(attack: int): void
+    'G(L) = 75*L that is the gold given to hero on defeat'
+    + GiveGold(level: int): int level * 75
+    'Exp(L)=50*L that is the experience given to hero on defeat'
+    + GiveExperience(level: int): int level * 50
 }
 
 
