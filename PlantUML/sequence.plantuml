@@ -5,11 +5,13 @@ class Hero {
     - Mana: int
     - class: String
     - level: int
+    - gold: int
+    - experience: int
     + attack(): int
     + defend(damage: int): void
     + levelUp(): void
-    - gold: int
-    - experience: int
+    + GetExperience(exp: int): void
+    + GetGold(amount: int): void
 }
 
 'Order' <|-- Hero : +5 Mana
