@@ -1,0 +1,40 @@
+@startuml
+
+participant RoomChance
+
+' Inn is concrete that the user 
+' "revists" throughout campaign
+participant Inn 
+' participant PartyController
+participant PartyService
+participant InnController
+actor User
+
+
+' RoomChance selects Inn
+activate RoomChance
+RoomChance -> Inn: nextRoom()
+activate Inn
+
+Inn -> PartyService: maxRestore()
+activate PartyService
+
+
+PartyService -> Inn: status: String
+deactivate PartyService
+Inn -> InnController: status: String 
+activate InnController
+
+InnController -> User: status: String
+
+User -> InnController: getShop()
+InnController -> Inn: getShop()
+Inn -> InnController: shop: String
+InnController -> User: shop: String
+
+User -> InnController: Buyx()
+InnController -> Inn: Buyx()
+
+
+deactivate RoomChance
+@enduml

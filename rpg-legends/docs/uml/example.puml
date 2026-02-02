@@ -1,0 +1,22 @@
+@startuml
+participant RNG
+participant EnglishClassController
+participant EnglishCoreLogic
+participant User
+
+' RNG decides which class the user goes to
+RNG -> EnglishClassController: selectRandomClass()
+activate EnglishClassController
+
+' Controller sends intro message
+EnglishClassController -> EnglishCoreLogic: getIntroMessage()
+activate EnglishCoreLogic
+EnglishCoreLogic --> EnglishClassController: introMessage
+deactivate EnglishCoreLogic
+
+EnglishClassController --> User: displayMessage(introMessage)
+
+' Controller asks first question
+EnglishClassController -> EnglishCoreLogic: askQuestion()
+activate EnglishCoreLogic
+EnglishCoreLogic --> EnglishClassController: questionDat
