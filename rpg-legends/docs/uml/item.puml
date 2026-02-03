@@ -6,69 +6,56 @@ abstract class Item{
     # cost: int
     # hpHeal: int
     # manaHeal: int
-    # canRevive: boolean
+    # canRevive = false: boolean
     + getCost(): int
     + getHpHeal(): int
     + getManaHeal(): int
-    + getcanRevive(): boolean
+    + getCanRevive(): boolean
 }
 class Bread{
     - cost = 200
     - hpHeal = 20
     - manaHeal = 0
-    - canRevive = false
-
 }
 class Cheese{
     - cost = 500
     - hpHeal = 50
     - manaHeal = 0
-    - canRevive = false
-    
 }
 class Steak{
     - cost = 1000
     - hpHeal = 200
     - manaHeal = 0
-    - canRevive = false
-    
 }
 class Water{
     - cost = 150
     - hpHeal = 0
-    - manaHeal = 10
-    - canRevive = false
-    
+    - manaHeal = 10   
 }
 class Juice{
     - cost = 450
     - hpHeal = 0
     - manaHeal = 30
-    - canRevive = false
-    
 }
 class Wine{
     - cost = 750
     - hpHeal = 0
     - manaHeal = 100
-    - canRevive = false
-    
 }
 class Elixir{
     - cost = 2000
     - hpHeal = 9999
     - manaHeal = 9999
-    - canRevive = true
-    
+    - canRevive = true    
 }
 
 Item <|-- Bread
 Item <|-- Cheese
 Item <|-- Steak
 Item <|-- Water
+Item <|- ItemUi
 Item <|-- Juice
 Item <|-- Wine
 Item <|-- Elixir
-
 
 @enduml

@@ -7,6 +7,7 @@ participant RoomChance
 participant Inn 
 ' participant PartyController
 participant PartyService
+participant InventoryService
 participant InnController
 actor User
 
@@ -14,6 +15,7 @@ actor User
 ' RoomChance selects Inn
 activate RoomChance
 RoomChance -> Inn: nextRoom()
+deactivate RoomChance
 activate Inn
 
 Inn -> PartyService: maxRestore()
@@ -23,18 +25,99 @@ activate PartyService
 PartyService -> Inn: status: String
 deactivate PartyService
 Inn -> InnController: status: String 
+deactivate Inn
 activate InnController
 
+
 InnController -> User: status: String
+deactivate InnController
 
+' User wants to View Shop
 User -> InnController: getShop()
+activate InnController
+
 InnController -> Inn: getShop()
+activate Inn
 Inn -> InnController: shop: String
+deactivate Inn
 InnController -> User: shop: String
+deactivate InnController
 
-User -> InnController: Buyx()
-InnController -> Inn: Buyx()
+' User attempts to buy item
+User -> InnController: buyx(amount: int)
+activate InnController
+' Checks if they have enough gold
+alt Have enough gold
+InnController -> Inn: buyx(amount: int)
+activate Inn
 
+note left of InnController
+buyx Default = 1
+end note
 
-deactivate RoomChance
+Inn -> InnController: amount: int
+deactivate Inn
+' add to InventoryService
+InnController -> InventoryService: addx(amount = int)
+activate InventoryService
+InventoryService -> InnController: sucess: booleam
+deactivate InventoryService
+InnController -> User: sucess: String
+deactivate InnController
+else
+InnController -> User: error="Not enough gold": String
+deactivate InnController
+end
+
+' view recuitment
+User -> InnController: viewRecruit()
+activate InnController
+InnController -> Inn: viewRecruit()
+activate Inn
+Inn -> InnController: Recruits: Map<name:String, Hero:Hero>
+deactivate Inn
+InnController -> User: Recruits: String
+deactivate InnController
+
+' User attempts to recruit
+User -> InnController: buyRecruit(name: String)
+activate InnController
+
+' First, Attempts to buy Recruit
+InnController -> Inn: buyRecruit(name: String)
+activate Inn
+Inn -> Inn: hasRecruit(name: String)
+Inn -> Inn: canAffordRecruit(Hero: Hero)
+
+alt both conditions true
+Inn -> InnController: hero: Hero
+else
+Inn -> InnController: fail: String
+deactivate Inn
+end
+
+' Attempts to Add Recruit to Party
+alt [InnController has hero]
+InnController -> PartyService: addHero(hero: Hero)
+activate PartyService
+
+PartyService -> PartyService: hasSpace()
+alt has space
+PartyService -> InnController: hasSpace: boolean
+InnController -> User: sucess: String
+
+else
+PartyService -> InnController: full: boolean
+InnController -> Inn: sellHero(hero: Hero)
+activate Inn 
+Inn -> Inn: addGold(hero.value())
+Inn -> InnController: sucess: boolean
+deactivate Inn
+end
+else 
+InnController -> User: fail: String
+deactivate InnController
+end
+' Check if Name Exist
+'
 @enduml

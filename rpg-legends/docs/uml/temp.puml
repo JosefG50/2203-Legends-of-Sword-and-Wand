@@ -1,0 +1,20 @@
+Controller -> Service1: performCheck1()
+activate Service1
+Service1 --> Controller: successOrFail: boolean
+deactivate Service1
+
+alt [successOrFail]
+    Controller -> Service2: performCheck2()
+    activate Service2
+    Service2 --> Controller: successOrFail2: boolean
+    deactivate Service2
+    
+    alt [successOrFail2]
+        Controller --> Client: true
+    else
+        Controller --> Client: false
+    end
+
+else
+    Controller --> Client: false
+end
