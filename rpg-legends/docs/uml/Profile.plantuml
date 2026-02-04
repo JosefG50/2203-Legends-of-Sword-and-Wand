@@ -1,0 +1,38 @@
+'1.	As a user I should be able to create a profile and log in.
+'At a minimum, the profile should consist of a username and password for authentication. 
+'The main purpose of the profile is to connect persistently stored data, such as parties, scores, rankings, campaign progress, 
+'to an existing account. Once I am authenticated and logged in, I should be directed to a GUI,
+'where I can review my saved data, and pick a game mode (e.g., PvE or PvP).
+
+@startuml
+actor User
+
+participant ProfileManager
+
+participant Profile
+    
+    'Must be 16 characters with 2 special characters and 1 number'
+    'parties
+    'scores
+    'rankings
+    'campaign progress
+participant GUI
+
+alt correctpassword
+'A if statement that if the 
+
+User -> ProfileManager: Username
+User -> ProfileManager: Password
+
+ProfileManager -> Profile :Scores
+ProfileManager -> Profile :Campaign progress
+ProfileManager -> Profile :Party
+ProfileManager -> Profile :Ranking
+
+Profile -> GUI :PVP
+Profile -> GUI :PVE
+'PvE or PvP"
+
+
+
+@enduml 

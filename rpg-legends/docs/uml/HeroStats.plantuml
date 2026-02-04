@@ -1,7 +1,7 @@
 @startuml
 'add abstract class enetity'
 'Make a abstract class for entity builds'
-class Hero {   
+abstract class Hero {   
     - mageSPL: int[manastat = 5, attackstat = 1]
     - warriorSPL: int[attackstat = 2, defensestat = 3]
     - orderSPL: int[manastat = 5, defensestat = 2]
@@ -26,6 +26,7 @@ class Hero {
     + GetExperience(): int
     + SetExperience(exp: int): void
 }
+
 
 
 class Enemy {
