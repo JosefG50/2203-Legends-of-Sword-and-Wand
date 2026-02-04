@@ -31,7 +31,9 @@ activate InnController
 
 InnController -> User: status: String
 deactivate InnController
+' User given option to pick one of many different commands
 
+alt
 ' User wants to View Shop
 User -> InnController: getShop()
 activate InnController
@@ -43,6 +45,7 @@ deactivate Inn
 InnController -> User: shop: String
 deactivate InnController
 
+else
 ' User attempts to buy item
 User -> InnController: buyx(amount: int)
 activate InnController
@@ -69,6 +72,7 @@ InnController -> User: error="Not enough gold": String
 deactivate InnController
 end
 
+else
 ' view recuitment
 User -> InnController: viewRecruit()
 activate InnController
@@ -79,6 +83,7 @@ deactivate Inn
 InnController -> User: Recruits: String
 deactivate InnController
 
+else
 ' User attempts to recruit
 User -> InnController: buyRecruit(name: String)
 activate InnController
@@ -118,6 +123,17 @@ else
 InnController -> User: fail: String
 deactivate InnController
 end
-' Check if Name Exist
-'
+'Go to Next Room
+User -> InnController: nextRoom()
+activate InnController
+InnController -> RoomChance: nextRoom()
+deactivate InnController
+activate RoomChance
+
+ref over RoomChance:"go through a single battle"
+    note left 
+        Details in [FILE NAME]
+    end note 
+deactivate RoomChance
+end
 @enduml

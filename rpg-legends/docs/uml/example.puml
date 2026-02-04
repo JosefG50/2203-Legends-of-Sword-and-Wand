@@ -1,22 +1,15 @@
 @startuml
-participant RNG
-participant EnglishClassController
-participant EnglishCoreLogic
-participant User
+actor User
+participant A
+participant B
 
-' RNG decides which class the user goes to
-RNG -> EnglishClassController: selectRandomClass()
-activate EnglishClassController
+User -> A : start request
+A -> B : process request
 
-' Controller sends intro message
-EnglishClassController -> EnglishCoreLogic: getIntroMessage()
-activate EnglishCoreLogic
-EnglishCoreLogic --> EnglishClassController: introMessage
-deactivate EnglishCoreLogic
+ref over B : continues in AnotherSequence
+    note right
+      B's processing is detailed in another diagram
+    end note
 
-EnglishClassController --> User: displayMessage(introMessage)
-
-' Controller asks first question
-EnglishClassController -> EnglishCoreLogic: askQuestion()
-activate EnglishCoreLogic
-EnglishCoreLogic --> EnglishClassController: questionDat
+A --> User : response
+@enduml
