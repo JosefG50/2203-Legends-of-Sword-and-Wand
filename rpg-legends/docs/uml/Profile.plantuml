@@ -6,33 +6,36 @@
 
 @startuml
 actor User
-
+participant Database
 participant ProfileManager
-
 participant Profile
-    
-    'Must be 16 characters with 2 special characters and 1 number'
-    'parties
-    'scores
-    'rankings
-    'campaign progress
 participant GUI
 
-alt correctpassword
-'A if statement that if the 
+User -> ProfileManager : Login(Username,Password)
 
-User -> ProfileManager: Username
-User -> ProfileManager: Password
-
-ProfileManager -> Profile :Scores
-ProfileManager -> Profile :Campaign progress
-ProfileManager -> Profile :Party
-ProfileManager -> Profile :Ranking
-
-Profile -> GUI :PVP
-Profile -> GUI :PVE
-'PvE or PvP"
+DataBase -> ProfileManager : VerifyLogin(Username,Password)
 
 
+alt [VerifyLogin(Username,Password) == true]
+    'A if statement that if the 
+    'User -> ProfileManager: Username
+    'User -> ProfileManager: Password
+    ProfileManager -> Profile :Choose Profile
+    Profile -> GUI :Scores
+    Profile -> GUI :Campaign progress
+    Profile -> GUI :Party
+    Profile -> GUI :Ranking
+    Profile -> GUI :PVP
+    Profile -> GUI :PVE
+    'PvE or PvP"
+
+else [VerifyLogin == ThreeAttempts]
+ 'Blocked user
+ 'Incorrect password locked out'
+ ProfileManager -> User: Account Blocked 2 hours
+ ProfileManager -> User: Ask to reset Password via email
+
+
+end
 
 @enduml 
