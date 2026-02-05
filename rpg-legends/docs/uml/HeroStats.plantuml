@@ -67,6 +67,8 @@ abstract class 'LivingEntity'
     + Setattack(attack: int): void
 }
 
+LivingEntity <|-- Hero
+LivingEntity <|-- Enemy
 'Order'  +5 Mana
 'Order'  +2 Defense
 'Order'  Heals/Shields
