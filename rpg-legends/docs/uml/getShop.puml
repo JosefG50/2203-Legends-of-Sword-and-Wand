@@ -1,0 +1,10 @@
+' User wants to View Shop
+User -> InnController: getShop()
+activate InnController
+
+InnController -> Inn: getShop()
+activate Inn
+Inn -> InnController: shop: String
+deactivate Inn
+InnController -> User: shop: String
+deactivate InnController

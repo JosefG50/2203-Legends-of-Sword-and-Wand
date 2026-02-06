@@ -1,0 +1,4 @@
+InnController -> Inn: viewRecruit()
+activate Inn
+Inn -> InnController: Recruits: Map<name:String, Hero:Hero>
+deactivate Inn

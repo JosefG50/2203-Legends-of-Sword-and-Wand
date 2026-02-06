@@ -1,0 +1,33 @@
+InnController -> Inn: buyRecruit(name: String)
+activate Inn
+Inn -> Inn: hasRecruit(name: String)
+Inn -> Inn: canAffordRecruit(Hero: Hero)
+
+alt both conditions true
+Inn -> InnController: hero: Hero
+else
+Inn -> InnController: fail: String
+deactivate Inn
+end
+' Attempts to Add Recruit to Party
+alt [InnController has hero]
+InnController -> PartyService: addHero(hero: Hero)
+activate PartyService
+
+PartyService -> PartyService: hasSpace()
+alt has space
+PartyService -> InnController: hasSpace: boolean
+InnController -> User: sucess: String
+
+else
+PartyService -> InnController: full: boolean
+InnController -> Inn: sellHero(hero: Hero)
+activate Inn 
+Inn -> Inn: addGold(hero.value())
+Inn -> InnController: sucess: boolean
+deactivate Inn
+end
+else 
+InnController -> User: fail: String
+deactivate InnController
+end

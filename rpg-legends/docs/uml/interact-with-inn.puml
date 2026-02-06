@@ -3,11 +3,11 @@
 participant RoomChance
 
 ' Inn is concrete that the user 
-' "revists" throughout campaign
-participant Inn 
-' participant PartyController
 participant PartyService
-participant InventoryService
+participant BuyRecruitUseCase
+participant ViewRecruitUseCase
+participant BuyItemUseCase
+participant getShopUseCase
 participant InnController
 actor User
 
@@ -38,10 +38,11 @@ alt
 User -> InnController: getShop()
 activate InnController
 
-InnController -> Inn: getShop()
-activate Inn
-Inn -> InnController: shop: String
-deactivate Inn
+InnController -> getShopUseCase
+activate getShopUseCase
+ref over getShopUseCase:"buyx.puml"
+getShopUseCase -> InnController: ????
+deactivate getShopUseCase
 InnController -> User: shop: String
 deactivate InnController
 
@@ -50,79 +51,39 @@ else
 User -> InnController: buyx(amount: int)
 activate InnController
 ' Checks if they have enough gold
-alt Have enough gold
-InnController -> Inn: buyx(amount: int)
-activate Inn
-
-note left of InnController
-buyx Default = 1
-end note
-
-Inn -> InnController: amount: int
-deactivate Inn
-' add to InventoryService
-InnController -> InventoryService: addx(amount = int)
-activate InventoryService
-InventoryService -> InnController: sucess: booleam
-deactivate InventoryService
-InnController -> User: sucess: String
-deactivate InnController
-else
-InnController -> User: error="Not enough gold": String
-deactivate InnController
-end
+InnController -> BuyItemUseCase
+activate BuyItemUseCase
+ref over BuyItemUseCase: "Buyitem.puml"
+BuyItemUseCase -> InnController: ????
+deactivate BuyItemUseCase 
 
 else
+
 ' view recuitment
 User -> InnController: viewRecruit()
 activate InnController
-InnController -> Inn: viewRecruit()
-activate Inn
-Inn -> InnController: Recruits: Map<name:String, Hero:Hero>
-deactivate Inn
+InnController -> ViewRecruitUseCase: 
+activate ViewRecruitUseCase
+ref over ViewRecruitUseCase: "ViewRecruit.puml"
+ViewRecruitUseCase -> InnController: ????
+deactivate ViewRecruitUseCase
 InnController -> User: Recruits: String
+deactivate InnController
+InnController -> User: ???
 deactivate InnController
 
 else
 ' User attempts to recruit
 User -> InnController: buyRecruit(name: String)
 activate InnController
-
+InnController -> BuyRecruitUseCase
+activate BuyRecruitUseCase
+ref over BuyRecruitUseCase: "BuyRecruit.puml"
 ' First, Attempts to buy Recruit
-InnController -> Inn: buyRecruit(name: String)
-activate Inn
-Inn -> Inn: hasRecruit(name: String)
-Inn -> Inn: canAffordRecruit(Hero: Hero)
+BuyRecruitUseCase -> InnController: ???
+deactivate BuyRecruitUseCase
 
-alt both conditions true
-Inn -> InnController: hero: Hero
-else
-Inn -> InnController: fail: String
-deactivate Inn
-end
 
-' Attempts to Add Recruit to Party
-alt [InnController has hero]
-InnController -> PartyService: addHero(hero: Hero)
-activate PartyService
-
-PartyService -> PartyService: hasSpace()
-alt has space
-PartyService -> InnController: hasSpace: boolean
-InnController -> User: sucess: String
-
-else
-PartyService -> InnController: full: boolean
-InnController -> Inn: sellHero(hero: Hero)
-activate Inn 
-Inn -> Inn: addGold(hero.value())
-Inn -> InnController: sucess: boolean
-deactivate Inn
-end
-else 
-InnController -> User: fail: String
-deactivate InnController
-end
 'Go to Next Room
 User -> InnController: nextRoom()
 activate InnController

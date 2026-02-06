@@ -1,0 +1,21 @@
+alt Have enough gold
+InnController -> Inn: buyx(amount: int)
+activate Inn
+
+note left of InnController
+buyx Default = 1
+end note
+
+Inn -> InnController: amount: int
+deactivate Inn
+' add to InventoryService
+InnController -> InventoryService: addx(amount = int)
+activate InventoryService
+InventoryService -> InnController: sucess: booleam
+deactivate InventoryService
+InnController -> User: sucess: String
+deactivate InnController
+else
+InnController -> User: error="Not enough gold": String
+deactivate InnController
+end
