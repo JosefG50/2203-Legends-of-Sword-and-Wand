@@ -1,33 +1,45 @@
-InnController -> Inn: buyRecruit(name: String)
+@startuml BuyRecruitUseCase
+participant InnController
+participant BuyRecruitUseCase
+participant PartyService
+participant Inn
+
+activate InnController
+InnController -> BuyRecruitUseCase: buyRecruit(name: String)
+activate BuyRecruitUseCase
+
+par
+BuyRecruitUseCase -> Inn: buyRecruit(name: String)
 activate Inn
 Inn -> Inn: hasRecruit(name: String)
 Inn -> Inn: canAffordRecruit(Hero: Hero)
+Inn -> BuyRecruitUseCase: hero: Hero / throws Exception
 
-alt both conditions true
-Inn -> InnController: hero: Hero
 else
-Inn -> InnController: fail: String
-deactivate Inn
-end
-' Attempts to Add Recruit to Party
-alt [InnController has hero]
-InnController -> PartyService: addHero(hero: Hero)
+BuyRecruitUseCase -> PartyService: addHero(hero: Hero)
 activate PartyService
-
 PartyService -> PartyService: hasSpace()
-alt has space
-PartyService -> InnController: hasSpace: boolean
-InnController -> User: sucess: String
+PartyService -> BuyRecruitUseCase: 
+end
 
-else
-PartyService -> InnController: full: boolean
-InnController -> Inn: sellHero(hero: Hero)
-activate Inn 
+alt any failures 
+par
+    note right of BuyRecruitUseCase: undo commands that ran
+
+BuyRecruitUseCase -> Inn: sellHero(hero: Hero) (if bought)
 Inn -> Inn: addGold(hero.value())
-Inn -> InnController: sucess: boolean
 deactivate Inn
-end
+
 else 
-InnController -> User: fail: String
-deactivate InnController
+BuyRecruitUseCase -> PartyService: removeHero() (if added)
+deactivate PartyService
+
+end 
 end
+BuyRecruitUseCase -> InnController: Result: DTO
+deactivate BuyRecruitUseCase
+
+
+ref over InnController: interact-with-inn.puml
+
+@enduml

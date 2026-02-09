@@ -1,4 +1,17 @@
-InnController -> Inn: viewRecruit()
+@startuml ViewRecruitUseCase
+participant InnController
+participant ViewRecruitUseCase
+participant Inn
+
+activate InnController
+InnController -> ViewRecruitUseCase: viewRecruit()
+activate ViewRecruitUseCase
+ViewRecruitUseCase -> Inn: viewRecruit()
 activate Inn
-Inn -> InnController: Recruits: Map<name:String, Hero:Hero>
+Inn -> ViewRecruitUseCase: Recruits: Map<name:String, Hero:Hero>
 deactivate Inn
+ViewRecruitUseCase -> InnController: Recruits: DTO
+deactivate ViewRecruitUseCase
+ref over InnController: interact-with-inn.puml
+
+@enduml

@@ -1,10 +1,18 @@
 ' User wants to View Shop
-User -> InnController: getShop()
-activate InnController
+@startuml ViewRecruitUseCase
+participant InnController
+participant ViewRecruitUseCase
+participant Inn
 
-InnController -> Inn: getShop()
+activate InnController
+InnController -> ViewRecruitUseCase: getShop()
+activate ViewRecruitUseCase
+ViewRecruitUseCase -> Inn: getShop()
 activate Inn
-Inn -> InnController: shop: String
+Inn -> ViewRecruitUseCase: shop: String
 deactivate Inn
-InnController -> User: shop: String
-deactivate InnController
+ViewRecruitUseCase -> InnController: shop: DTO
+ref over InnController: interact-with-inn.puml
+
+deactivate ViewRecruitUseCase
+@enduml

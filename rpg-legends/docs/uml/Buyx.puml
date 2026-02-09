@@ -1,21 +1,34 @@
-alt Have enough gold
-InnController -> Inn: buyx(amount: int)
-activate Inn
+@startuml name 
+participant InnController
+participant BuyItemUseCase
+participant InventoryService
+participant Inn
 
-note left of InnController
+activate InnController
+InnController -> BuyItemUseCase: buyx(amount: int)
+activate BuyItemUseCase 
+BuyItemUseCase -> Inn: buyx(amount: int)
+note left of Inn
 buyx Default = 1
 end note
+activate Inn
 
-Inn -> InnController: amount: int
-deactivate Inn
+alt Have enough gold
+Inn -> BuyItemUseCase: amount: int
 ' add to InventoryService
-InnController -> InventoryService: addx(amount = int)
+BuyItemUseCase -> InventoryService: addx(amount = int)
 activate InventoryService
-InventoryService -> InnController: sucess: booleam
+InventoryService -> BuyItemUseCase: sucess: booleam
 deactivate InventoryService
-InnController -> User: sucess: String
-deactivate InnController
-else
-InnController -> User: error="Not enough gold": String
-deactivate InnController
+else Not enough Gold
+Inn -> BuyItemUseCase: Throws Exception
+deactivate Inn
 end
+
+BuyItemUseCase -> InnController: Result: DTO
+deactivate BuyItemUseCase
+
+ref over InnController: interact-with-inn.puml
+
+
+@enduml

@@ -1,9 +1,10 @@
-@startuml
+@startuml interact with Inn
 
 participant RoomChance
 
 ' Inn is concrete that the user 
 participant PartyService
+participant Inn
 participant BuyRecruitUseCase
 participant ViewRecruitUseCase
 participant BuyItemUseCase
@@ -29,59 +30,62 @@ deactivate Inn
 activate InnController
 
 
-InnController -> User: status: String
+InnController -> User: status: GUI
 deactivate InnController
 ' User given option to pick one of many different commands
 
 alt
 ' User wants to View Shop
-User -> InnController: getShop()
+User -> InnController: view menu
 activate InnController
 
 InnController -> getShopUseCase
 activate getShopUseCase
-ref over getShopUseCase:"buyx.puml"
-getShopUseCase -> InnController: ????
+ref over getShopUseCase:"getShop.puml"
+getShopUseCase -> InnController: shop: DTO
 deactivate getShopUseCase
-InnController -> User: shop: String
+InnController -> User: shop: GUI
 deactivate InnController
 
 else
 ' User attempts to buy item
-User -> InnController: buyx(amount: int)
+User -> InnController: buy item x times
 activate InnController
 ' Checks if they have enough gold
-InnController -> BuyItemUseCase
+InnController -> BuyItemUseCase: placeOrder(itemId: int, amount: int)
 activate BuyItemUseCase
 ref over BuyItemUseCase: "Buyitem.puml"
-BuyItemUseCase -> InnController: ????
+BuyItemUseCase -> InnController: Result: DTO
 deactivate BuyItemUseCase 
+InnController -> User: Sucess/fail: GUI
+deactivate InnController
+
 
 else
 
 ' view recuitment
-User -> InnController: viewRecruit()
+User -> InnController: view recruit menu
 activate InnController
-InnController -> ViewRecruitUseCase: 
+InnController -> ViewRecruitUseCase: viewRecruit()
 activate ViewRecruitUseCase
 ref over ViewRecruitUseCase: "ViewRecruit.puml"
-ViewRecruitUseCase -> InnController: ????
+ViewRecruitUseCase -> InnController: Recruits: DTO
 deactivate ViewRecruitUseCase
-InnController -> User: Recruits: String
-deactivate InnController
-InnController -> User: ???
+InnController -> User: Recruit List: GUI
 deactivate InnController
 
 else
 ' User attempts to recruit
-User -> InnController: buyRecruit(name: String)
+User -> InnController: buy recruit x
 activate InnController
 InnController -> BuyRecruitUseCase
 activate BuyRecruitUseCase
 ref over BuyRecruitUseCase: "BuyRecruit.puml"
 ' First, Attempts to buy Recruit
-BuyRecruitUseCase -> InnController: ???
+BuyRecruitUseCase -> InnController: Result: DTO
 deactivate BuyRecruitUseCase
+InnController -> User: sucess/fail popup: GUI
+deactivate InnController
 
 
 'Go to Next Room
