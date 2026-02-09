@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+@startuml
+title Use Case: Exit PvE Campaign
+actor User
+participant "PvE View" as View
+participant "Game Controller" as Ctrl
+participant "Party Manager" as Party
+participant "Inventory" as Inv
+participant "Campaign Manager" as Camp
+database Database
+
+User -> View: Select "Exit Campaign"
+activate View
+
+View -> Ctrl: requestExit()
+activate Ctrl
+
+Ctrl -> Ctrl: checkBattleStatus()
+note right: User cannot exit if currently in battle
+
+alt In Battle
+    Ctrl --> View: returnError("Cannot exit during battle")
+    View --> User: Display Error Message
+else In Inn or Between Rooms
+
+    group Save Process
+        Ctrl -> Party: getPartyStatus()
+        activate Party
+        Party --> Ctrl: return(HeroStats, Levels, HP/Mana)
+        deactivate Party
+
+        Ctrl -> Inv: getInventoryData()
+        activate Inv
+        Inv --> Ctrl: return(ItemsList)
+        deactivate Inv
+
+        Ctrl -> Camp: getCurrentRoomInfo()
+        activate Camp
+        Camp --> Ctrl: return(RoomID, Progress)
+        deactivate Camp
+
+        Ctrl -> Database: saveGameState(PartyData, InvData, RoomData)
+        activate Database
+        Database --> Ctrl: confirmSave()
+        deactivate Database
+    end
+
+    Ctrl --> View: exitSuccess()
+    View -> View: closeCampaignView()
+    View --> User: Display Main Menu
+
+end
+
+deactivate Ctrl
+deactivate View
+@enduml
+
+
+@enduml

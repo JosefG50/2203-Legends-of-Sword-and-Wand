@@ -1,0 +1,44 @@
+@startuml
+title Use Case: Continue Incomplete PvE Campaign
+actor User
+participant "Main Menu View" as MainView
+participant "Game Controller" as Ctrl
+database Database
+participant "Party Manager" as Party
+participant "Campaign Manager" as Camp
+participant "Inn View" as InnUI
+participant "Campaign View" as CampUI
+
+User -> MainView: Select "Continue Campaign" [cite: 201]
+activate MainView
+
+MainView -> Ctrl: loadSavedGame(userID)
+activate Ctrl
+
+Ctrl -> Database: fetchSaveData(userID)
+activate Database
+Database --> Ctrl: return(PartyData, InvData, RoomData, LocationType)
+deactivate Database
+
+note right: All progress is loaded from database
+
+group State Restoration
+    Ctrl -> Party: restoreParty(PartyData)
+    Ctrl -> Camp: restoreProgress(RoomData)
+end
+
+alt Last Location was Inn
+    Ctrl -> InnUI: initialize(PartyData, InvData)
+    activate InnUI
+    InnUI --> User: Display Inn Screen
+    deactivate InnUI
+else Last Location was Dungeon Room
+    Ctrl -> CampUI: initialize(PartyData, RoomData)
+    activate CampUI
+    CampUI --> User: Display Room/Campaign Screen
+    deactivate CampUI
+end
+
+deactivate Ctrl
+deactivate MainView
+@enduml
