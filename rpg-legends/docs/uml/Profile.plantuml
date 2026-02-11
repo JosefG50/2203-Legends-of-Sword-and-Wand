@@ -6,14 +6,31 @@
 
 @startuml
 actor User
-participant Database
+participant DataBase
 participant ProfileManager
+participant register
 participant Profile
 participant GUI
+participant PVE
+participant PVP
 
+'Register'
+'activate getShopUseCase
+'getShopUseCase --> Inn: getShop()
+'activate Inn
+'Inn -> getShopUseCase: shop: String
+'deactivate Inn
+activate ProfileManager
 User -> ProfileManager : Login(Username,Password)
+activate DataBase
+ProfileManager -> DataBase : VerifyLogin(Username,Password)
+deactivate DataBase
 
-DataBase -> ProfileManager : VerifyLogin(Username,Password)
+activate register
+User -> register : Register(Username,Password,Email)
+register -> DataBase : Store(Username,Password,Email)
+register --> User : Registration Successful
+deactivate register
 
 
 alt [VerifyLogin(Username,Password) == true]
@@ -21,21 +38,24 @@ alt [VerifyLogin(Username,Password) == true]
     'User -> ProfileManager: Username
     'User -> ProfileManager: Password
     ProfileManager -> Profile :Choose Profile
-    Profile -> GUI :Scores
-    Profile -> GUI :Campaign progress
-    Profile -> GUI :Party
-    Profile -> GUI :Ranking
-    Profile -> GUI :PVP
-    Profile -> GUI :PVE
+     Profile -> GUI : Display(Scores, Campaign progress, Party, Rankings)
+    alt [Choose Profile == PVP]
+       Profile -> PVP : Load PvP Data
+    else [Choose Profile == PVE]
+        Profile -> PVE : Load PvE Data
+    end
+  
+
     'PvE or PvP"
 
 else [VerifyLogin == ThreeAttempts]
  'Blocked user
  'Incorrect password locked out'
- ProfileManager -> User: Account Blocked 2 hours
+ ProfileManager --> User: Account Blocked 2 hours
  ProfileManager -> User: Ask to reset Password via email
 
 
 end
+deactivate ProfileManager
 
 @enduml 
