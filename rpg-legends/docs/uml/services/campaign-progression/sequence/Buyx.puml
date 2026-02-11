@@ -2,27 +2,23 @@
 participant InnController
 participant BuyItemUseCase
 participant InventoryService
-participant Inn
 
 activate InnController
-InnController -> BuyItemUseCase: buyx(amount: int)
+InnController -> BuyItemUseCase: placeOrder(id: int, amount: int)
 activate BuyItemUseCase 
-BuyItemUseCase -> Inn: buyx(amount: int)
-note left of Inn
+BuyItemUseCase -> InventoryService: buyItem(id: int, amount: int)
+note left of InventoryService
 buyx Default = 1
 end note
-activate Inn
+activate InventoryService
 
 alt Have enough gold
-Inn -> BuyItemUseCase: amount: int
+InventoryService -> BuyItemUseCase: amount: int
 ' add to InventoryService
-BuyItemUseCase -> InventoryService: addx(amount = int)
-activate InventoryService
-InventoryService -> BuyItemUseCase: sucess: booleam
-deactivate InventoryService
+
 else Not enough Gold
-Inn -> BuyItemUseCase: Throws Exception
-deactivate Inn
+InventoryService -> BuyItemUseCase: Throws Exception
+deactivate InventoryService
 end
 
 BuyItemUseCase -> InnController: Result: DTO

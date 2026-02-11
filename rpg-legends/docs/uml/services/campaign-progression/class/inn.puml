@@ -1,10 +1,10 @@
-@startuml Intereact with Inn
+@startuml CampaignManager
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
 
 
-abstract class Room{
+abstract class CampaignManager{
     #_battleChance: float 
     #_roomCounter: int
     + getBattleChance(): float
@@ -14,18 +14,116 @@ abstract class Room{
     + nextRoom(): Room
 } 
 class Inn {
-
-    +recover(): void
-    +buy(id: int): Item
-    +recruit(id: int): Hero
+    + recover(): void
+    + buy(id: int): Item
+    + recruit(id: int): Hero
+    - CanAffordRecruit(hero: Hero): boolean
+    - hasRecruit(name: String): boolean
 }
 class BattleRoom{
 }
 class Spawn{
+}
+class PartyService{
+    - heros: List[Hero]
+    + maxRestore(): String
+}
+class InnScreen <<boundary>>{
+
+}
+class InnController <<control>> {
+
+}
+class BuyRecruitUseCase <<APPLICATION>> {
+
+}
+class ViewRecruitUseCase <<APPLICATION>>{
+
+}
+class BuyItemUseCase <<APPLICATION>>{
+
+}
+class getShopUseCase <<APPLICATION>>{
 
 }
 
-Room <|-- Inn
-Room <|-- BattleRoom
-Room <|-- Spawn
+abstract class Item{
+    # cost: int
+    # hpHeal: int
+    # manaHeal: int
+    # canRevive = false: boolean
+    + getCost(): int
+    + getHpHeal(): int
+    + getManaHeal(): int
+    + getCanRevive(): boolean
+}
+class Bread{
+    - cost = 200
+    - hpHeal = 20
+    - manaHeal = 0
+}
+class Cheese{
+    - cost = 500
+    - hpHeal = 50
+    - manaHeal = 0
+}
+class Steak{
+    - cost = 1000
+    - hpHeal = 200
+    - manaHeal = 0
+}
+class Water{
+    - cost = 150
+    - hpHeal = 0
+    - manaHeal = 10   
+}
+class Juice{
+    - cost = 450
+    - hpHeal = 0
+    - manaHeal = 30
+}
+class Wine{
+    - cost = 750
+    - hpHeal = 0
+    - manaHeal = 100
+}
+class Elixir{
+    - cost = 2000
+    - hpHeal = 9999
+    - manaHeal = 9999
+    - canRevive = true    
+}
+
+Item <|-- Bread
+Item <|-- Cheese
+Item <|-- Steak
+Item <|-- Water
+Item <|-- Juice
+Item <|-- Wine
+Item <|-- Elixir
+
+class InventoryService{
+    - gold: int
+    - items: List[Item]
+    + addItem(Id: int, amount: int)
+    + buyItem(Id: int, amount: int)
+
+}
+CampaignManager <|-- Inn
+CampaignManager <|-- BattleRoom
+CampaignManager <|-- Spawn
+
+Inn <-- getShopUseCase
+InventoryService <-- BuyItemUseCase
+Inn <-- ViewRecruitUseCase
+
+BuyRecruitUseCase <-- InnController
+ViewRecruitUseCase <-- InnController
+BuyItemUseCase <-- InnController
+getShopUseCase <-- InnController
+
+InnController <-- InnScreen
+
+
+
 @enduml
