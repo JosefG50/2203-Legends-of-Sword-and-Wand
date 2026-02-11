@@ -1,4 +1,4 @@
-@startuml name 
+@startuml Buy Item Use Case 
 participant InnController
 participant BuyItemUseCase
 participant InventoryService

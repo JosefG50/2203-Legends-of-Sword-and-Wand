@@ -1,10 +1,11 @@
 @startuml interact with Inn
 
-participant RoomChance
+participant NextRoomUseCase
 
 ' Inn is concrete that the user 
 participant PartyService
 participant Inn
+participant InnIntializer
 participant BuyRecruitUseCase
 participant ViewRecruitUseCase
 participant BuyItemUseCase
@@ -13,20 +14,11 @@ participant InnController
 actor User
 
 
-' RoomChance selects Inn
-activate RoomChance
-RoomChance -> Inn: nextRoom()
-deactivate RoomChance
-activate Inn
+' NextRoomUseCase selects Inn
 
-Inn -> PartyService: maxRestore()
-activate PartyService
-
-
-PartyService -> Inn: status: String
-deactivate PartyService
-Inn -> InnController: status: String 
-deactivate Inn
+ref over InnIntializer: "inn-intialize.puml"
+InnIntializer -> InnController: status: DTO 
+deactivate InnIntializer
 activate InnController
 
 
@@ -91,14 +83,12 @@ deactivate InnController
 'Go to Next Room
 User -> InnController: nextRoom()
 activate InnController
-InnController -> RoomChance: nextRoom()
+InnController -> NextRoomUseCase: nextRoom()
 deactivate InnController
-activate RoomChance
+activate NextRoomUseCase
 
-ref over RoomChance:"go through a single battle"
-    note left 
-        Details in [FILE NAME]
-    end note 
-deactivate RoomChance
+ref over NextRoomUseCase:"single-battle-use-case.puml"
+
+deactivate NextRoomUseCase
 end
 @enduml
