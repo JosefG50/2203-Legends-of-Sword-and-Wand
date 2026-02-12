@@ -1,0 +1,38 @@
+title PvP Battle Invitation
+
+actor Challenger
+actor Opponent
+boundary "Game UI" as UI
+control "BattleService" as BS
+control "InvitationManager" as IM
+control "NotificationService" as NS
+control "BattleSessionManager" as BSM
+
+Challenger -> UI: Click "Invite to PvP"(opponentId)
+UI -> BS: sendInvitation(challengerId, opponentId)
+
+BS -> IM: createInvite(challengerId, opponentId)
+IM --> BS: inviteId
+
+BS -> NS: notifyOpponent(inviteId, challengerName)
+NS -> Opponent: PvP invite received(inviteId)
+
+Opponent -> UI: Accept or Decline(inviteId)
+
+alt Accept
+  UI -> BS: acceptInvitation(inviteId, opponentId)
+  BS -> IM: markAccepted(inviteId)
+  BS -> BSM: createSession(inviteId)
+  BSM --> BS: sessionId
+  BS -> NS: notifyChallengerAccepted(sessionId)
+  NS -> Challenger: Invite accepted(sessionId)
+  BS --> UI: startPvP(sessionId)
+else Decline
+  UI -> BS: declineInvitation(inviteId, opponentId)
+  BS -> IM: markDeclined(inviteId)
+  BS -> NS: notifyChallengerDeclined(inviteId)
+  NS -> Challenger: Invite declined(inviteId)
+  BS --> UI: showDeclined()
+end
+
+@enduml
