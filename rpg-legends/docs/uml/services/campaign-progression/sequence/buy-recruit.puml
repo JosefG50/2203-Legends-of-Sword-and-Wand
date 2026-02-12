@@ -19,7 +19,6 @@ else
 BuyRecruitUseCase -> PartyService: addHero(hero: Hero)
 activate PartyService
 PartyService -> PartyService: hasSpace()
-PartyService -> BuyRecruitUseCase: 
 end
 
 alt any failures 

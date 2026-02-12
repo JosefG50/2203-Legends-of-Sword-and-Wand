@@ -13,12 +13,24 @@ abstract class CampaignManager{
     + increaseRoomCounter(): void
     + nextRoom(): Room
 } 
+
+abstract class Room{
+
+}
+
 class Inn {
+    - {static} SHOPLIST : List<Item>
+    - Recruits: map<name: String, hero: Hero>
+
     + recover(): void
-    + buy(id: int): Item
-    + recruit(id: int): Hero
+    + viewRecruits(): map<name: String, hero: Hero>
+    + buyItem(id: int, amount: int): Item
+    + buyRecruit(id: int, amount: int): Hero
+    + sellHero(hero: Hero)
+    + addGold(amount: int)
     - CanAffordRecruit(hero: Hero): boolean
     - hasRecruit(name: String): boolean
+    + getShop(): List[Item]
 }
 class BattleRoom{
 }
@@ -27,24 +39,53 @@ class Spawn{
 class PartyService{
     - heros: List[Hero]
     + maxRestore(): String
+    + addHero(hero: Hero)
+    - hasSpace(): boolean
 }
-class InnScreen <<boundary>>{
-
+class InnView <<boundary>>{
+    + showPartyHealed()
+    + ShowShop()
+    + SucessfulTransaction()
+    + FailedTransaction()
+    + RecruitList()
+    + BoughtHero()
+}
+class battleEnd <<boundary>>{
+    + onNextRoomClicked()
 }
 class InnController <<control>> {
-
+    + getShop()
+    + buyItem(id: int, amount: int = 1)
+    + viewRecruit(name: String)
+    + buyRecruit(name: String)
+    + Intialize(): DTO
+}
+class BattleController <<control>> {
+    + Intialize(): DTO
+}
+class RoomController <<control>>{
+    + attmptNextRoom()
+    + attemptIntialize()
+}
+class InnIntializeUseCase <<APPLICATION>>{
+    + maxRestore(): String
+}
+class NextRoomUseCase <<APPLICATION>>{
+    + NextRoom(): Room
 }
 class BuyRecruitUseCase <<APPLICATION>> {
+    + buyRecruit(name: String): DTO
 
 }
 class ViewRecruitUseCase <<APPLICATION>>{
-
+    + getRecuits(): DTO
 }
 class BuyItemUseCase <<APPLICATION>>{
+    + buyItem(id: int, amount: int = 1)
 
 }
 class getShopUseCase <<APPLICATION>>{
-
+    + getShop()
 }
 
 abstract class Item{
@@ -104,26 +145,33 @@ Item <|-- Elixir
 
 class InventoryService{
     - gold: int
-    - items: List[Item]
+    - items: List<Item>
     + addItem(Id: int, amount: int)
     + buyItem(Id: int, amount: int)
 
 }
-CampaignManager <|-- Inn
-CampaignManager <|-- BattleRoom
-CampaignManager <|-- Spawn
+CampaignManager <-- Room 
+
+CampaignManager <-- NextRoomUseCase
+Room <|-- Inn
+Room <|-- BattleRoom
+Room <|-- Spawn
 
 Inn <-- getShopUseCase
 InventoryService <-- BuyItemUseCase
 Inn <-- ViewRecruitUseCase
+PartyService <-- InnIntializeUseCase
 
+InnIntializeUseCase <-- InnController
 BuyRecruitUseCase <-- InnController
 ViewRecruitUseCase <-- InnController
 BuyItemUseCase <-- InnController
 getShopUseCase <-- InnController
 
-InnController <-- InnScreen
+NextRoomUseCase <- RoomController
 
+InnController <-- InnView
+RoomController <-- battleEnd
 
 
 @enduml
