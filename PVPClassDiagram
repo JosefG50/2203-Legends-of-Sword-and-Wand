@@ -1,0 +1,123 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+package "PvP System" {
+
+  enum InvitationStatus {
+    Pending
+    Accepted
+    Declined
+    Expired
+    Cancelled
+  }
+
+  class Player {
+    playerId : String
+    displayName : String
+    + Player(playerId : String, displayName : String)
+    + getPlayerId() : String
+    + getDisplayName() : String
+  }
+
+  class Invitation {
+    invitationId : String
+    fromPlayer : Player
+    toPlayer : Player
+    status : InvitationStatus
+    createdAt : long
+    + Invitation(invitationId : String, fromPlayer : Player, toPlayer : Player)
+    + accept() : void
+    + decline() : void
+    + cancel() : void
+    + expire() : void
+    + getStatus() : InvitationStatus
+  }
+
+  interface InvitationRepository {
+    + save(invite : Invitation) : void
+    + findById(invitationId : String) : Invitation
+    + findPendingForPlayer(playerId : String) : List<Invitation>
+    + update(invite : Invitation) : void
+  }
+
+  class InvitationService {
+    repo : InvitationRepository
+    + InvitationService(repo : InvitationRepository)
+    + sendInvite(fromPlayer : Player, toPlayer : Player) : Invitation
+    + respond(invitationId : String, accept : boolean) : Invitation
+    + cancel(invitationId : String) : Invitation
+    + expireOldInvites(now : long, ttlMillis : long) : int
+  }
+
+  class MatchmakingService {
+    + createSessionFromInvite(invite : Invitation) : PvPBattleSession
+  }
+
+  class PvPBattleSession {
+    sessionId : String
+    playerA : Player
+    playerB : Player
+    state : PvPBattleState
+    + PvPBattleSession(sessionId : String, playerA : Player, playerB : Player)
+    + start() : void
+    + submitAction(playerId : String, action : Action) : void
+    + getState() : PvPBattleState
+    + isFinished() : boolean
+    + finish(result : BattleResult) : void
+  }
+
+  class PvPBattleState {
+    currentTurnPlayerId : String
+    lastEvent : String
+    + PvPBattleState(currentTurnPlayerId : String)
+    + getCurrentTurnPlayerId() : String
+    + setLastEvent(text : String) : void
+    + getLastEvent() : String
+  }
+
+  interface SessionRepository {
+    + save(session : PvPBattleSession) : void
+    + findById(sessionId : String) : PvPBattleSession
+    + update(session : PvPBattleSession) : void
+  }
+
+  class PvPController {
+    invites : InvitationService
+    matchmaking : MatchmakingService
+    sessions : SessionRepository
+    + PvPController(invites : InvitationService, matchmaking : MatchmakingService, sessions : SessionRepository)
+    + sendInvitation(fromPlayerId : String, toPlayerId : String) : Invitation
+    + respondToInvitation(invitationId : String, accept : boolean) : PvPBattleSession
+    + submitTurn(sessionId : String, playerId : String, action : Action) : void
+    + getSessionState(sessionId : String) : PvPBattleState
+  }
+}
+
+package "Combat Library" {
+  class BattleEngine
+  class BattleState
+  class BattleResult
+  interface Action
+  class Unit
+}
+
+InvitationService ..> InvitationRepository : uses
+InvitationService ..> Invitation : creates
+
+MatchmakingService ..> Invitation : reads
+MatchmakingService ..> PvPBattleSession : creates
+
+PvPController ..> InvitationService : uses
+PvPController ..> MatchmakingService : uses
+PvPController ..> SessionRepository : uses
+
+PvPBattleSession o-- PvPBattleState
+PvPBattleSession ..> BattleEngine : runs
+PvPBattleSession ..> BattleState : owns
+PvPBattleSession ..> Action : receives
+PvPBattleSession ..> BattleResult : produces
+
+BattleState ..> Unit : contains
+
+@enduml
