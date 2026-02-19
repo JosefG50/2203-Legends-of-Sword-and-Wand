@@ -3,45 +3,6 @@ skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
 
-
-abstract class CampaignManager{
-    #_battleChance: float 
-    #_roomCounter: int
-    + getBattleChance(): float
-    + setBattleChance(percent: float): void
-    + getRoomCounter(): int
-    + increaseRoomCounter(): void
-    + nextRoom(): Room
-} 
-
-abstract class Room{
-
-}
-
-class Inn {
-    - {static} SHOPLIST : List<Item>
-    - Recruits: map<name: String, hero: Hero>
-
-    + recover(): void
-    + viewRecruits(): map<name: String, hero: Hero>
-    + buyItem(id: int, amount: int): Item
-    + buyRecruit(id: int, amount: int): Hero
-    + sellHero(hero: Hero)
-    + addGold(amount: int)
-    - CanAffordRecruit(hero: Hero): boolean
-    - hasRecruit(name: String): boolean
-    + getShop(): List[Item]
-}
-class BattleRoom{
-}
-class Spawn{
-}
-class PartyService{
-    - heros: List[Hero]
-    + maxRestore(): String
-    + addHero(hero: Hero)
-    - hasSpace(): boolean
-}
 class InnView <<boundary>>{
     + showPartyHealed()
     + ShowShop()
@@ -50,9 +11,20 @@ class InnView <<boundary>>{
     + RecruitList()
     + BoughtHero()
 }
+class SpawnView <<boundary>>{
+}
 class battleEnd <<boundary>>{
     + onNextRoomClicked()
+    + onSaveClicked()
+    + onItemConsumed()
+    - updateExperience()
+    - updateGold()
 }
+
+class battleView <<boundary>>{
+    
+}
+
 class InnController <<control>> {
     + getShop()
     + buyItem(id: int, amount: int = 1)
@@ -62,10 +34,28 @@ class InnController <<control>> {
 }
 class BattleController <<control>> {
     + Intialize(): DTO
+    + attemptExperienceGain()
+    + attemptGoldGain()
 }
 class RoomController <<control>>{
     + attmptNextRoom()
     + attemptIntialize()
+    
+    + attemptConsume(hero: Hero, item: Item)
+}
+
+class gainExperienceUseCase <<APPLICATION>>{
+    + gainexperience()
+}
+class gainGoldUseCase <<APPLICATION>>{
+    + gainGold()
+}
+
+class battleIntializeUseCase <<APPLICATION>>{
+    + Intialize()
+}
+class itemConsumeUseCase <<APPLICATION>>{
+    
 }
 class InnIntializeUseCase <<APPLICATION>>{
     + maxRestore(): String
@@ -86,6 +76,63 @@ class BuyItemUseCase <<APPLICATION>>{
 }
 class getShopUseCase <<APPLICATION>>{
     + getShop()
+}
+
+
+class Inn {
+    - {static} SHOPLIST : List<Item>
+    - Recruits: map<name: String, hero: Hero>
+
+    + recover(): void
+    + viewRecruits(): map<name: String, hero: Hero>
+    + buyItem(id: int, amount: int): Item
+    + buyRecruit(id: int, amount: int): Hero
+    + sellHero(hero: Hero)
+    + addGold(amount: int)
+    - CanAffordRecruit(hero: Hero): boolean
+    - hasRecruit(name: String): boolean
+    + getShop(): List[Item]
+}
+class BattleRoom{
+    - enemies: List<enemy>
+    - turnOrder: List<entity>
+
+    + isOver(): boolean
+    + getTurnOrder(): List
+    + setTurnOrder(allies: List, enemies: List)
+    + createEnemies(allies: List)
+    + getEnemies(): List
+    
+}
+class PartyService{
+    - heros: List[Hero]
+
+    - hasSpace(): boolean
+    + isDefeated(): boolean
+    + levelUp(exp: int)
+    + maxRestore()
+    + addHero(hero: Hero)
+}
+class InventoryService{
+    - gold: int
+    - items: List<Item>
+    + addItem(Id: int, amount: int)
+    + buyItem(Id: int, amount: int)
+
+}
+
+abstract class CampaignManager{
+    #_battleChance: float 
+    #_roomCounter: int
+    + getBattleChance(): float
+    + setBattleChance(percent: float): void
+    + getRoomCounter(): int
+    + increaseRoomCounter(): void
+    + nextRoom(): Room
+} 
+
+abstract class Room{
+
 }
 
 abstract class Item{
@@ -135,6 +182,58 @@ class Elixir{
     - canRevive = true    
 }
 
+
+
+
+SpawnView -->  RoomController
+battleEnd -->  RoomController
+InnView -->  InnController
+
+battleView --> BattleController
+
+
+BattleController --> battleIntializeUseCase
+BattleController --> gainExperienceUseCase
+BattleController --> gainGoldUseCase
+
+
+
+RoomController -->  NextRoomUseCase
+RoomController --> itemConsumeUseCase
+
+
+
+InnController--> InnIntializeUseCase
+InnController--> BuyRecruitUseCase
+InnController--> ViewRecruitUseCase
+InnController--> BuyItemUseCase
+InnController--> getShopUseCase
+
+gainExperienceUseCase --> PartyService
+gainGoldUseCase --> InventoryService
+gainExperienceUseCase --> BattleRoom
+gainGoldUseCase --> BattleRoom
+
+NextRoomUseCase -->  CampaignManager
+itemConsumeUseCase --> InventoryService
+
+battleIntializeUseCase --> BattleRoom
+
+getShopUseCase  --> Inn
+ViewRecruitUseCase --> Inn
+InnIntializeUseCase-->  PartyService
+BuyItemUseCase  --> InventoryService
+
+
+Inn  --|> Room
+BattleRoom  --|> Room
+
+
+
+CampaignManager -> Room 
+
+InventoryService -o Item
+
 Item <|-- Bread
 Item <|-- Cheese
 Item <|-- Steak
@@ -142,36 +241,4 @@ Item <|-- Water
 Item <|-- Juice
 Item <|-- Wine
 Item <|-- Elixir
-
-class InventoryService{
-    - gold: int
-    - items: List<Item>
-    + addItem(Id: int, amount: int)
-    + buyItem(Id: int, amount: int)
-
-}
-CampaignManager <-- Room 
-
-CampaignManager <-- NextRoomUseCase
-Room <|-- Inn
-Room <|-- BattleRoom
-Room <|-- Spawn
-
-Inn <-- getShopUseCase
-InventoryService <-- BuyItemUseCase
-Inn <-- ViewRecruitUseCase
-PartyService <-- InnIntializeUseCase
-
-InnIntializeUseCase <-- InnController
-BuyRecruitUseCase <-- InnController
-ViewRecruitUseCase <-- InnController
-BuyItemUseCase <-- InnController
-getShopUseCase <-- InnController
-
-NextRoomUseCase <- RoomController
-
-InnController <-- InnView
-RoomController <-- battleEnd
-
-
 @enduml
