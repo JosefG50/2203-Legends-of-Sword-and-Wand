@@ -1,0 +1,54 @@
+@startuml
+
+component [Profile] {
+  [PVE Data]
+  [PVP Data]
+  component Ranking
+  component Party
+  component CampaignProgress
+  component Scores
+
+}
+
+[User]
+[DataBase]
+
+component [Login]{
+    portin Username
+    portin Password
+    portin Email
+}
+
+
+
+component [ProfileManager]
+component C {
+  portin profile1
+  portin profile2
+  portin profile3
+  portin profile4
+  component game
+}
+
+User --> Username
+User --> Password
+User --> Email
+DataBase --> Username
+DataBase --> Password
+DataBase --> Email
+
+
+Login --> ProfileManager
+
+ProfileManager --> profile1
+ProfileManager --> profile2
+ProfileManager --> profile3
+ProfileManager --> profile4
+profile1 --> game
+profile2 --> game
+profile3 --> game
+profile4 --> game
+
+
+
+@enduml
