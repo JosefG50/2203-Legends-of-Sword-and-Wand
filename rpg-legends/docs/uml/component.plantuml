@@ -22,6 +22,7 @@ component [Login]{
 
 
 component [ProfileManager]
+
 component C {
   portin profile1
   portin profile2
@@ -40,15 +41,16 @@ DataBase --> Email
 
 Login --> ProfileManager
 
-ProfileManager --> profile1
-ProfileManager --> profile2
-ProfileManager --> profile3
-ProfileManager --> profile4
+profile1 ..> Profile : loads
+profile2 ..> Profile : loads
+profile3 ..> Profile : loads
+profile4 ..> Profile : loads
+
+
 profile1 --> game
 profile2 --> game
 profile3 --> game
 profile4 --> game
 
-
-
+ProfileManager --> profile1
 @enduml
