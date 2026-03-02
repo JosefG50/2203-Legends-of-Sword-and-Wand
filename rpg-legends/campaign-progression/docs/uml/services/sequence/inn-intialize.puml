@@ -1,0 +1,51 @@
+@startuml Intialize Inn
+actor User 
+participant RoomController
+participant InnController
+participant BattleController
+participant NextRoomUseCase
+participant InnIntializeUseCase
+participant PartyService
+participant CampaignManager
+
+
+
+User -> RoomController: User request next Room
+activate RoomController
+
+RoomController -> NextRoomUseCase: attemptNextRoom()
+activate NextRoomUseCase
+NextRoomUseCase -> CampaignManager: nextRoom()
+activate CampaignManager
+CampaignManager -> NextRoomUseCase: room: Room
+deactivate CampaignManager
+
+NextRoomUseCase -> RoomController: room: Room
+deactivate NextRoomUseCase
+
+alt room is Inn
+RoomController -> InnController: attemptIntialize()
+deactivate RoomController
+activate InnController
+
+InnController -> InnIntializeUseCase: intialize()
+activate InnIntializeUseCase
+InnIntializeUseCase -> PartyService: maxRestore()
+activate PartyService
+PartyService -> InnIntializeUseCase: status: String
+deactivate PartyService
+
+InnIntializeUseCase -> InnController: status: DTO
+deactivate InnIntializeUseCase
+ref over InnController: "interact-with-inn.puml"
+else
+activate RoomController
+RoomController -> BattleController: attemptIntialize()
+deactivate RoomController
+activate BattleController
+ref over BattleController: "single-battle-use-case.puml"  
+end
+
+
+
+@enduml
