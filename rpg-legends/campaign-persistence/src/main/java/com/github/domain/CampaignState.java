@@ -1,5 +1,7 @@
+// With the use of AI
 package com.github.domain;
 
 public interface CampaignState {
-    boolean handleExitRequest();
+    boolean canExit();
+    void handleExitRequest();
 }

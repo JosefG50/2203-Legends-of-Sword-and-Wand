@@ -1,5 +1,5 @@
+// With the use of AI
 package com.github.ui;
-
 public class CampaignViewFactory extends ViewCreator {
     @Override
     protected View createView(String locationType) {

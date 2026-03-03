@@ -1,9 +1,7 @@
 package com.github.domain;
 
-public interface IDatabase extends AutoCloseable {
-    boolean executeUpdate(String query, Object... params);
+public interface IDatabase {
+    void executeQuery(String query);
     Object fetchRecord(int id);
     boolean deleteRecord(int id);
-    @Override
-    void close() throws Exception;
 }

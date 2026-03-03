@@ -1,7 +1,7 @@
+
 package com.github.domain;
 
-import java.util.List;
-
+// With the use of AI
 public class InvData {
-    public List<String> itemsList; // Simplified item representation
+    public List<Object> itemsList; // Replace Object with your Item class
 }

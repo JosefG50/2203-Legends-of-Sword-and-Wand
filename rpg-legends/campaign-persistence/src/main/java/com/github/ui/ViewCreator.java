@@ -1,5 +1,5 @@
+// With the use of AI
 package com.github.ui;
-
 public abstract class ViewCreator {
     public void renderLocation(String locationType) {
         View v = createView(locationType);

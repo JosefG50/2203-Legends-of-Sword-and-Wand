@@ -1,29 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="4223b82f-7106-4493-8f5e-73f6bb786106" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application/GameStateManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CampaignSaveRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/GameStateMemento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure/MySQLDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/utils/SnapshotAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CampaignState.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CampaignState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CombatState.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CombatState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/ExplorationState.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/ExplorationState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/GameStateSnapShot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/IDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/IDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/InvData.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/InvData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/PartyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/PartyData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/RoomData.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/RoomData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure/CampaignPersistenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure/CampaignPersistenceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/CampaignViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/CampaignViewFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/DungeonCampaignView.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/DungeonCampaignView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/InnView.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/InnView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application/.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure/.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,38 +24,30 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="38l4Dyfa4KhhbSGRaxJS0EP3pnk" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Evan-Progression&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/joefe/OneDrive/Documentos/github/2203-Legends-of-Sword-and-Wand&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/evanwee/SCHOOL/year2/software_design/2203-Legends-of-Sword-and-Wand",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application" />
       <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui" />
-      <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain" />
       <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure" />
     </key>
   </component>
@@ -91,9 +66,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769360708181</updated>
-      <workItem from="1772513273158" duration="634000" />
-      <workItem from="1773944348744" duration="1580000" />
-      <workItem from="1774034687357" duration="235000" />
+      <workItem from="1772511952159" duration="235000" />
     </task>
     <servers />
   </component>
