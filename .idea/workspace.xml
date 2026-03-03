@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4223b82f-7106-4493-8f5e-73f6bb786106" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure/CampaignPersistenceManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application/CampaignPersistenceManager.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CombatState.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/CombatState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/GameStateSnapShot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/InvData.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/InvData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/PartyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/PartyData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/RoomData.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/RoomData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/GameController.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +46,13 @@
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui" />
+      <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain" />
+      <recent name="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

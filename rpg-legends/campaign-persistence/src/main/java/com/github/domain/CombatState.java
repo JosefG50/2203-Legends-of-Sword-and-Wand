@@ -1,5 +1,4 @@
 
-// With the use of AI
 package com.github.domain;
 
 public class CombatState implements CampaignState {
@@ -13,3 +12,4 @@ public class CombatState implements CampaignState {
         System.out.println("Cannot exit during battle!");
         // Return error to UI
     }
+}
