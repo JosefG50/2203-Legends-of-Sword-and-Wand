@@ -1,0 +1,73 @@
+
+
+@startuml
+title Single Battle Use Case
+
+actor UI
+
+participant BattleEngine
+participant TurnManager
+participant TurnQueue
+participant BattleState
+participant Unit as Attacker
+participant Unit as Defender
+participant Action
+participant BattleResult
+
+UI -> BattleEngine: startBattle(playerParty, enemyParty)
+activate BattleEngine
+
+BattleEngine -> BattleState: initialize(playerParty, enemyParty)
+BattleEngine -> TurnManager: setupTurnOrder(playerParty, enemyParty)
+activate TurnManager
+TurnManager -> TurnQueue: buildInitialQueue(units)
+deactivate TurnManager
+
+UI -> BattleEngine: getBattleState()
+BattleEngine -> BattleState: snapshot()
+BattleEngine --> UI: BattleStateSnapshot
+
+loop each turn until battle ends
+  BattleEngine -> TurnManager: getNextUnit()
+  TurnManager -> TurnQueue: popNext()
+  TurnQueue --> TurnManager: nextUnit
+  TurnManager --> BattleEngine: activeUnit
+
+  BattleEngine -> BattleState: setActiveUnit(activeUnit)
+
+  UI -> BattleEngine: getAvailableActions(activeUnit)
+  BattleEngine --> UI: [Attack, Defend, Wait, Cast]
+
+  UI -> BattleEngine: submitAction(selectedAction)
+
+  BattleEngine -> Action: execute(activeUnit, target, battleState)
+  activate Action
+
+  alt AttackAction
+    Action -> BattleState: applyDamage(attacker, defender)
+    BattleState -> Defender: setHP(newHP)
+  else DefendAction
+    Action -> BattleState: applyDefend(unit)
+    BattleState -> Attacker: setHP(hpPlus10)
+    BattleState -> Attacker: setMana(manaPlus5)
+  else WaitAction
+    Action -> TurnManager: wait(unit)
+    TurnManager -> TurnQueue: enqueueToEnd(unit)
+  else CastAction
+    alt enough mana
+      Action -> BattleState: spendMana(unit, cost)
+      Action -> BattleState: applyStatus(defender, StunEffect)
+    else not enough mana
+      Action -> BattleState: rejectAction()
+    end
+  end
+  deactivate Action
+
+  BattleEngine -> BattleState: updateAfterAction()
+  BattleEngine -> BattleEngine: isBattleOver()
+
+  UI -> BattleEngine: getBattleState()
+
+
+@enduml
+@enduml
