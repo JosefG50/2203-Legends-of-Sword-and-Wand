@@ -77,8 +77,38 @@ class BuyItemUseCase <<APPLICATION>>{
 class getShopUseCase <<APPLICATION>>{
     + getShop()
 }
+class CampaignSnapshotAdapter{
+    
+}
+interface CampaignSnapshot {
+        + getRoomCounter(): int
+        + setRoomCounter(roomCounter: int): void
 
+        + getBattleChance(): double
+        + setBattleChance(chance: double): void
 
+        + getCurRoom(): String
+        + setCurRoom(room: String): void
+
+        + getGold(): int
+        + setGold(gold: int): void
+
+        + getExp(): int
+        + setExp(exp: int): void
+
+        + getParty(): List<HeroInstance>
+        + setParty(party: List<HeroInstance>): void
+
+        + getInnRecruits(): List<HeroInstance>
+        + setInnRecruits(recruits: List<HeroInstance>): void
+
+        + getItems(): List<Item>
+        + setItems(items: List<Item>): void
+    }
+
+    interface ScoreStats{
+        + getScore()
+    }
 class Inn {
     - {static} SHOPLIST : List<Item>
     - Recruits: map<name: String, hero: Hero>
@@ -132,10 +162,10 @@ class Score{
     - goldspent: int 
     - getTotalLevels()
     - getGold()
-    + caculateScore(): int
-    + getFame() 
+    + getScore(): int
 }
-abstract class CampaignManager{
+class CampaignManager{
+    #_curroom: Room
     #_battleChance: float
     #_roomCounter: int
     + getBattleChance(): float
@@ -143,10 +173,12 @@ abstract class CampaignManager{
     + getRoomCounter(): int
     + increaseRoomCounter(): void
     + nextRoom(): Room
+    + getCurRoom(): Room
+    + setCurRoom(): Room
 }
 
 
-abstract class Room{
+interface Room{
 
 }
 
@@ -238,9 +270,15 @@ ViewRecruitUseCase --> Inn
 InnIntializeUseCase-->  PartyService
 BuyItemUseCase  --> InventoryService
 
+CampaignSnapshotAdapter --> CampaignManager
+CampaignSnapshotAdapter --> InventoryService
+CampaignSnapshotAdapter --> PartyService
+CampaignSnapshotAdapter --> Inn
 
-Inn  --|> Room
-BattleRoom  --|> Room
+CampaignSnapshotAdapter ..> CampaignSnapshot
+Score ..> ScoreStats
+Inn  ..> Room
+BattleRoom  ..> Room
 
 
 CampaignManager -> "1" Score
