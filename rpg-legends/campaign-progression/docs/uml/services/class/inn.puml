@@ -132,10 +132,11 @@ class Score{
     - goldspent: int 
     - getTotalLevels()
     - getGold()
-    + caculateScore(): int
+    + getScore(): int
     + getFame() 
 }
 abstract class CampaignManager{
+    #_curRoom: Room
     #_battleChance: float
     #_roomCounter: int
     + getBattleChance(): float
@@ -143,9 +144,12 @@ abstract class CampaignManager{
     + getRoomCounter(): int
     + increaseRoomCounter(): void
     + nextRoom(): Room
+    + getCurRoom(): Room
+    + StartNewCampaign()
 }
-
-
+ interface Initialize{
+        + startNewCampaign()
+    }
 interface Room{
 
 }
@@ -259,8 +263,37 @@ class Elixir{
     - canRevive = true
 }
 
+interface ScoreStats{
+        + getScore()
+    }
+ interface CampaignSnapshot {
+        + getRoomCounter(): int
+        + setRoomCounter(roomCounter: int): void
 
+        + getBattleChance(): double
+        + setBattleChance(chance: double): void
 
+        + getCurRoom(): String
+        + setCurRoom(room: String): void
+
+        + getGold(): int
+        + setGold(gold: int): void
+
+        + getExp(): int
+        + setExp(exp: int): void
+
+        + getParty(): List<HeroInstance>
+        + setParty(party: List<HeroInstance>): void
+
+        + getInnRecruits(): List<HeroInstance>
+        + setInnRecruits(recruits: List<HeroInstance>): void
+
+        + getItems(): List<Item>
+        + setItems(items: List<Item>): void
+    }
+class CampaignSnapshotAdapter{
+
+}
 SpawnView -->  RoomController
 BattleEnd -->  RoomController
 InnView -->  InnController
@@ -289,6 +322,14 @@ gainExperienceUseCase --> PartyService
 gainGoldUseCase --> InventoryService
 gainExperienceUseCase --> BattleRoom
 gainGoldUseCase --> BattleRoom
+
+CampaignSnapshotAdapter --> Inn
+CampaignSnapshotAdapter --> CampaignManager
+CampaignSnapshotAdapter --> PartyService 
+CampaignSnapshotAdapter --> InventoryService
+CampaignSnapshotAdapter ..> CampaignSnapshot
+Score ..> ScoreStats
+CampaignManager ..> Initialize 
 
 NextRoomUseCase -->  CampaignManager
 itemConsumeUseCase --> InventoryService
