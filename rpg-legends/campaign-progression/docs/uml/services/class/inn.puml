@@ -13,7 +13,7 @@ class InnView <<boundary>>{
 }
 class SpawnView <<boundary>>{
 }
-class battleEnd <<boundary>>{
+class BattleEnd <<boundary>>{
     + onNextRoomClicked()
     + onSaveClicked()
     + onItemConsumed()
@@ -21,7 +21,7 @@ class battleEnd <<boundary>>{
     - updateGold()
 }
 
-class battleView <<boundary>>{
+class BattleView <<boundary>>{
 
 }
 
@@ -262,10 +262,10 @@ class Elixir{
 
 
 SpawnView -->  RoomController
-battleEnd -->  RoomController
+BattleEnd -->  RoomController
 InnView -->  InnController
 
-battleView --> BattleController
+BattleView --> BattleController
 
 
 BattleController --> battleIntializeUseCase
