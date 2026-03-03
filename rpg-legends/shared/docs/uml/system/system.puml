@@ -48,9 +48,11 @@ component CampaignProgression{
         + setItems(items: List<Item>): void
     }
 
+    interface Initialize{
+        + startNewCampaign()
+    }
     interface ScoreStats{
         + getScore()
-        + setScore()
     }
 
 }
@@ -58,6 +60,8 @@ component CampaignProgression{
 component CharacterProfiles{
 
 }
+Menu --> Initialize
 Menu --> ScoreStats
+
 CampaignPersistence --> CampaignSnapshot
 @enduml
