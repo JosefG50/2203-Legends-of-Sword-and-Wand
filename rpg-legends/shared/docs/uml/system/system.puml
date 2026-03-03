@@ -1,0 +1,63 @@
+@startuml Campaign-Progress
+'===============================
+' Generic Component Diagram Template
+' Components are named A, B, C, etc.
+' Use this as a starting point for your own system
+'===============================
+
+' Skin params for readability
+skinparam componentStyle rectangle
+skinparam shadowing false
+component Menu{
+
+}
+component PvP{
+
+}
+
+component Battles{
+
+}
+component CampaignPersistence{
+
+}
+component CampaignProgression{
+    interface CampaignSnapshot {
+        + getRoomCounter(): int
+        + setRoomCounter(roomCounter: int): void
+
+        + getBattleChance(): double
+        + setBattleChance(chance: double): void
+
+        + getCurRoom(): String
+        + setCurRoom(room: String): void
+
+        + getGold(): int
+        + setGold(gold: int): void
+
+        + getExp(): int
+        + setExp(exp: int): void
+
+        + getParty(): List<HeroInstance>
+        + setParty(party: List<HeroInstance>): void
+
+        + getInnRecruits(): List<HeroInstance>
+        + setInnRecruits(recruits: List<HeroInstance>): void
+
+        + getItems(): List<Item>
+        + setItems(items: List<Item>): void
+    }
+
+    interface ScoreStats{
+        + getScore()
+        + setScore()
+    }
+
+}
+
+component CharacterProfiles{
+
+}
+Menu --> ScoreStats
+CampaignPersistence --> CampaignSnapshot
+@enduml
