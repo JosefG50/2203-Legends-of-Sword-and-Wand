@@ -1,0 +1,33 @@
+@startuml Campaign-Progress
+'===============================
+' Generic Component Diagram Template
+' Components are named A, B, C, etc.
+' Use this as a starting point for your own system
+'===============================
+
+' Skin params for readability
+skinparam componentStyle rectangle
+skinparam shadowing false
+component Main-Menu{
+    
+}
+component PvP-Battle{
+    
+}
+
+component Battles{
+
+}
+component Campaign-Persistence{
+
+}
+component Campaign-Progression{
+
+}
+
+component Character-Profiles{
+    
+}
+
+
+@enduml

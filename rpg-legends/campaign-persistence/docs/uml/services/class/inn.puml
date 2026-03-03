@@ -1,0 +1,296 @@
+@startuml CampaignManager
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+
+class InnView <<boundary>>{
+    + showPartyHealed()
+    + ShowShop()
+    + SucessfulTransaction()
+    + FailedTransaction()
+    + RecruitList()
+    + BoughtHero()
+}
+class SpawnView <<boundary>>{
+}
+class battleEnd <<boundary>>{
+    + onNextRoomClicked()
+    + onSaveClicked()
+    + onItemConsumed()
+    - updateExperience()
+    - updateGold()
+}
+
+class battleView <<boundary>>{
+
+}
+
+class InnController <<control>> {
+    + getShop()
+    + buyItem(id: int, amount: int = 1)
+    + viewRecruit(name: String)
+    + buyRecruit(name: String)
+    + Intialize(): DTO
+}
+class BattleController <<control>> {
+    + Intialize(): DTO
+    + attemptExperienceGain()
+    + attemptGoldGain()
+}
+class RoomController <<control>>{
+    + attemptNextRoom()
+    + attemptIntialize()
+
+    + attemptConsume(hero: Hero, item: Item)
+}
+
+class gainExperienceUseCase <<APPLICATION>>{
+    + gainExperience()
+}
+class gainGoldUseCase <<APPLICATION>>{
+    + gainGold()
+}
+
+class battleIntializeUseCase <<APPLICATION>>{
+    + initialize()
+}
+class itemConsumeUseCase <<APPLICATION>>{
+
+}
+class InnIntializeUseCase <<APPLICATION>>{
+    + maxRestore(): String
+}
+class NextRoomUseCase <<APPLICATION>>{
+    + NextRoom(): Room
+}
+class BuyRecruitUseCase <<APPLICATION>> {
+    + buyRecruit(name: String): DTO
+
+}
+class ViewRecruitUseCase <<APPLICATION>>{
+    + getRecruits(): DTO
+}
+class BuyItemUseCase <<APPLICATION>>{
+    + buyItem(id: int, amount: int = 1)
+
+}
+class getShopUseCase <<APPLICATION>>{
+    + getShop()
+}
+class CampaignSnapshotAdapter{
+    
+}
+interface CampaignSnapshot {
+        + getRoomCounter(): int
+        + setRoomCounter(roomCounter: int): void
+
+        + getBattleChance(): double
+        + setBattleChance(chance: double): void
+
+        + getCurRoom(): String
+        + setCurRoom(room: String): void
+
+        + getGold(): int
+        + setGold(gold: int): void
+
+        + getExp(): int
+        + setExp(exp: int): void
+
+        + getParty(): List<HeroInstance>
+        + setParty(party: List<HeroInstance>): void
+
+        + getInnRecruits(): List<HeroInstance>
+        + setInnRecruits(recruits: List<HeroInstance>): void
+
+        + getItems(): List<Item>
+        + setItems(items: List<Item>): void
+    }
+
+    interface ScoreStats{
+        + getScore()
+    }
+class Inn {
+    - {static} SHOPLIST : List<Item>
+    - Recruits: map<name: String, hero: Hero>
+
+    + recover(): void
+    + viewRecruits(): map<name: String, hero: Hero>
+    + buyItem(id: int, amount: int): Item
+    + buyRecruit(id: int, amount: int): Hero
+    + sellHero(hero: Hero)
+    + addGold(amount: int)
+    - CanAffordRecruit(hero: Hero): boolean
+    - hasRecruit(name: String): boolean
+    + getShop(): List[Item]
+}
+class BattleRoom{
+    - enemies: List<enemy>
+    - turnOrder: List<entity>
+
+    + getExp(): int
+    + getGold(): int
+    + getTurnOrder(): List
+    + getEnemies(): List
+
+    + setTurnOrder(allies: List, enemies: List)
+    + createEnemies(allies: List)
+    + isOver(): boolean
+
+
+}
+class PartyService{
+    - heros: List[Hero]
+
+    - hasSpace(): boolean
+    + isDefeated(): boolean
+    + levelUp(exp: int)
+    + maxRestore()
+    + addHero(hero: Hero)
+}
+class InventoryService{
+    - gold: int
+    - items: List<Item>
+    + getGold(): int
+    + minusGold(): int
+    + addItem(item)
+    + canAfford(amount)
+    + addItem(Id: int, amount: int)
+}
+
+
+class Score{
+    - goldspent: int 
+    - getTotalLevels()
+    - getGold()
+    + getScore(): int
+}
+class CampaignManager{
+    #_curroom: Room
+    #_battleChance: float
+    #_roomCounter: int
+    + getBattleChance(): float
+    + setBattleChance(percent: float): void
+    + getRoomCounter(): int
+    + increaseRoomCounter(): void
+    + nextRoom(): Room
+    + getCurRoom(): Room
+    + setCurRoom(): Room
+}
+
+
+interface Room{
+
+}
+
+abstract class Item{
+    # cost: int
+    # hpHeal: int
+    # manaHeal: int
+    # canRevive = false: boolean
+    + getCost(): int
+    + getHpHeal(): int
+    + getManaHeal(): int
+    + getCanRevive(): boolean
+}
+class Bread{
+    - cost = 200
+    - hpHeal = 20
+    - manaHeal = 0
+}
+class Cheese{
+    - cost = 500
+    - hpHeal = 50
+    - manaHeal = 0
+}
+class Steak{
+    - cost = 1000
+    - hpHeal = 200
+    - manaHeal = 0
+}
+class Water{
+    - cost = 150
+    - hpHeal = 0
+    - manaHeal = 10
+}
+class Juice{
+    - cost = 450
+    - hpHeal = 0
+    - manaHeal = 30
+}
+class Wine{
+    - cost = 750
+    - hpHeal = 0
+    - manaHeal = 100
+}
+class Elixir{
+    - cost = 2000
+    - hpHeal = 9999
+    - manaHeal = 9999
+    - canRevive = true
+}
+
+
+
+SpawnView -->  RoomController
+battleEnd -->  RoomController
+InnView -->  InnController
+
+battleView --> BattleController
+
+
+BattleController --> battleIntializeUseCase
+BattleController --> gainExperienceUseCase
+BattleController --> gainGoldUseCase
+
+
+
+RoomController -->  NextRoomUseCase
+RoomController --> itemConsumeUseCase
+
+
+
+InnController--> InnIntializeUseCase
+InnController--> BuyRecruitUseCase
+InnController--> ViewRecruitUseCase
+InnController--> BuyItemUseCase
+InnController--> getShopUseCase
+
+gainExperienceUseCase --> PartyService
+gainGoldUseCase --> InventoryService
+gainExperienceUseCase --> BattleRoom
+gainGoldUseCase --> BattleRoom
+
+NextRoomUseCase -->  CampaignManager
+itemConsumeUseCase --> InventoryService
+
+battleIntializeUseCase --> BattleRoom
+
+getShopUseCase  --> Inn
+ViewRecruitUseCase --> Inn
+InnIntializeUseCase-->  PartyService
+BuyItemUseCase  --> InventoryService
+
+CampaignSnapshotAdapter --> CampaignManager
+CampaignSnapshotAdapter --> InventoryService
+CampaignSnapshotAdapter --> PartyService
+CampaignSnapshotAdapter --> Inn
+
+CampaignSnapshotAdapter ..> CampaignSnapshot
+Score ..> ScoreStats
+Inn  ..> Room
+BattleRoom  ..> Room
+
+
+CampaignManager -> "1" Score
+CampaignManager -> Room
+
+InventoryService -> "0..*" Item
+
+Item <|-- Bread
+Item <|-- Cheese
+Item <|-- Steak
+Item <|-- Water
+Item <|-- Juice
+Item <|-- Wine
+Item <|-- Elixir
+@enduml
