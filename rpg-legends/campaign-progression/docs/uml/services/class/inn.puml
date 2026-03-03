@@ -294,6 +294,15 @@ interface ScoreStats{
 class CampaignSnapshotAdapter{
 
 }
+
+class RoomFactory{
+    + createNextRoom(battleChance: float, roomCounter: int): Room
+}
+
+CampaignManager --> RoomFactory
+RoomFactory --> Room
+
+
 SpawnView -->  RoomController
 BattleEnd -->  RoomController
 InnView -->  InnController
@@ -349,7 +358,6 @@ PartyService --|> HeroState
 
 
 CampaignManager -> "1" Score
-CampaignManager -> Room
 
 InventoryService -> "0..*" Item
 
