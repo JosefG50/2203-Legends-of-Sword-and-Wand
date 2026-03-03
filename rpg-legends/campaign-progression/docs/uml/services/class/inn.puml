@@ -353,8 +353,8 @@ BuyItemUseCase  --> InventoryService
 
 Inn  --|> Room
 BattleRoom  --|> Room
-Inn --|> HeroState
-PartyService --|> HeroState
+Inn --> HeroState
+PartyService --> HeroState
 
 
 CampaignManager -> "1" Score
