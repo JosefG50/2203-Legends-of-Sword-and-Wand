@@ -41,7 +41,7 @@ class RoomController <<control>>{
     + attemptNextRoom()
     + attemptIntialize()
 
-    + attemptConsume(hero: Hero, item: Item)
+    + attemptConsume(hero: HeroState, item: Item)
 }
 
 class gainExperienceUseCase <<APPLICATION>>{
@@ -81,15 +81,15 @@ class getShopUseCase <<APPLICATION>>{
 
 class Inn {
     - {static} SHOPLIST : List<Item>
-    - Recruits: map<name: String, hero: Hero>
+    - Recruits: map<name: String, hero: HeroState>
 
     + recover(): void
-    + viewRecruits(): map<name: String, hero: Hero>
+    + viewRecruits(): map<name: String, hero: HeroState>
     + buyItem(id: int, amount: int): Item
-    + buyRecruit(id: int, amount: int): Hero
-    + sellHero(hero: Hero)
+    + buyRecruit(id: int, amount: int): HeroState
+    + sellHero(hero: HeroState)
     + addGold(amount: int)
-    - CanAffordRecruit(hero: Hero): boolean
+    - CanAffordRecruit(hero: HeroState): boolean
     - hasRecruit(name: String): boolean
     + getShop(): List[Item]
 }
@@ -109,13 +109,13 @@ class BattleRoom{
 
 }
 class PartyService{
-    - heros: List[Hero]
+    - heros: List[HeroState]
 
     - hasSpace(): boolean
     + isDefeated(): boolean
     + levelUp(exp: int)
     + maxRestore()
-    + addHero(hero: Hero)
+    + addHero(hero: HeroState)
 }
 class InventoryService{
     - gold: int
@@ -146,10 +146,72 @@ abstract class CampaignManager{
 }
 
 
-abstract class Room{
+interface Room{
 
 }
+class HeroState {
+    - curHp: int
+    - maxHp: int
+    - specialization: String
 
+    - curMana: int
+    - maxMana: int
+
+    - mageLvl: int
+    - warriorLvl: int
+    - orderLvl: int
+    - chaosLvl: int
+
+    - curExp: int
+    - lvlUpExp: int
+
+    - defense: int
+    - attack: int
+
+    - ability: List<String>
+
+    + getCurHp(): int
+    + setCurHp(curHp: int): void
+
+    + getMaxHp(): int
+    + setMaxHp(maxHp: int): void
+
+    + getSpecialization(): String
+    + setSpecialization(specialization: String): void
+
+    + getCurMana(): int
+    + setCurMana(curMana: int): void
+
+    + getMaxMana(): int
+    + setMaxMana(maxMana: int): void
+
+    + getMageLvl(): int
+    + setMageLvl(mageLvl: int): void
+
+    + getWarriorLvl(): int
+    + setWarriorLvl(warriorLvl: int): void
+
+    + getOrderLvl(): int
+    + setOrderLvl(orderLvl: int): void
+
+    + getChaosLvl(): int
+    + setChaosLvl(chaosLvl: int): void
+
+    + getCurExp(): int
+    + setCurExp(curExp: int): void
+
+    + getLvlUpExp(): int
+    + setLvlUpExp(lvlUpExp: int): void
+
+    + getDefense(): int
+    + setDefense(defense: int): void
+
+    + getAttack(): int
+    + setAttack(attack: int): void
+
+    + getAbility(): List<String>
+    + setAbility(ability: List<String>): void
+}
 abstract class Item{
     # cost: int
     # hpHeal: int
@@ -241,6 +303,8 @@ BuyItemUseCase  --> InventoryService
 
 Inn  --|> Room
 BattleRoom  --|> Room
+Inn --|> HeroState
+PartyService --|> HeroState
 
 
 CampaignManager -> "1" Score
