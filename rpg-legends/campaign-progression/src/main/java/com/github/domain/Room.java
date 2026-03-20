@@ -1,4 +1,4 @@
 package com.github.domain;
-public class Room {
+public interface Room {
     
 }

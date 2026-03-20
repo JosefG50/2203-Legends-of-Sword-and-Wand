@@ -296,7 +296,7 @@ class CampaignSnapshotAdapter{
 }
 
 class RoomFactory{
-    + createNextRoom(battleChance: float, roomCounter: int): Room
+    + createNextRoom(battleChance: float): Room
 }
 
 CampaignManager --> RoomFactory
