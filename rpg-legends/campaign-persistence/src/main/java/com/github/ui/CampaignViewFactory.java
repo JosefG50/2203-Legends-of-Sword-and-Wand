@@ -1,4 +1,3 @@
-
 package com.github.ui;
 
 public class CampaignViewFactory extends ViewCreator {

@@ -1,66 +1,66 @@
 package com.github.application;
 
 import com.github.domain.*;
-import com.github.infrastructure.*;
-import com.github.ui.*;
+import com.github.ui.ViewCreator;
+import com.github.ui.CampaignViewFactory;
 
+// Acts as the Facade and Caretaker
 public class GameController {
-	private CampaignPersistenceManager persistenceManager;
-	private CampaignState currentState; 
-	private ViewCreator viewFactory;
-	
-	// Dependencies from teammates (These would be passed in via constructor)
-	private PartyManager partyManager;
-	private Inventory inventory;
-	private CampaignManager campaignManager;
+    private CampaignSaveRepository persistenceManager;
+    private CampaignState currentState;
+    private ViewCreator viewFactory;
+    private GameStateManager gameStateManager;
 
-	public GameController() {
-		// Initialize your components
-		// this.persistenceManager = new CampaignPersistenceManager(new SqlDatabase());
-		this.viewFactory = new CampaignViewFactory();
-		this.currentState = new ExplorationState(); // Default state
-	}
+    public GameController(CampaignSaveRepository persistenceManager, GameStateManager gameStateManager) {
+        this.persistenceManager = persistenceManager;
+        this.gameStateManager = gameStateManager;
+        this.viewFactory = new CampaignViewFactory();
+        this.currentState = new ExplorationState(); // Default state
+    }
 
-	// --- USE CASE: EXIT PVE CAMPAIGN ---
-	public void requestExit() {
-		if (!currentState.canExit()) {
-			currentState.handleExitRequest(); // Rejects exit
-			return;
-		}
+    // Use Case: Exit PvE Campaign
+    public void requestExit(int userId) {
+        // State Pattern: Let the state handle the request and tell us if we can proceed
+        // CombatState returns false, ExplorationState returns true
+        if (!currentState.handleExitRequest()) {
+            // The state itself handles printing "Cannot exit during battle"
+            return; 
+        }
 
-		// 1. Get Data from Subsystems
-		PartyData pData = partyManager.getPartyStatus();
-		InvData iData = inventory.getInventoryData();
-		RoomData rData = campaignManager.getCurrentRoomInfo();
+        // Memento Pattern: Create snapshot via Originator
+        GameStateMemento memento = gameStateManager.createSnapshot(userId);
 
-		// 2. Pass to Persistence Manager
-		boolean success = persistenceManager.saveGameState(pData, iData, rData);
+        // Persist to Database
+        boolean success = persistenceManager.saveSnapshot(userId, memento);
 
-		if (success) {
-			System.out.println("Campaign Closed. Display Main Menu.");
-		}
-	}
+        if (success) {
+            System.out.println("Campaign Closed. Displaying Main Menu.");
+        } else {
+            System.err.println("Failed to save campaign. Please try again.");
+        }
+    }
 
-	// --- USE CASE: CONTINUE PVE CAMPAIGN ---
-	public void loadSavedGame(int userID) {
-		// 1. Fetch Snapshot from DB
-		GameStateSnapshot snapshot = persistenceManager.fetchSaveData(userID);
+    // Use Case: Continue Incomplete PvE Campaign
+    public void loadSavedGame(int userId) {
+        // Fetch snapshot from DB
+        GameStateMemento memento = persistenceManager.loadSnapshot(userId);
 
-		// 2. Restore Subsystems
-		partyManager.restoreParty(snapshot.getPartyData());
-		// inventory.initialize(snapshot.getInventoryData()); // If teammate adds this
-		campaignManager.restoreProgress(snapshot.getRoomData());
+        if (memento != null) {
+            // Restore state to domain managers FIRST
+            gameStateManager.restore(memento);
 
-		// 3. Dynamically build View using Factory
-		viewFactory.renderLocation(snapshot.getLocationType());
-	}
-	
-	// --- UTILITY ---
-	public boolean deleteSavedGame(int userID) {
-		return persistenceManager.deleteSaveData(userID);
-	}
-	
-	public void setGameState(CampaignState newState) {
-		this.currentState = newState;
-	}
+            // Fetch the current room from the domain AFTER it has been restored,
+            // preserving strict Memento encapsulation.
+            String currentRoom = gameStateManager.getCurrentRoom(); 
+
+            // Factory Pattern: Dynamically build View
+            viewFactory.renderLocation(currentRoom);
+        } else {
+            System.err.println("No saved campaign found for User ID: " + userId);
+        }
+    }
+
+    public void setCampaignState(CampaignState state) {
+        this.currentState = state;
+    }
 }
