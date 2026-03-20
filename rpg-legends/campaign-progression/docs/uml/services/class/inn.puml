@@ -85,12 +85,7 @@ class Inn {
 
     + recover(): void
     + viewRecruits(): map<name: String, hero: HeroState>
-    + buyItem(id: int, amount: int): Item
-    + buyRecruit(id: int, amount: int): HeroState
-    + sellHero(hero: HeroState)
-    + addGold(amount: int)
-    - CanAffordRecruit(hero: HeroState): boolean
-    - hasRecruit(name: String): boolean
+    + hasRecruit(name: String): boolean
     + getShop(): List[Item]
 }
 class BattleRoom{
