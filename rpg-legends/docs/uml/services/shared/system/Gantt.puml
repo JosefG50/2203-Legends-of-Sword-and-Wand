@@ -1,0 +1,15 @@
+@startgantt Gnatt
+' Project start date
+Project starts 2026-03-06
+
+' Define tasks with durations
+[Complete domain Test Cases] lasts 4 days
+[Ensure Test Cases Pass] lasts 10 days and starts at [Complete domain Test Cases]'s end
+[Revise and Update Report] lasts 3 days and starts at [Ensure Test Cases Pass]'s end
+[Final changes and Submission] lasts 1 days and starts at [Revise and Update Report]'s end
+[Learn Java FX] lasts 2 days and starts at [Final changes and Submission]'s end 
+[Implement GUI] lasts 4 days and starts at [Learn Java FX]'s end
+[Create end to end Test Cases] lasts 4 days and starts at [Implement GUI]'s end
+[Establish Communication between Domains] lasts 3 days and starts at [Create end to end Test Cases]'s end
+[Final Checks and submission ] lasts 3 days and starts at [Establish Communication between Domains]'s end
+@endgantt
