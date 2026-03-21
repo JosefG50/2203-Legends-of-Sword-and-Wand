@@ -7,6 +7,11 @@ public abstract class Item {
     protected int hpHeal;
     protected int manaHeal;
     protected boolean canRevive = false;
+
+    public int getId() {
+        return id;
+    }
+
     public int getCost(){
         return cost;
     }
@@ -21,12 +26,3 @@ public abstract class Item {
     }
 
 }
-
-# cost: int
-    # hpHeal: int
-    # manaHeal: int
-    # canRevive = false: boolean
-    + getCost(): int
-    + getHpHeal(): int
-    + getManaHeal(): int
-    + getCanRevive(): boolean

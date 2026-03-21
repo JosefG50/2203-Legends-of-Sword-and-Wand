@@ -1,6 +1,6 @@
 package com.github.domain;
 
-public class Bread implements Item{
+public class Bread implements ItemTest{
     private String name;
     private int price;
     private int healAmount;

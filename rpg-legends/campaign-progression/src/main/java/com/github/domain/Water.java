@@ -1,5 +1,5 @@
 package com.github.domain;
-public class Water implements Item{
+public class Water implements ItemTest{
     private String name;
     private int price;
     private int manaHeal;

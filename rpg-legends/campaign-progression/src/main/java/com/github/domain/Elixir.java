@@ -1,6 +1,6 @@
 package com.github.domain;
 
-public class Elixir implements Item{
+public class Elixir implements ItemTest{
     private String name;
     private int price;
     private int hpHeal;

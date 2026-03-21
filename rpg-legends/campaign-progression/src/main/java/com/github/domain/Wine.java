@@ -1,5 +1,5 @@
 package com.github.domain;
-public class Wine implements Item{
+public class Wine implements ItemTest{
     private String name;
     private int price;
     private int manaHeal;

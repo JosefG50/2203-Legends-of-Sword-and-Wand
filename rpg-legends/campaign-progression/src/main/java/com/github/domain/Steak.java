@@ -1,5 +1,5 @@
 package com.github.domain;
-public class Steak implements Item{
+public class Steak implements ItemTest{
     private String name;
     private int price;
     private int healAmount;

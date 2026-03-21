@@ -6,9 +6,10 @@ public class CampaignManager {
     protected static int roomCounter;
     
     public CampaignManager() {
-        curRoom = new Room();
         battleChance = 0.6f;
-        roomCounter = 0;
+        roomCounter = 1;
+        RoomFactory roomFactory = new RoomFactory();
+        roomFactory.CreateNextRoom(battleChance);
     }
 
     public float getBattleChance() {
@@ -21,26 +22,16 @@ public class CampaignManager {
         return roomCounter;
     }
     public void increaseRoomCounter() {
+        if (roomCounter == 30) {
+            throw new IllegalStateException("Campaign is already complete");
+        }
         roomCounter++;
-
     }
     public Room nextRoom() {
         //TODO: use Room factory to create rooms with different probabilities
         increaseRoomCounter();
-        curRoom = new Room();
+        roomFactory.CreateNextRoom(battleChance);    
         return curRoom;
 
-        increaseRoomCounter();
     }
-    public Room getCurRoom() {
-        return curRoom;
-    }
-    public void StartNewCampaign() {
-        // TODO: Fix this method 
-        curRoom = new Room();
-        battleChance = 0.6f;
-        roomCounter = 0;
-    }
-
-
 }

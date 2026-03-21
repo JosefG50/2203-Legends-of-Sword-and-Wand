@@ -40,8 +40,14 @@ class BattleController <<control>> {
 class RoomController <<control>>{
     + attemptNextRoom()
     + attemptIntialize()
+    + endCampaign()
 
     + attemptConsume(hero: HeroState, item: Item)
+}
+
+
+class endCampaignUseCase <<APPLICATION>>{
+    + attemptEndCampaign()
 }
 
 class gainExperienceUseCase <<APPLICATION>>{
@@ -90,45 +96,38 @@ class Inn {
 }
 class BattleRoom{
     - enemies: List<enemy>
-    - turnOrder: List<entity>
 
-    + getExp(): int
-    + getGold(): int
-    + getTurnOrder(): List
     + getEnemies(): List
 
     + setTurnOrder(allies: List, enemies: List)
-    + createEnemies(allies: List)
-    + isOver(): boolean
-
-
 }
 class PartyService{
-    - heros: List[HeroState]
+    - heros: List<HeroState>
 
     - hasSpace(): boolean
     + isDefeated(): boolean
     + levelUp(exp: int)
     + maxRestore()
     + addHero(hero: HeroState)
+    + getTotalLevels(): int
+    + getParty(): List<HeroState>
 }
 class InventoryService{
     - gold: int
+    - goldspent: int
     - items: List<Item>
     + getGold(): int
     + minusGold(): int
     + addItem(item)
     + canAfford(amount)
     + addItem(Id: int, amount: int)
+    + getGoldSpent(): int
+
 }
 
 
-class Score{
-    - goldspent: int 
-    - getTotalLevels()
-    - getGold()
-    + getScore(): int
-    + getFame() 
+class Score{    
+    + getScore(int goldSpent, int totalLevels, int extraGold): int
 }
 abstract class CampaignManager{
     #_curRoom: Room
@@ -146,6 +145,7 @@ abstract class CampaignManager{
         + startNewCampaign()
     }
 interface Room{
+    + intialize(PartyService partyService)
 
 }
 class HeroState {
@@ -259,7 +259,8 @@ class Elixir{
 }
 
 interface ScoreStats{
-        + getScore()
+        + getScore(): int
+        + getParty(): List<HeroInstance>
     }
  interface CampaignSnapshot {
         + getRoomCounter(): int
@@ -345,6 +346,10 @@ ViewRecruitUseCase --> Inn
 InnIntializeUseCase-->  PartyService
 BuyItemUseCase  --> InventoryService
 
+RoomController -> endCampaignUseCase
+endCampaignUseCase --> Score
+endCampaignUseCase --> InventoryService
+endCampaignUseCase --> PartyService
 
 Inn  --|> Room
 BattleRoom  --|> Room
@@ -352,7 +357,6 @@ Inn --> HeroState
 PartyService --> HeroState
 
 
-CampaignManager -> "1" Score
 
 InventoryService -> "0..*" Item
 

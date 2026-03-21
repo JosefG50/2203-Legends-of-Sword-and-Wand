@@ -1,6 +1,6 @@
 package com.github.domain;
 
-public class Juice implements Item{
+public class Juice implements ItemTest{
     private String name;
     private int price;
     private int manaHeal;
