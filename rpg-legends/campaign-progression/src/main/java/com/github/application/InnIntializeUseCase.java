@@ -1,11 +1,24 @@
-public class innIntializeUseCase {
-    private PartyService partyService;
+package com.github.application;
 
-    public innIntializeUseCase(PartyService partyService) {
+import com.github.domain.PartyService;
+import com.github.domain.PartyService.RestoreStatus;
+
+import java.util.List;
+
+public class InnInitializeUseCase {
+
+    private final PartyService partyService;
+
+    public InnInitializeUseCase(PartyService partyService) {
         this.partyService = partyService;
     }
 
-    public void execute() {
-        partyService.maxRestore();
+    /**
+     * Restore all heroes to max HP and Mana, and return detailed status.
+     *
+     * @return List of heroes and amounts restored
+     */
+    public List<RestoreStatus> execute() {
+        return partyService.maxRestoreWithStatus();
     }
 }

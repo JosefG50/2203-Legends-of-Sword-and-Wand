@@ -1,51 +1,94 @@
 package com.github.domain;
 
-public class PartyService {
-    private ArrayList<HeroState> partyMembers;
-    private int totalLevels;
+import java.util.ArrayList;
+import java.util.List;
 
-    public ArrayList<HeroState> getPartyMembers() {
+public class PartyService {
+
+    private final List<HeroState> partyMembers = new ArrayList<>();
+    private static final int MAX_PARTY_SIZE = 6;
+
+    public List<HeroState> getParty() {
         return new ArrayList<>(partyMembers);
     }
 
-    private boolean hasSpace() {
-        return partyMembers.size() < 6;
+    public boolean hasSpace() {
+        return partyMembers.size() < MAX_PARTY_SIZE;
     }
 
-    public void addHero(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+    public void addHero(HeroState hero) {
+        if (hero == null) {
+            throw new IllegalArgumentException("Hero cannot be null");
         }
-        //TODO: add logic to determine hero class and stats based INN recruits
-        // TODO: add to totalLevels
+        if (!hasSpace()) {
+            throw new IllegalStateException("Party is full");
+        }
+
+        partyMembers.add(hero);
     }
 
-    public boolean isDeafeated() {
+    public boolean isDefeated() {
         for (HeroState hero : partyMembers) {
             if (hero.getHp() > 0) {
                 return false;
             }
         }
         return true;
-     }
+    }
+
     public void levelUp(int exp) {
-        exp = exp / partyMembers.size();
+        if (partyMembers.isEmpty()) {
+            throw new IllegalStateException("No party members");
+        }
+
+        int sharedExp = exp / partyMembers.size();
+
         for (HeroState hero : partyMembers) {
-            totalLevels += hero.addExp(exp);
+            hero.addExp(sharedExp);
         }
     }
 
-    public void maxRestore(){
+    public void maxRestore() {
         for (HeroState hero : partyMembers) {
             hero.restoreHp(hero.getMaxHp());
             hero.restoreMana(hero.getMaxMana());
         }
     }
-    public List<HeroState> getParty() {
-        return new ArrayList<>(partyMembers);
-    }
-    public int getTotalLevels() {
-        return totalLevels;
-    }     
 
+    public int getTotalLevels() {
+        int total = 0;
+        for (HeroState hero : partyMembers) {
+            total += hero.getTotalLevel(); // YOU MUST HAVE THIS METHOD
+        }
+        return total;
+    }
+    public List<RestoreStatus> maxRestoreWithStatus() {
+        List<RestoreStatus> statusList = new ArrayList<>();
+        for (HeroState hero : partyMembers) {
+            int hpBefore = hero.getHp();
+            int manaBefore = hero.getMana();
+
+            hero.restoreHp(hero.getMaxHp());
+            hero.restoreMana(hero.getMaxMana());
+
+            statusList.add(new RestoreStatus(
+                    hero.getName(),
+                    hero.getMaxHp() - hpBefore,
+                    hero.getMaxMana() - manaBefore
+            ));
+        }
+        return statusList;
+    }
+
+    public static class RestoreStatus {
+        public final String heroName;
+        public final int hpRestored;
+        public final int manaRestored;
+
+        public RestoreStatus(String heroName, int hpRestored, int manaRestored) {
+            this.heroName = heroName;
+            this.hpRestored = hpRestored;
+            this.manaRestored = manaRestored;
+        }
+    }
 }
