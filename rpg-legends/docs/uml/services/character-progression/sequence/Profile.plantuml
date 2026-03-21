@@ -1,0 +1,61 @@
+'1.	As a user I should be able to create a profile and log in.
+'At a minimum, the profile should consist of a username and password for authentication. 
+'The main purpose of the profile is to connect persistently stored data, such as parties, scores, rankings, campaign progress, 
+'to an existing account. Once I am authenticated and logged in, I should be directed to a GUI,
+'where I can review my saved data, and pick a game mode (e.g., PvE or PvP).
+
+@startuml
+actor User
+participant DataBase
+participant ProfileManager
+participant register
+participant Profile
+participant GUI
+participant PVE
+participant PVP
+
+'Register'
+'activate getShopUseCase
+'getShopUseCase --> Inn: getShop()
+'activate Inn
+'Inn -> getShopUseCase: shop: String
+'deactivate Inn
+activate ProfileManager
+User -> ProfileManager : Login(Username,Password)
+activate DataBase
+ProfileManager -> DataBase : VerifyLogin(Username,Password)
+deactivate DataBase
+
+activate register
+User -> register : Register(Username,Password,Email)
+register -> DataBase : Store(Username,Password,Email)
+register --> User : Registration Successful
+deactivate register
+
+
+alt [VerifyLogin(Username,Password) == true]
+    'A if statement that if the 
+    'User -> ProfileManager: Username
+    'User -> ProfileManager: Password
+    ProfileManager -> Profile :Choose Profile
+     Profile -> GUI : Display(Scores, Campaign progress, Party, Rankings)
+    alt [Choose Profile == PVP]
+       Profile -> PVP : Load PvP Data
+    else [Choose Profile == PVE]
+        Profile -> PVE : Load PvE Data
+    end
+  
+
+    'PvE or PvP"
+
+else [VerifyLogin == ThreeAttempts]
+ 'Blocked user
+ 'Incorrect password locked out'
+ ProfileManager --> User: Account Blocked 2 hours
+ ProfileManager -> User: Ask to reset Password via email
+
+
+end
+deactivate ProfileManager
+
+@enduml 

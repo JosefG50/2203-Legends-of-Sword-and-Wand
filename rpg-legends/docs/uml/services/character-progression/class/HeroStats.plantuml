@@ -1,0 +1,86 @@
+@startuml
+'add abstract class enetity'
+'Make a abstract class for entity builds'
+abstract class Hero {   
+    - mageSPL: int[manastat = 5, attackstat = 1]
+    - warriorSPL: int[attackstat = 2, defensestat = 3]
+    - orderSPL: int[manastat = 5, defensestat = 2]
+    - chaosSPL: int[attackstat = 3, healthstat = 5]
+    'Uniervsal Stats per level gives points before the class bonus is applied per level up'
+    - UniversalSPL: int[attackstat = 1, defensestat = 1, healthstat = 5, manastat = 2]
+    'Add class Abstract class with all classes'
+    'add -levels for each class'
+    - gold: int
+    - experience: int
+    'add to check if enough experience to level up'
+    - levelup(level : int): levelup(level - 1) + 500 + 75*level + 20*level^2
+    - experienceThreshold: int
+    '-spells: List[Spells]'
+    + Getlevel(): int
+    + SetlevelUp(level: int): void
+    + SetlevelUp(amount: int): void 
+    'Change to levelUp():void' that increases level by 1'
+    + levelUp(attackstats, defensestats, healthstats, manastats): void
+    + GetGold(): int
+    + SetGold(gold: int): void 
+    + GetExperience(): int
+    + SetExperience(exp: int): void
+}
+
+
+
+class Enemy {
+    '1 to 5 enemies'
+    'level from 1 to 10'
+    'the actual level of the enemy party is determined by the culmative level of the hero party'
+    'if hero party has a culmative level of 5 the enemy party will have a culmative level of 5-0'
+    'or hero culmative stats - 10 would be the enemies minimum and the hero culmative level would be the maximum'
+    'The maximum level of a full enemy party culmative level is 50'
+    'The enemy party level is divided equally among the enemies in the party'
+    'There is a chance for the enemy to pick a class so the enemy can have stats to that specific class'
+    'but usually the stats will be evenly distributed among all stats'
+    'G(L) = 75*L that is the gold given to hero on defeat'
+    + GiveGold(level: int): int level * 75
+    'Exp(L)=50*L that is the experience given to hero on defeat'
+    + GiveExperience(level: int): int level * 50
+}
+
+abstract class 'LivingEntity'
+{
+    - name: String
+    - class: String
+    - isDead: bool = false   
+    - Maxhealth: int = 100
+    - health: int = 100
+    - Mana: int = 50
+    - level: int = 1
+    - defnese: int = 5
+    - attack: int = 5
+    + GetHealth(): int
+    + SetHealth(health: int): void
+    + GetMana(): int
+    + SetMana(mana: int): void
+    + Getlevel(): int
+    + GetDefense(): int
+    + SetDefense(damage: int): void
+    + Getattack(): int
+    + Setattack(attack: int): void
+}
+
+LivingEntity <|-- Hero
+LivingEntity <|-- Enemy
+'Order'  +5 Mana
+'Order'  +2 Defense
+'Order'  Heals/Shields
+'Chaos'  +3 Attack
+'Chaos'  +5 HP
+'Chaos'  Fireball/Lightning
+'Warrior'  +2 Attack
+'Warrior'  +3 Defense
+'Warrior'  Cleave/PHYSICAL
+'Mage'  +5 Mana
+'Mage'  +1 Attack
+'Mage'  Mana Replenish
+
+
+@enduml
