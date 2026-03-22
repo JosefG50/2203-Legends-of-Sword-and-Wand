@@ -1,18 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="4223b82f-7106-4493-8f5e-73f6bb786106" name="Changes" comment="" />
+    <list default="true" id="4223b82f-7106-4493-8f5e-73f6bb786106" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/application/.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/ActionFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/AttackAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/BattleEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/BattleOverPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/BattlePhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/BattleResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/BattleState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/CastAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/CheckingEndPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/DefendAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/ResolvingActionPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/SelectingActionPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/Stats.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/StatusEffect.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/StunEffect.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/TurnManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/TurnQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/Unit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/main/java/com/github/battle-library/domain/WaitAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/application/.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/ActionFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/AttackAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/BattleEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/BattleOverPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/BattlePhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/BattleResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/BattleState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/CastAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/CheckingEndPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/DefendAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/ResolvingActionPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/SelectingActionPhase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/Stats.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/StatusEffect.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/StunEffect.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/TurnManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/TurnQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/Unit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpg-legends/src/test/java/com/github/battle-library/domain/WaitAction.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="38l4Dyfa4KhhbSGRaxJS0EP3pnk" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -22,16 +75,23 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Toufic-Test",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/joefe/OneDrive/Documentos/github/2203-Legends-of-Sword-and-Wand"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rpg-legends/src/test/java/com/github" />
+      <recent name="$PROJECT_DIR$/rpg-legends/src/main/java/com/github" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
       </set>
     </attachedChunks>
   </component>
