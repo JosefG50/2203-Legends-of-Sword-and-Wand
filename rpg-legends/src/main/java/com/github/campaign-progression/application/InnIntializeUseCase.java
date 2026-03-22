@@ -2,8 +2,10 @@ package com.github.application;
 
 import com.github.domain.PartyService;
 import com.github.domain.PartyService.RestoreStatus;
+import com.github.application.dto.InnInitializeResponseDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InnInitializeUseCase {
 
@@ -13,12 +15,19 @@ public class InnInitializeUseCase {
         this.partyService = partyService;
     }
 
-    /**
-     * Restore all heroes to max HP and Mana, and return detailed status.
-     *
-     * @return List of heroes and amounts restored
-     */
-    public List<RestoreStatus> execute() {
-        return partyService.maxRestoreWithStatus();
+    public InnInitializeResponseDTO execute() {
+
+        List<RestoreStatus> statusList = partyService.maxRestoreWithStatus();
+
+        List<InnInitializeResponseDTO.HeroRestoreDTO> dtoList =
+                statusList.stream()
+                        .map(s -> new InnInitializeResponseDTO.HeroRestoreDTO(
+                                s.heroName,
+                                s.hpRestored,
+                                s.manaRestored
+                        ))
+                        .collect(Collectors.toList());
+
+        return new InnInitializeResponseDTO(dtoList);
     }
 }

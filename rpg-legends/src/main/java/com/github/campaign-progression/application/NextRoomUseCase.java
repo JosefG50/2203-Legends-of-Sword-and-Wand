@@ -2,6 +2,7 @@ package com.github.application;
 
 import com.github.domain.CampaignManager;
 import com.github.domain.Room;
+import com.github.application.dto.NextRoomDTO;
 
 public class NextRoomUseCase {
 
@@ -13,16 +14,14 @@ public class NextRoomUseCase {
     }
 
     /**
-     * Move to the next room in the campaign.
-     *
-     * @return the class name of the next room for the application layer
+     * Move to the next room in the campaign and return a DTO.
      */
-    public String execute() {
+    public NextRoomDTO execute() {
         Room nextRoom = campaign.nextRoom();
 
-        // Optionally mark the end of the previous room
-        campaign.setEndOfRoom(false); // reset end-of-room status
+        // Reset end-of-room flag for the new room
+        campaign.setEndOfRoom(false);
 
-        return nextRoom.getClass().getSimpleName(); // "Inn", "BattleRoom", etc.
+        return new NextRoomDTO(nextRoom.getClass().getSimpleName(), campaign.getRoomCounter());
     }
 }

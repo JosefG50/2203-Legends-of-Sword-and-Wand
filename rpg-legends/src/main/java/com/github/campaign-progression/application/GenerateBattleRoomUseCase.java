@@ -1,8 +1,10 @@
 package com.github.application;
 
 import com.github.domain.*;
+import com.github.application.dto.BattleRoomResponseDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GenerateBattleRoomUseCase {
 
@@ -15,11 +17,21 @@ public class GenerateBattleRoomUseCase {
         this.enemyFactory = enemyFactory;
     }
 
-    public BattleRoom execute() {
-        int partyLevel = partyService.getPartyLevel();
+    public BattleRoomResponseDTO execute() {
+
+        int partyLevel = partyService.getTotalLevels(); // fix naming
 
         List<Enemy> enemies = enemyFactory.createEnemies(partyLevel);
 
-        return new BattleRoom(enemies);
+        List<BattleRoomResponseDTO.EnemyDTO> enemyDTOs = enemies.stream()
+                .map(e -> new BattleRoomResponseDTO.EnemyDTO(
+                        e.getLevel(),
+                        e.getHp(),
+                        e.getAttack(),
+                        e.getDefense()
+                ))
+                .collect(Collectors.toList());
+
+        return new BattleRoomResponseDTO(enemyDTOs);
     }
 }

@@ -3,6 +3,7 @@ package com.github.application;
 import com.github.domain.HeroState;
 import com.github.domain.Inn;
 import com.github.domain.PartyService;
+import com.github.application.dto.BuyRecruitResponseDTO;
 
 import java.util.Optional;
 
@@ -16,30 +17,53 @@ public class BuyRecruitUseCase {
         this.partyService = partyService;
     }
 
-    /**
-     * Attempt to recruit a hero from the inn.
-     *
-     * @param roomCounter The current room number (recruits not available after 10)
-     * @return Optional<String> containing error message if failed, empty if successful
-     */
-    public Optional<String> execute(int roomCounter) {
+    public BuyRecruitResponseDTO execute(int roomCounter) {
+
         if (roomCounter > 10) {
-            return Optional.of("Recruits are no longer available after room 10");
+            return new BuyRecruitResponseDTO(
+                    false,
+                    "Recruits are no longer available after room 10",
+                    null, null, 0
+            );
         }
 
         if (!partyService.hasSpace()) {
-            return Optional.of("Party is full. Cannot recruit more heroes.");
+            return new BuyRecruitResponseDTO(
+                    false,
+                    "Party is full. Cannot recruit more heroes.",
+                    null, null, 0
+            );
         }
 
-        // Generate recruitable hero
-        return inn.generateRecruit(partyService, roomCounter)
-                .map(hero -> {
-                    try {
-                        partyService.addHero(hero);
-                        return null; // Success
-                    } catch (IllegalStateException ex) {
-                        return ex.getMessage(); // Party full (should not happen)
-                    }
-                });
+        Optional<HeroState> recruitOpt = inn.generateRecruit(partyService, roomCounter);
+
+        if (recruitOpt.isEmpty()) {
+            return new BuyRecruitResponseDTO(
+                    false,
+                    "No recruit available",
+                    null, null, 0
+            );
+        }
+
+        HeroState hero = recruitOpt.get();
+
+        try {
+            partyService.addHero(hero);
+
+            return new BuyRecruitResponseDTO(
+                    true,
+                    "Recruit successful",
+                    hero.getName(),                 // MUST exist
+                    hero.getSpecialization(),
+                    hero.getTotalLevel()            // MUST exist
+            );
+
+        } catch (IllegalStateException ex) {
+            return new BuyRecruitResponseDTO(
+                    false,
+                    ex.getMessage(),
+                    null, null, 0
+            );
+        }
     }
 }
