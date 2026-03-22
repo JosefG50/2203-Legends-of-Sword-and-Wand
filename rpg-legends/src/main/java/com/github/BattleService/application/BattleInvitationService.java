@@ -1,9 +1,9 @@
-package BattleService.application;
+package com.github.BattleService.application;
 
-import BattleService.domain.BattleInvitation;
-import BattleService.dto.CreateInvitationRequest;
-import BattleService.dto.InvitationResponse;
-import BattleService.dto.RespondInvitationRequest;
+import com.github.BattleService.domain.BattleInvitation;
+import com.github.BattleService.dto.CreateInvitationRequest;
+import com.github.BattleService.dto.InvitationResponse;
+import com.github.BattleService.dto.RespondInvitationRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

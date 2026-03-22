@@ -1,9 +1,9 @@
-package BattleService.application;
+package com.github.BattleService.application;
 
-import BattleService.application.BattleApplicationService;
-import BattleService.dto.ActionRequest;
-import BattleService.dto.BattleStateResponse;
-import BattleService.dto.StartBattleRequest;
+import com.github.BattleService.application.BattleApplicationService;
+import com.github.BattleService.dto.ActionRequest;
+import com.github.BattleService.dto.BattleStateResponse;
+import com.github.BattleService.dto.StartBattleRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

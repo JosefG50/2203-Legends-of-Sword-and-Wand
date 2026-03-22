@@ -1,4 +1,4 @@
-package BattleService.domain;
+package com.github.BattleService.domain;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package BattleService.controller;
+package com.github.BattleService.controller;
 
-import BattleService.application.BattleInvitationService;
-import BattleService.dto.CreateInvitationRequest;
-import BattleService.dto.InvitationResponse;
-import BattleService.dto.RespondInvitationRequest;
+import com.github.BattleService.application.BattleInvitationService;
+import com.github.BattleService.dto.CreateInvitationRequest;
+import com.github.BattleService.dto.InvitationResponse;
+import com.github.BattleService.dto.RespondInvitationRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -9,7 +9,7 @@ import com.github.BattleService.domain.WaitAction;
 import com.github.BattleService.dto.ActionRequest;
 import com.github.BattleService.dto.BattleStateResponse;
 import com.github.BattleService.dto.StartBattleRequest;
-import com.github.org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 

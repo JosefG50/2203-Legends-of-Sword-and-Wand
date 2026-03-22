@@ -1,9 +1,9 @@
-package BattleService.controller;
+package com.github.BattleService.controller;
 
-import BattleService.application.BattleApplicationService;
-import BattleService.dto.ActionRequest;
-import BattleService.dto.BattleStateResponse;
-import BattleService.dto.StartBattleRequest;
+import com.github.BattleService.application.BattleApplicationService;
+import com.github.BattleService.dto.ActionRequest;
+import com.github.BattleService.dto.BattleStateResponse;
+import com.github.BattleService.dto.StartBattleRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

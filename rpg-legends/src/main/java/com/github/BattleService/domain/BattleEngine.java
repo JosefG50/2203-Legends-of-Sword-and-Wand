@@ -1,4 +1,4 @@
-package BattleService.domain;
+package com.github.BattleService.domain;
 
 import java.util.ArrayList;
 import java.util.List;

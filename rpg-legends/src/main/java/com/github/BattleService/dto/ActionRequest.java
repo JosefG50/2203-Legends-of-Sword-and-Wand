@@ -1,4 +1,4 @@
-package BattleService.dto;
+package com.github.BattleService.dto;
 
 public class ActionRequest {
 

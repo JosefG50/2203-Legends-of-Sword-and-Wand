@@ -1,8 +1,8 @@
-package BattleService.application;
+package com.github.BattleService.application;
 
-import BattleService.dto.CreateInvitationRequest;
-import BattleService.dto.InvitationResponse;
-import BattleService.dto.RespondInvitationRequest;
+import com.github.BattleService.dto.CreateInvitationRequest;
+import com.github.BattleService.dto.InvitationResponse;
+import com.github.BattleService.dto.RespondInvitationRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

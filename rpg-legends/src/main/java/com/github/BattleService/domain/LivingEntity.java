@@ -1,4 +1,4 @@
-package BattleService.domain;
+package com.github.BattleService.domain;
 
 public class LivingEntity {
 
