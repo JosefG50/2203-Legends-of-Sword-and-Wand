@@ -23,7 +23,7 @@ component [Login]{
 
 component [ProfileManager]
 
-component C {
+component database {
   portin profile1
   portin profile2
   portin profile3
