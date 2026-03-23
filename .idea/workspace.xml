@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="4223b82f-7106-4493-8f5e-73f6bb786106" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/application/.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/domain/.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/infrastructure/.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-legends/campaign-persistence/src/main/java/com/github/ui/.txt" beforeDir="false" />
-    </list>
+    <list default="true" id="4223b82f-7106-4493-8f5e-73f6bb786106" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,6 +21,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="38l4Dyfa4KhhbSGRaxJS0EP3pnk" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -36,7 +36,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Evan-Progression",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/evanwee/SCHOOL/year2/software_design/2203-Legends-of-Sword-and-Wand",
