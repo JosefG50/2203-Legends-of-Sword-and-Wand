@@ -1,0 +1,3 @@
+C:\Users\foxyr\Documents\LocalGitRepo\2203-Legends-of-Sword-and-Wand\build\generated\ksp\main\kotlin\godot\Entry.kt
+C:\Users\foxyr\Documents\LocalGitRepo\2203-Legends-of-Sword-and-Wand\src\main\kotlin\godot\MainScript.kt
+C:\Users\foxyr\Documents\LocalGitRepo\2203-Legends-of-Sword-and-Wand\build\generated\ksp\main\kotlin\godot\entry\MainScriptRegistrar.kt
