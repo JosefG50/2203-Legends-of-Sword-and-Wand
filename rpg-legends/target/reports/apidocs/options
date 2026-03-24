@@ -1,0 +1,25 @@
+--no-fonts
+-encoding
+'UTF-8'
+-protected
+-source
+'8'
+-sourcepath
+'/Users/evanwee/SCHOOL/year2/software_design/2203-Legends-of-Sword-and-Wand/rpg-legends/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2026. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/evanwee/SCHOOL/year2/software_design/2203-Legends-of-Sword-and-Wand/rpg-legends/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'rpg-legends 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' '/Users/evanwee/SCHOOL/year2/software_design/2203-Legends-of-Sword-and-Wand/rpg-legends/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'rpg-legends 1.0-SNAPSHOT API'

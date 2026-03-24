@@ -1,0 +1,16 @@
+com.github.battle-library.domain
+com.github.campaign-persistence.ui
+com.github.campaign-persistence.application
+com.github.campaign-persistence.infrastructure
+com.github.campaign-persistence.domain
+com.github.character-progression.domain
+com.github.GUI.ui
+com.github.GUI.application
+com.github.GUI.domain
+com.github.pvp.ui.controller
+com.github.pvp.infrastructure
+com.github.pvp.domain
+com.github.campaign-progression.ui.controller
+com.github.campaign-progression.ui.gui
+com.github.campaign-progression.application
+com.github.campaign-progression.domain

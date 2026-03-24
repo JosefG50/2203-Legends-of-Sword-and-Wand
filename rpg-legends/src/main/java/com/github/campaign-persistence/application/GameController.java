@@ -11,6 +11,11 @@ import persistence.memento.*;
 import state.*;
 import factory.*;
 
+/**
+ * The GameController class manages the high-level game logic and state transitions.
+ * It coordinates between the domain, infrastructure, and UI layers to handle
+ * user requests like exiting and loading games.
+ */
 public class GameController {
     private CampaignPersistenceManager persistenceManager;
     private CampaignState currentState; 
@@ -21,6 +26,10 @@ public class GameController {
     private Inventory inventory;
     private CampaignManager campaignManager;
 
+    /**
+     * Constructs a new GameController and initializes its components.
+     * Sets the default state to ExplorationState.
+     */
     public GameController() {
         // Initialize your components
         // this.persistenceManager = new CampaignPersistenceManager(new SqlDatabase());
@@ -28,7 +37,11 @@ public class GameController {
         this.currentState = new ExplorationState(); // Default state
     }
 
-    // --- USE CASE: EXIT PVE CAMPAIGN ---
+    /**
+     * Handles the request to exit the PvE campaign.
+     * If the current state allows exiting, it gathers data from subsystems,
+     * saves the game state via the persistence manager, and prints a success message.
+     */
     public void requestExit() {
         if (!currentState.canExit()) {
             currentState.handleExitRequest(); // Rejects exit
@@ -48,7 +61,13 @@ public class GameController {
         }
     }
 
-    // --- USE CASE: CONTINUE PVE CAMPAIGN ---
+    /**
+     * Loads a saved game for the given user ID.
+     * Fetches save data from the persistence manager, restores subsystems,
+     * and renders the appropriate location view.
+     *
+     * @param userID the ID of the user whose game is being loaded
+     */
     public void loadSavedGame(int userID) {
         // 1. Fetch Snapshot from DB
         GameStateSnapshot snapshot = persistenceManager.fetchSaveData(userID);
@@ -62,11 +81,21 @@ public class GameController {
         viewFactory.renderLocation(snapshot.getLocationType());
     }
     
-    // --- UTILITY ---
+    /**
+     * Deletes the saved game data for the given user ID.
+     *
+     * @param userID the ID of the user whose save data is to be deleted
+     * @return true if the deletion was successful, false otherwise
+     */
     public boolean deleteSavedGame(int userID) {
         return persistenceManager.deleteSaveData(userID);
     }
     
+    /**
+     * Sets the current game state.
+     *
+     * @param newState the new CampaignState to be set
+     */
     public void setGameState(CampaignState newState) {
         this.currentState = newState;
     }

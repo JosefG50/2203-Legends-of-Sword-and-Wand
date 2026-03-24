@@ -7,13 +7,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MySQLDatabase implements IDatabase {
+/**
+ * The MySQLDatabase class provides a MySQL-specific implementation of the IDatabase interface.
+ * It manages the connection to a MySQL database and provides methods for executing queries and managing records.
+ */
+public class MySQLDatabase implements IDatabase, AutoCloseable {
 
     private String url;
     private String user;
     private String password;
     private Connection connection;
 
+    /**
+     * Constructs a MySQLDatabase instance and initializes the connection and schema.
+     *
+     * @param url the JDBC URL for the MySQL database
+     * @param user the database user
+     * @param password the database password
+     */
     public MySQLDatabase(String url, String user, String password) {
         this.url = url;
         this.user = user;
@@ -22,6 +33,9 @@ public class MySQLDatabase implements IDatabase {
         initializeSchema();
     }
 
+    /**
+     * Establishes a connection to the MySQL database.
+     */
     private void connect() {
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -30,6 +44,9 @@ public class MySQLDatabase implements IDatabase {
         }
     }
 
+    /**
+     * Ensures that the database connection is open, reconnecting if necessary.
+     */
     private void ensureConnection() {
         try {
             if (connection == null || connection.isClosed()) {
@@ -40,6 +57,9 @@ public class MySQLDatabase implements IDatabase {
         }
     }
 
+    /**
+     * Initializes the database schema by creating the necessary tables if they do not exist.
+     */
     private void initializeSchema() {
         // Only attempt to build schema if the connection actually exists
         if (connection == null) return; 
@@ -56,7 +76,13 @@ public class MySQLDatabase implements IDatabase {
         }
     }
 
-    @Override
+    /**
+     * Executes a SQL update query (INSERT, UPDATE, DELETE).
+     *
+     * @param query the SQL query to execute
+     * @param params the parameters to bind to the query
+     * @return true if the execution was successful, false otherwise
+     */
     public boolean executeUpdate(String query, Object... params) {
         ensureConnection();
         // Crash prevention: check if connection is still null
@@ -74,6 +100,22 @@ public class MySQLDatabase implements IDatabase {
         }
     }
 
+    /**
+     * Executes a given SQL query.
+     *
+     * @param query the SQL query to be executed
+     */
+    @Override
+    public void executeQuery(String query) {
+        executeUpdate(query);
+    }
+
+    /**
+     * Fetches a record from the campaign_saves table based on the user ID.
+     *
+     * @param id the user ID of the record to fetch
+     * @return the saved data as a String, or null if not found
+     */
     @Override
     public Object fetchRecord(int id) {
         ensureConnection();
@@ -93,6 +135,12 @@ public class MySQLDatabase implements IDatabase {
         return null;
     }
 
+    /**
+     * Deletes a record from the campaign_saves table based on the user ID.
+     *
+     * @param id the user ID of the record to delete
+     * @return true if the record was deleted successfully, false otherwise
+     */
     @Override
     public boolean deleteRecord(int id) {
         ensureConnection();
@@ -110,6 +158,11 @@ public class MySQLDatabase implements IDatabase {
         }
     }
 
+    /**
+     * Closes the database connection.
+     *
+     * @throws Exception if a database access error occurs
+     */
     @Override
     public void close() throws Exception {
         if (connection != null && !connection.isClosed()) {
