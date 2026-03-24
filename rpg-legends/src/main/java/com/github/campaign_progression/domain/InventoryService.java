@@ -17,6 +17,10 @@ public class InventoryService {
     public int getGold() {
         return gold;
     }
+    public void minusGold(int amount){
+        if (amount < 0) throw new IllegalArgumentException("Amount must be non-negative");
+        gold -= amount;
+    }
     public void gainGold(int amount) {
         if (amount < 0) throw new IllegalArgumentException("Amount must be non-negative");
         gold += amount;

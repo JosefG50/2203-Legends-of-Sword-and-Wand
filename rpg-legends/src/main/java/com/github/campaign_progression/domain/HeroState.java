@@ -80,6 +80,9 @@ public class HeroState {
 
     public int getCurHp() { return curHp; }
     public void setCurHp(int curHp) { this.curHp = curHp; }
+    public void gainCurHp(int amount){curHp += amount;}
+    public void minusCurHp(int amount){curHp -=amount;}
+
 
     public int getMaxHp() { return maxHp; }
     public void setMaxHp(int maxHp) { this.maxHp = maxHp; }
@@ -89,6 +92,8 @@ public class HeroState {
 
     public int getCurMana() { return curMana; }
     public void setCurMana(int curMana) { this.curMana = curMana; }
+    public void gainCurMana(int amount){curMana += amount;}
+    public void minusCurMana(int amount){curMana -=amount;}
 
     public int getMaxMana() { return maxMana; }
     public void setMaxMana(int maxMana) { this.maxMana = maxMana; }

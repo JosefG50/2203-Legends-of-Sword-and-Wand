@@ -1,4 +1,4 @@
-package com.github.application.dto;
+package com.github.campaign_progression.application.dto;
 
 public class BuyItemResponseDTO {
 

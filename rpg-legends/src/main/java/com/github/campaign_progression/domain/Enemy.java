@@ -23,4 +23,8 @@ public class Enemy {
     public int getHealth() { return health; }
     public int getAttack() { return attack; }
     public int getDefense() { return defense; }
+
+    public int getHp() {
+        return health;
+    }
 }

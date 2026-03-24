@@ -65,8 +65,8 @@ public class PartyService {
     public List<RestoreStatus> maxRestoreWithStatus() {
         List<RestoreStatus> statusList = new ArrayList<>();
         for (HeroState hero : partyMembers) {
-            int hpBefore = hero.getHp();
-            int manaBefore = hero.getMana();
+            int hpBefore = hero.getCurHp();
+            int manaBefore = hero.getCurMana();
 
             hero.setCurHp(hero.getMaxHp());
             hero.setCurMana(hero.getMaxMana());

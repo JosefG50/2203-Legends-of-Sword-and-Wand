@@ -1,4 +1,4 @@
-package com.github.application;
+package com.github.campaign_progression.application.dto;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ public class CampaignSnapshotDTO {
     private int exp;
 
     private List<HeroInstanceDTO> party;
-    private List<HeroInstanceDTO> innRecruits;
     private List<ItemDTO> items;
 
     // Getters and setters
@@ -33,9 +32,6 @@ public class CampaignSnapshotDTO {
 
     public List<HeroInstanceDTO> getParty() { return party; }
     public void setParty(List<HeroInstanceDTO> party) { this.party = party; }
-
-    public List<HeroInstanceDTO> getInnRecruits() { return innRecruits; }
-    public void setInnRecruits(List<HeroInstanceDTO> innRecruits) { this.innRecruits = innRecruits; }
 
     public List<ItemDTO> getItems() { return items; }
     public void setItems(List<ItemDTO> items) { this.items = items; }

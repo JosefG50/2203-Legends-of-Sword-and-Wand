@@ -1,11 +1,11 @@
-package com.github.application;
-
-import com.github.domain.PartyService;
-import com.github.domain.PartyService.RestoreStatus;
-import com.github.application.dto.InnInitializeResponseDTO;
+package com.github.campaign_progression.application;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.github.campaign_progression.application.dto.InnInitializeResponseDTO;
+import com.github.campaign_progression.domain.PartyService;
+import com.github.campaign_progression.domain.PartyService.RestoreStatus;
 
 public class InnInitializeUseCase {
 

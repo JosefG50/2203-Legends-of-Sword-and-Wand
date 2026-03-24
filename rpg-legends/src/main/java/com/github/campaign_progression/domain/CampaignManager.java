@@ -3,26 +3,32 @@ package com.github.campaign_progression.domain;
 public class CampaignManager {
 
     private Room currentRoom;
-    private float battleChance;
+    private double battleChance;
     private int roomCounter;
     private boolean endOfRoom;
 
-    private final RoomFactory roomFactory;
+    private final RoomFactory RoomFactory;
 
     private static final int MAX_ROOMS = 30;
 
-    public CampaignManager(RoomFactory roomFactory) {
-        if (roomFactory == null) {
+    public CampaignManager(RoomFactory RoomFactory) {
+        if (RoomFactory == null) {
             throw new IllegalArgumentException("RoomFactory cannot be null");
         }
 
-        this.roomFactory = roomFactory;
+        this.RoomFactory = RoomFactory;
         this.battleChance = 0.6f;
         this.roomCounter = 1;
 
-        this.currentRoom = roomFactory.createNextRoom(battleChance);
+        this.currentRoom = RoomFactory.createNextRoom(battleChance);
     }
 
+    public void startNewCampaign() {
+    this.battleChance = 0.6;
+    this.roomCounter = 1;
+    this.endOfRoom = false;
+
+    }  
     public boolean isEndOfRoom() {
         return endOfRoom;
     }
@@ -31,11 +37,11 @@ public class CampaignManager {
         endOfRoom = value;
     }
 
-    public float getBattleChance() {
+    public double getBattleChance() {
         return battleChance;
     }
 
-    public void setBattleChance(float value) {
+    public void setBattleChance(double value) {
         if (value < 0 || value > 1) {
             throw new IllegalArgumentException("Battle chance must be between 0 and 1");
         }
@@ -57,7 +63,7 @@ public class CampaignManager {
 
         roomCounter++;
         endOfRoom = false;
-        currentRoom = roomFactory.createNextRoom(battleChance);
+        currentRoom = RoomFactory.createNextRoom(battleChance);
 
         return currentRoom;
     }

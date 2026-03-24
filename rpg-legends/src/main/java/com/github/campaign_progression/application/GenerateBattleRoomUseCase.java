@@ -1,7 +1,7 @@
-package com.github.application;
+package com.github.campaign_progression.application;
 
-import com.github.domain.*;
-import com.github.application.dto.BattleRoomResponseDTO;
+import com.github.campaign_progression.domain.*;
+import com.github.campaign_progression.application.dto.BattleRoomResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

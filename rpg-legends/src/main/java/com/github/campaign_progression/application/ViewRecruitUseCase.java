@@ -1,8 +1,8 @@
-package com.github.application;
+package com.github.campaign_progression.application;
 
-import com.github.domain.HeroState;
-import com.github.domain.Inn;
-import com.github.application.dto.RecruitDTO;
+import com.github.campaign_progression.domain.HeroState;
+import com.github.campaign_progression.domain.Inn;
+import com.github.campaign_progression.application.dto.RecruitDTO;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ViewRecruitUseCase {
                                 entry.getKey(),
                                 hero.getName(),
                                 hero.getSpecialization(),
-                                hero.getTotalLevel() // use your existing method
+                                hero.getLevel() 
                         );
                     })
                     .collect(Collectors.toList());

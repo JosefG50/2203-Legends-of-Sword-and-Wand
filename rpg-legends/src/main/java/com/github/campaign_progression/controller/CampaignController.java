@@ -1,13 +1,23 @@
-package com.github.ui.controller;
-
-import com.github.application.*;
-import com.github.application.CampaignSnapshotDTO;
-import com.github.application.HeroInstanceDTO;
-import com.github.application.ItemDTO;
-
-import org.springframework.web.bind.annotation.*;
+package com.github.campaign_progression.controller;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.github.campaign_progression.application.ExitCampaignUseCase;
+import com.github.campaign_progression.application.LoadCampaignUseCase;
+import com.github.campaign_progression.application.NextRoomUseCase;
+import com.github.campaign_progression.application.StartCampaignUseCase;
+import com.github.campaign_progression.application.dto.CampaignEndDTO;
+import com.github.campaign_progression.application.dto.CampaignSnapshotDTO;
+import com.github.campaign_progression.application.dto.HeroInstanceDTO;
+import com.github.campaign_progression.application.dto.ItemDTO;
+import com.github.campaign_progression.application.dto.LoadCampaignDTO;
+import com.github.campaign_progression.application.dto.StartCampaignDTO;
 
 @RestController
 @RequestMapping("/campaign")
@@ -32,7 +42,7 @@ public class CampaignController {
      * Start a new campaign with an initial hero.
      */
     @PostMapping("/start")
-    public CampaignSnapshotDTO startCampaign(@RequestBody HeroInstanceDTO initialHero) {
+    public StartCampaignDTO startCampaign(@RequestBody HeroInstanceDTO initialHero) {
         return startCampaignUseCase.execute(initialHero);
     }
 
@@ -40,7 +50,7 @@ public class CampaignController {
      * Load an existing campaign from snapshot.
      */
     @PostMapping("/load")
-    public CampaignSnapshotDTO loadCampaign(@RequestBody CampaignSnapshotDTO snapshot) {
+    public LoadCampaignDTO loadCampaign(@RequestBody CampaignSnapshotDTO snapshot) {
         return loadCampaignUseCase.execute(snapshot);
     }
 
@@ -63,7 +73,7 @@ public class CampaignController {
         } catch (IllegalStateException ex) {
             if (ex.getMessage().contains("already complete")) {
                 // Campaign reached past max room, trigger end-of-campaign
-                CampaignEndDTO endDTO = exitCampaignUseCase.executeEndCampaign();
+                CampaignEndDTO endDTO = exitCampaignUseCase.execute();
                 return endDTO;
             }
             // Other unexpected exceptions

@@ -1,7 +1,7 @@
-package com.github.application;
+package com.github.campaign_progression.application;
 
-import com.github.domain.*;
-import com.github.application.dto.ItemConsumeResponseDTO;
+import com.github.campaign_progression.domain.*;
+import com.github.campaign_progression.application.dto.ItemConsumeResponseDTO;
 
 import java.util.List;
 
@@ -35,20 +35,20 @@ public class ItemConsumeUseCase {
 
         inventory.useItem(itemType, 1);
 
-        int hpBefore = hero.getHp();
-        int manaBefore = hero.getMana();
+        int hpBefore = hero.getCurHp();
+        int manaBefore = hero.getCurMana();
         boolean revived = false;
 
-        hero.restoreHp(itemType.getHpHeal());
-        hero.restoreMana(itemType.getManaHeal());
+        hero.gainCurHp(itemType.getHpHeal());
+        hero.gainCurMana(itemType.getManaHeal());
 
-        if (itemType.getCanRevive() && hero.getHp() == 0) {
-            hero.restoreHp(hero.getMaxHp());
+        if (itemType.canRevive() && hero.getCurHp() == 0) {
+            hero.gainCurHp(hero.getMaxHp());
             revived = true;
         }
 
-        int hpRestored = hero.getHp() - hpBefore;
-        int manaRestored = hero.getMana() - manaBefore;
+        int hpRestored = hero.getCurHp() - hpBefore;
+        int manaRestored = hero.getCurMana() - manaBefore;
 
         return new ItemConsumeResponseDTO(
                 hero.getName(),

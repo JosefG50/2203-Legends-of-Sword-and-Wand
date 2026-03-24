@@ -1,20 +1,19 @@
-package com.github.application.dto;
+package com.github.campaign_progression.application.dto;
 
-import com.github.domain.HeroState;
 import java.util.List;
 
 public class CampaignEndDTO {
-    private final List<HeroSummaryDTO> partySummary;
+    private final List<HeroInstanceDTO> partySummary;
     private final int totalScore;
     private final String message;
 
-    public CampaignEndDTO(List<HeroSummaryDTO> partySummary, int totalScore, String message) {
-        this.partySummary = partySummary;
+    public CampaignEndDTO(List<HeroInstanceDTO> partyDTO, int totalScore, String message) {
+        this.partySummary = partyDTO;
         this.totalScore = totalScore;
         this.message = message;
     }
 
-    public List<HeroSummaryDTO> getPartySummary() {
+    public List<HeroInstanceDTO> getPartySummary() {
         return partySummary;
     }
 
@@ -26,14 +25,14 @@ public class CampaignEndDTO {
         return message;
     }
 
-    public static class HeroSummaryDTO {
+    public static class HeroInstanceDTO {
         private final String name;
         private final String specialization;
         private final int level;
         private final int hp;
         private final int mana;
 
-        public HeroSummaryDTO(String name, String specialization, int level, int hp, int mana) {
+        public HeroInstanceDTO(String name, String specialization, int level, int hp, int mana) {
             this.name = name;
             this.specialization = specialization;
             this.level = level;

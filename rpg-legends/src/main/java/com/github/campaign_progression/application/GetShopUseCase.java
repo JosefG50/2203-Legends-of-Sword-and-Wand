@@ -1,8 +1,7 @@
-package com.github.application;
+package com.github.campaign_progression.application;
 
-import com.github.domain.Inn;
-import com.github.domain.ItemType;
-import com.github.application.dto.GetShopResponseDTO;
+import com.github.campaign_progression.domain.Inn;
+import com.github.campaign_progression.application.dto.GetShopResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
