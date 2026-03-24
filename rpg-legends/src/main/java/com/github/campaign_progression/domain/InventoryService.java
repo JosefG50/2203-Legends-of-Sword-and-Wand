@@ -1,6 +1,5 @@
 package com.github.campaign_progression.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryService {
@@ -18,7 +17,16 @@ public class InventoryService {
     public int getGold() {
         return gold;
     }
-
+    public void gainGold(int amount) {
+        if (amount < 0) throw new IllegalArgumentException("Amount must be non-negative");
+        gold += amount;
+    }
+    public void setItems(int[] items) {
+        if (items.length != this.items.length) {
+            throw new IllegalArgumentException("Items array length mismatch");
+        }
+        System.arraycopy(items, 0, this.items, 0, items.length);
+    }
     public int getGoldSpent() {
         return goldSpent;
     }
@@ -60,10 +68,8 @@ public class InventoryService {
     }
 
     /** Return a copy of inventory counts for snapshot purposes */
-    public List<Integer> getItemsSnapshot() {
-        List<Integer> snapshot = new ArrayList<>();
-        for (int count : items) snapshot.add(count);
-        return snapshot;
+    public int[] getItems() {
+        return items.clone();
     }
 
     /** Restore inventory counts from snapshot (used when loading) */

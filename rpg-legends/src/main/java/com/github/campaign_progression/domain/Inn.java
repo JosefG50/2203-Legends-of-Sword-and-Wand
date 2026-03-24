@@ -67,10 +67,6 @@ public class Inn implements Room {
         return new ArrayList<>(shop);
     }
 
-    public void clearRecruits() {
-        recruits.clear();
-    }
-
     public void addRecruit(HeroState hero) {
         recruits.put(hero.getSpecialization() + "-" + UUID.randomUUID(), hero);
     }

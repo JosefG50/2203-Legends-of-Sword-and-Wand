@@ -12,8 +12,7 @@ public class CampaignSnapshotImpl implements CampaignSnapshot {
     private int exp;
 
     private List<HeroState> party;
-    private List<HeroState> innRecruits;
-    private List<Item> items;
+    private int[] items;
 
     public CampaignSnapshotImpl() {
         // empty constructor for serialization / frameworks
@@ -22,15 +21,13 @@ public class CampaignSnapshotImpl implements CampaignSnapshot {
     public CampaignSnapshotImpl(int roomCounter, double battleChance, String curRoom,
                                 int gold, int exp,
                                 List<HeroState> party,
-                                List<HeroState> innRecruits,
-                                List<Item> items) {
+                                int[] items) {
         this.roomCounter = roomCounter;
         this.battleChance = battleChance;
         this.curRoom = curRoom;
         this.gold = gold;
         this.exp = exp;
         this.party = party;
-        this.innRecruits = innRecruits;
         this.items = items;
     }
 
@@ -64,13 +61,10 @@ public class CampaignSnapshotImpl implements CampaignSnapshot {
     @Override
     public void setParty(List<HeroState> party) { this.party = party; }
 
-    @Override
-    public List<HeroState> getInnRecruits() { return innRecruits; }
-    @Override
-    public void setInnRecruits(List<HeroState> innRecruits) { this.innRecruits = innRecruits; }
+
 
     @Override
-    public List<Item> getItems() { return items; }
+    public int[] getItems() { return items; }
     @Override
-    public void setItems(List<Item> items) { this.items = items; }
+    public void setItems(int[] items) { this.items = items; }
 }

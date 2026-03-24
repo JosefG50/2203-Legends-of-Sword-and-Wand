@@ -1,12 +1,16 @@
 package com.github.campaign_progression.domain;
 
+import java.util.ArrayList;
+
 public class HeroState {
+    private String name;
     private int curHp;
     private int maxHp;
     private String specialization;
     private int curMana;
     private int maxMana;
 
+    private int level;
     private int mageLvl;
     private int warriorLvl;
     private int orderLvl;
@@ -16,7 +20,9 @@ public class HeroState {
     private int lvlUpExp;
     private int defense;
     private int attack;
-    private List<String> ability;
+    ArrayList<String> ability = new ArrayList<>();
+
+    
 
     // ===================== EXP / LEVEL LOGIC =====================
 
@@ -43,6 +49,7 @@ public class HeroState {
      * (no stat logic here)
      */
     private void increaseLevel() {
+        level++;
         // TO DO: Change to let user decide
         switch (specialization) {
             case "MAGE":
@@ -64,6 +71,12 @@ public class HeroState {
     }
 
     // ===================== GETTERS / SETTERS =====================
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getLevel() { return level; }
+    public int setlevel(int level) { return this.level = level; }
 
     public int getCurHp() { return curHp; }
     public void setCurHp(int curHp) { this.curHp = curHp; }
@@ -106,6 +119,6 @@ public class HeroState {
     public int getAttack() { return attack; }
     public void setAttack(int attack) { this.attack = attack; }
 
-    public List<String> getAbility() { return ability; }
-    public void setAbility(List<String> ability) { this.ability = ability; }
+    public ArrayList<String> getAbility() { return ability; }
+    public void setAbility(ArrayList<String> ability) { this.ability = ability; }
 }

@@ -1,13 +1,10 @@
-package com.github.domain;
-
-import java.util.List;
+package com.github.campaign_progression.domain;
 
 public class CampaignStateManager {
 
     private final CampaignManager campaignManager;
     private final PartyService partyService;
     private final InventoryService InventoryService;
-    private final Inn inn;
 
     public CampaignStateManager(CampaignManager campaignManager,
                                 PartyService partyService,
@@ -16,7 +13,6 @@ public class CampaignStateManager {
         this.campaignManager = campaignManager;
         this.partyService = partyService;
         this.InventoryService = InventoryService;
-        this.inn = inn;
     }
 
     /**
@@ -34,14 +30,9 @@ public class CampaignStateManager {
         InventoryService.setItems(snapshot.getItems());
 
         partyService.getParty().clear();
-        for (HeroInstance hi : snapshot.getParty()) {
-            partyService.addHero(hi.toHeroState()); // assumes HeroInstance -> HeroState
-        }
-
-        inn.clearRecruits();
-        for (HeroInstance recruit : snapshot.getInnRecruits()) {
-            inn.addRecruit(recruit.toHeroState());
-        }
+        for (HeroState hi : snapshot.getParty()) {
+            partyService.addHero(hi); // assumes HeroState -> HeroState
+        }        
     }
 
     /**
@@ -54,8 +45,7 @@ public class CampaignStateManager {
             campaignManager.getCurrentRoom().toString(), // or serialize room ID
             InventoryService.getGold(),
             partyService.getTotalLevels(), // or EXP if needed
-            HeroInstance.fromHeroStates(partyService.getParty()),
-            HeroInstance.fromHeroStates(inn.viewRecruits()),
+            partyService.getParty(),
             InventoryService.getItems()
         );
     }

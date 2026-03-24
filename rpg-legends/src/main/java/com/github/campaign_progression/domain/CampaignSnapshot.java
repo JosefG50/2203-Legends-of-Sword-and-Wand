@@ -22,9 +22,8 @@ public interface CampaignSnapshot {
     List<HeroState> getParty();
     void setParty(List<HeroState> party);
 
-    List<HeroState> getInnRecruits();
-    void setInnRecruits(List<HeroState> recruits);
 
-    List<Item> getItems();
-    void setItems(List<Item> items);
+
+    int[] getItems();
+    void setItems(int[] items);
 }

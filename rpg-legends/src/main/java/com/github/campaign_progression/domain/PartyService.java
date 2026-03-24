@@ -29,7 +29,7 @@ public class PartyService {
 
     public boolean isDefeated() {
         for (HeroState hero : partyMembers) {
-            if (hero.getHp() > 0) {
+            if (hero.getCurHp() > 0) {
                 return false;
             }
         }
@@ -44,21 +44,21 @@ public class PartyService {
         int sharedExp = exp / partyMembers.size();
 
         for (HeroState hero : partyMembers) {
-            hero.addExp(sharedExp);
+            hero.gainExp(sharedExp);
         }
     }
 
     public void maxRestore() {
         for (HeroState hero : partyMembers) {
-            hero.restoreHp(hero.getMaxHp());
-            hero.restoreMana(hero.getMaxMana());
+            hero.setCurHp(hero.getMaxHp());
+            hero.setCurMana(hero.getMaxMana());
         }
     }
 
     public int getTotalLevels() {
         int total = 0;
         for (HeroState hero : partyMembers) {
-            total += hero.getTotalLevel(); // YOU MUST HAVE THIS METHOD
+            total += hero.getLevel(); // YOU MUST HAVE THIS METHOD
         }
         return total;
     }
@@ -68,8 +68,8 @@ public class PartyService {
             int hpBefore = hero.getHp();
             int manaBefore = hero.getMana();
 
-            hero.restoreHp(hero.getMaxHp());
-            hero.restoreMana(hero.getMaxMana());
+            hero.setCurHp(hero.getMaxHp());
+            hero.setCurMana(hero.getMaxMana());
 
             statusList.add(new RestoreStatus(
                     hero.getName(),
