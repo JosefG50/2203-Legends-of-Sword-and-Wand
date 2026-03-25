@@ -1,0 +1,49 @@
+@startuml
+actor User
+participant "GameController" as GC
+participant "CampaignPersistenceManager" as CPM
+participant "MySQLDatabase" as DB
+participant "PartyManager" as PM
+participant "CampaignManager" as CM
+participant "CampaignViewFactory" as CVF
+participant "View" as V
+
+User -> GC : loadSavedGame(userID)
+activate GC
+
+GC -> CPM : fetchSaveData(userID)
+activate CPM
+CPM -> DB : fetchRecord(userID)
+activate DB
+DB --> CPM : record (String)
+deactivate DB
+CPM --> GC : snapshot (GameStateSnapshot)
+deactivate CPM
+
+GC -> PM : restoreParty(snapshot.getPartyData())
+activate PM
+PM --> GC
+deactivate PM
+
+GC -> CM : restoreProgress(snapshot.getRoomData())
+activate CM
+CM --> GC
+deactivate CM
+
+GC -> CVF : renderLocation(snapshot.getLocationType())
+activate CVF
+CVF -> CVF : createView(locationType)
+activate CVF
+create V
+CVF -> V : new
+CVF --> CVF : view
+deactivate CVF
+CVF -> V : display()
+activate V
+V --> User : Show Game Screen
+deactivate V
+CVF --> GC
+deactivate CVF
+
+deactivate GC
+@enduml

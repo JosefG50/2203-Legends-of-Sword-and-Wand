@@ -1,0 +1,189 @@
+@startuml
+
+package "Campaign-Persistence Module" {
+
+    package Application {
+        class GameController {
+            - persistenceManager: CampaignPersistenceManager
+            - stateManager: GameStateManager
+            - viewFactory: ViewCreator
+            - partyManager: PartyManager
+            - inventory: InventoryManager
+            - campaignManager: CampaignManager
+            + closeCampaign(): void
+            + loadSavedGame(userID: int): void
+            + deleteSavedGame(userID: int): boolean
+            + setGameState(newState: CampaignState): void
+        }
+
+        class GameStateManager {
+            - partyManager: PartyManager
+            - inventoryManager: InventoryManager
+            - campaignManager: CampaignManager
+            + createSnapshot(userId: int): GameStateMemento
+            + restore(memento: GameStateMemento): void
+            + getCurrentRoom(): String
+        }
+
+        interface PartyManager {
+            + getPartyStatus(): PartyData
+            + restoreParty(data: PartyData): void
+        }
+
+        interface InventoryManager {
+            + getInventoryData(): InvData
+            + restoreInventory(data: InvData): void
+        }
+
+        interface CampaignManager {
+            + getCurrentRoomInfo(): RoomData
+            + getCurrentLocationType(): String
+            + restoreProgress(data: RoomData): void
+        }
+
+        GameStateManager +-- PartyManager
+        GameStateManager +-- InventoryManager
+        GameStateManager +-- CampaignManager
+    }
+
+    package Domain {
+        interface CampaignSaveRepository {
+            + saveSnapshot(userId: int, snapshot: GameStateMemento): boolean
+            + loadSnapshot(userId: int): GameStateMemento
+            + deleteSnapshot(userId: int): boolean
+        }
+
+        interface CampaignState {
+            + canExit(): boolean
+            + handleExitRequest(): void
+        }
+
+        class CombatState implements CampaignState {
+            + canExit(): boolean
+            + handleExitRequest(): void
+        }
+
+        class ExplorationState implements CampaignState {
+            + canExit(): boolean
+            + handleExitRequest(): void
+        }
+
+        class GameStateMemento {
+            - userID: int
+            - partyStats: PartyData
+            - inventoryData: InvData
+            - roomProgress: RoomData
+            + getUserID(): int
+            + getPartyStats(): PartyData
+            + getInventoryData(): InvData
+            + getRoomProgress(): RoomData
+        }
+
+        class GameStateSnapshot {
+            - userID: int
+            - locationType: String
+            - partyData: PartyData
+            - inventoryData: InvData
+            - roomData: RoomData
+            + getPartyData(): PartyData
+            + getInventoryData(): InvData
+            + getRoomData(): RoomData
+            + getLocationType(): String
+        }
+
+        interface IDatabase {
+            + executeQuery(query: String): void
+            + fetchRecord(id: int): Object
+            + deleteRecord(id: int): boolean
+        }
+
+        class PartyData {
+            + heroStats: Map<String, Integer>
+            + levels: List<Integer>
+            + hpManaStatus: Map<String, Integer>
+        }
+
+        class InvData {
+            + itemsList: List<Object>
+        }
+
+        class RoomData {
+            + roomID: int
+            + progress: int
+        }
+    }
+
+    package Infrastructure {
+        class CampaignPersistenceManager {
+            - database: IDatabase
+            + saveGameState(party: PartyData, inv: InvData, room: RoomData): boolean
+            + fetchSaveData(userID: int): GameStateSnapshot
+            + deleteSaveData(userID: int): boolean
+            + confirmSave(): void
+        }
+
+        class MySQLDatabase implements Domain.IDatabase {
+            - url: String
+            - user: String
+            - password: String
+            - connection: Connection
+            + executeUpdate(query: String, params: Object[]): boolean
+            + executeQuery(query: String): void
+            + fetchRecord(id: int): Object
+            + deleteRecord(id: int): boolean
+            + close(): void
+        }
+    }
+
+    package UI {
+        interface View {
+            + display(): void
+        }
+
+        abstract class ViewCreator {
+            + renderLocation(locationType: String): void
+            # {abstract} createView(locationType: String): View
+        }
+
+        class CampaignViewFactory extends ViewCreator {
+            # createView(locationType: String): View
+        }
+
+        class InnView implements View {
+            + display(): void
+        }
+
+        class DungeonCampaignView implements View {
+            + display(): void
+        }
+    }
+
+    ' Relationships
+    GameController --> CampaignPersistenceManager
+    GameController --> GameStateManager
+    GameController --> ViewCreator
+    GameController o-- CampaignState
+
+    GameStateManager --> Domain.PartyData
+    GameStateManager --> Domain.InvData
+    GameStateManager --> Domain.RoomData
+    GameStateManager ..> Domain.GameStateMemento
+
+    CampaignPersistenceManager --> Domain.IDatabase
+    CampaignPersistenceManager ..> Domain.GameStateSnapshot
+
+    Domain.GameStateMemento o-- Domain.PartyData
+    Domain.GameStateMemento o-- Domain.InvData
+    Domain.GameStateMemento o-- Domain.RoomData
+
+    Domain.GameStateSnapshot o-- Domain.PartyData
+    Domain.GameStateSnapshot o-- Domain.InvData
+    Domain.GameStateSnapshot o-- Domain.RoomData
+
+    ViewCreator ..> View
+    CampaignViewFactory ..> InnView
+    CampaignViewFactory ..> DungeonCampaignView
+
+}
+
+@enduml
