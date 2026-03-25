@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.campaign_progression.application.*;
+
 import com.github.campaign_progression.application.dto.*;
+
 
 @RestController
 @RequestMapping("/campaign")
@@ -19,16 +21,26 @@ public class CampaignController {
     private final LoadCampaignUseCase loadCampaignUseCase;
     private final ExitCampaignUseCase exitCampaignUseCase;
     private final NextRoomUseCase nextRoomUseCase;
+    private final EndCampaignUseCase endCampaignUseCase;
+    private final GetPartyUseCase getPartyUseCase;
+    private final GetInventoryUseCase getInventoryUseCase;
+
 
     public CampaignController(StartCampaignUseCase startCampaignUseCase,
-            LoadCampaignUseCase loadCampaignUseCase,
-            ExitCampaignUseCase exitCampaignUseCase,
-            NextRoomUseCase nextRoomUseCase) {
-        this.startCampaignUseCase = startCampaignUseCase;
-        this.loadCampaignUseCase = loadCampaignUseCase;
-        this.exitCampaignUseCase = exitCampaignUseCase;
-        this.nextRoomUseCase = nextRoomUseCase;
-    }
+                          LoadCampaignUseCase loadCampaignUseCase,
+                          ExitCampaignUseCase exitCampaignUseCase,
+                          NextRoomUseCase nextRoomUseCase,
+                          EndCampaignUseCase endCampaignUseCase,
+                          GetPartyUseCase getPartyUseCase,
+                          GetInventoryUseCase getInventoryUseCase) {
+    this.startCampaignUseCase = startCampaignUseCase;
+    this.loadCampaignUseCase = loadCampaignUseCase;
+    this.exitCampaignUseCase = exitCampaignUseCase;
+    this.nextRoomUseCase = nextRoomUseCase;
+    this.endCampaignUseCase = endCampaignUseCase;
+    this.getPartyUseCase = getPartyUseCase;
+    this.getInventoryUseCase = getInventoryUseCase;
+}
 
     /**
      * Start a new campaign with an initial hero.
@@ -65,7 +77,7 @@ public class CampaignController {
         } catch (IllegalStateException ex) {
             if (ex.getMessage().contains("already complete")) {
                 // Campaign reached past max room, trigger end-of-campaign
-                CampaignEndDTO endDTO = exitCampaignUseCase.execute();
+                CampaignEndDTO endDTO = endCampaignUseCase.execute();
                 return endDTO;
             }
             // Other unexpected exceptions
@@ -73,20 +85,17 @@ public class CampaignController {
         }
     }
 
-    /**
-     * Optional: fetch current party (could be used by Godot UI to display hero
-     * list)
-     */
-    @GetMapping("/party")
-    public List<HeroInstanceDTO> getParty() {
-        return startCampaignUseCase.getCurrentParty(); // or another use case if you track it
-    }
 
-    /**
-     * Optional: fetch current inventory
-     */
-    @GetMapping("/inventory")
-    public List<ItemDTO> getInventory() {
-        return startCampaignUseCase.getCurrentInventory(); // or use InventoryUseCase
-    }
+
+
+
+@GetMapping("/party")
+public List<HeroInstanceDTO> getParty() {
+    return getPartyUseCase.execute(); // ✅ fixed
+}
+
+@GetMapping("/inventory")
+public List<ItemDTO> getInventory() {
+    return getInventoryUseCase.execute(); // ✅ fixed
+}
 }

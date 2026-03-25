@@ -7,7 +7,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- 🔥 Make Spring Boot the parent -->
+  <!--  Make Spring Boot the parent -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -27,13 +27,13 @@
   </properties>
 
   <dependencies>
-    <!-- 🔥 Spring Boot Web (for controllers/API) -->
+    <!--  Spring Boot Web (for controllers/API) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- 🔥 Test (already includes JUnit 5) -->
+    <!--  Test (already includes JUnit 5) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
