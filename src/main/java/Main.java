@@ -1,3 +1,7 @@
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 public class Main {
     public static void main(String[] args) {
         // This is the standard way to print to the VS Code console

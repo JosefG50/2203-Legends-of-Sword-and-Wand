@@ -1,10 +1,18 @@
 {
+<<<<<<< Updated upstream
     "java.configuration.updateBuildConfiguration": "interactive",
+=======
+    "sqltools.useNodeRuntime": true,
+>>>>>>> Stashed changes
     "sqltools.connections": [
         {
             "previewLimit": 50,
             "driver": "SQLite",
+<<<<<<< Updated upstream
             "name": "Profile",
+=======
+            "name": "LegendsDB",
+>>>>>>> Stashed changes
             "database": "./test.db"
         }
     ]

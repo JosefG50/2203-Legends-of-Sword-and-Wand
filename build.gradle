@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+<<<<<<< Updated upstream
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
 }
@@ -7,11 +8,19 @@ plugins {
 group = 'com.henry'
 version = '0.0.1-SNAPSHOT'
 
+=======
+}
+
+>>>>>>> Stashed changes
 repositories {
     mavenCentral()
 }
 
 dependencies {
+<<<<<<< Updated upstream
     implementation 'org.springframework.boot:spring-boot-starter-web'
+=======
+
+>>>>>>> Stashed changes
     implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
 }
