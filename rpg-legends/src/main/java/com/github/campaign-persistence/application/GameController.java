@@ -10,16 +10,18 @@ import persistence.*;
 import persistence.memento.*;
 import state.*;
 import factory.*;
+import org.springframework.stereotype.Component;
 
 /**
  * The GameController class manages the high-level game logic and state transitions.
  * It coordinates between the domain, infrastructure, and UI layers to handle
  * user requests like exiting and loading games.
  */
+@Component
 public class GameController {
-    private CampaignPersistenceManager persistenceManager;
+    private final CampaignPersistenceManager persistenceManager;
+    private final ViewCreator viewFactory;
     private CampaignState currentState; 
-    private ViewCreator viewFactory;
     
     // Dependencies from teammates (These would be passed in via constructor)
     private PartyManager partyManager;
@@ -28,12 +30,12 @@ public class GameController {
 
     /**
      * Constructs a new GameController and initializes its components.
+     * Spring automatically injects the CampaignPersistenceManager and ViewCreator implementation.
      * Sets the default state to ExplorationState.
      */
-    public GameController() {
-        // Initialize your components
-        // this.persistenceManager = new CampaignPersistenceManager(new SqlDatabase());
-        this.viewFactory = new CampaignViewFactory();
+    public GameController(CampaignPersistenceManager persistenceManager, ViewCreator viewFactory) {
+        this.persistenceManager = persistenceManager;
+        this.viewFactory = viewFactory;
         this.currentState = new ExplorationState(); // Default state
     }
 

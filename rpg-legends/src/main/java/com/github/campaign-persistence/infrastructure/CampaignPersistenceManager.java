@@ -5,16 +5,19 @@ import com.github.domain.PartyData;
 import com.github.domain.InvData;
 import com.github.domain.RoomData;
 import com.github.domain.GameStateSnapshot;
+import org.springframework.stereotype.Service;
 
 /**
  * The CampaignPersistenceManager class handles the persistence of game states.
  * It provides methods to save, fetch, and delete game data using a database.
  */
+@Service
 public class CampaignPersistenceManager {
     private IDatabase database;
 
     /**
      * Constructs a CampaignPersistenceManager with the specified database.
+     * Spring automatically injects the database implementation.
      *
      * @param database the database implementation to use for persistence
      */

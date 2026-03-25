@@ -1,6 +1,10 @@
 package com.github.infrastructure;
 
 import com.github.domain.IDatabase;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,12 +15,25 @@ import java.sql.SQLException;
  * The MySQLDatabase class provides a MySQL-specific implementation of the IDatabase interface.
  * It manages the connection to a MySQL database and provides methods for executing queries and managing records.
  */
+@Repository
 public class MySQLDatabase implements IDatabase, AutoCloseable {
 
+    @Value("${database.url}")
     private String url;
+
+    @Value("${database.user}")
     private String user;
+
+    @Value("${database.password}")
     private String password;
+
     private Connection connection;
+
+    /**
+     * Default constructor for Spring.
+     */
+    public MySQLDatabase() {
+    }
 
     /**
      * Constructs a MySQLDatabase instance and initializes the connection and schema.
@@ -29,6 +46,15 @@ public class MySQLDatabase implements IDatabase, AutoCloseable {
         this.url = url;
         this.user = user;
         this.password = password;
+        connect();
+        initializeSchema();
+    }
+
+    /**
+     * Post-construct initialization for Spring-managed bean.
+     */
+    @PostConstruct
+    public void init() {
         connect();
         initializeSchema();
     }
