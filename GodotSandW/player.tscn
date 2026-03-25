@@ -1,0 +1,196 @@
+[gd_scene format=3 uid="uid://d0y1hadawb87t"]
+
+[ext_resource type="Script" uid="uid://cxr7clbg5k2jf" path="res://Scripts/character_body_2d.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://ye0sil2urlsj" path="res://dungeonparts/TinyRPG/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png" id="5_2hs0m"]
+[ext_resource type="Texture2D" uid="uid://bl4adfrcmah1o" path="res://dungeonparts/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_1.png" id="6_1jxqw"]
+[ext_resource type="Texture2D" uid="uid://bne4acdudotoy" path="res://dungeonparts/TinyRPG/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Walk.png" id="6_dw050"]
+[ext_resource type="Texture2D" uid="uid://dchbhymrm61ol" path="res://dungeonparts/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_2_3.png" id="7_dw050"]
+[ext_resource type="Texture2D" uid="uid://cwi3lb0rf76wr" path="res://dungeonparts/2D Pixel Dungeon Asset Pack/items and trap_animation/flamethrower/flamethrower_1_1.png" id="8_dw050"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqtel"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b26j0"]
+atlas = ExtResource("5_2hs0m")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7ghd"]
+atlas = ExtResource("5_2hs0m")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvl01"]
+atlas = ExtResource("5_2hs0m")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivps1"]
+atlas = ExtResource("5_2hs0m")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urp6f"]
+atlas = ExtResource("5_2hs0m")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwjto"]
+atlas = ExtResource("5_2hs0m")
+region = Rect2(500, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_606se"]
+atlas = ExtResource("6_dw050")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1c27"]
+atlas = ExtResource("6_dw050")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_op7ga"]
+atlas = ExtResource("6_dw050")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q13i1"]
+atlas = ExtResource("6_dw050")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pylmc"]
+atlas = ExtResource("6_dw050")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbfsw"]
+atlas = ExtResource("6_dw050")
+region = Rect2(500, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tmop"]
+atlas = ExtResource("6_dw050")
+region = Rect2(600, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ahtn"]
+atlas = ExtResource("6_dw050")
+region = Rect2(700, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7lmhl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b26j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7ghd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvl01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivps1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_urp6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwjto")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_606se")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_u1c27")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_op7ga")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_q13i1")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_pylmc")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_pbfsw")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_5tmop")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_7ahtn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=2006832785]
+collision_mask = 2
+motion_mode = 1
+platform_floor_layers = 4294967041
+platform_wall_layers = 2
+script = ExtResource("1_onrkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1681112940]
+shape = SubResource("RectangleShape2D_hqtel")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=49452467]
+zoom = Vector2(4, 4)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=860406811]
+
+[node name="StaticUI" type="MarginContainer" parent="CanvasLayer" unique_id=905819229]
+offset_right = 41.0
+offset_bottom = 70.0
+scale = Vector2(1.3790503, 1.2856383)
+size_flags_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/StaticUI" unique_id=1904625368]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MoneyRow" type="HBoxContainer" parent="CanvasLayer/StaticUI/VBoxContainer" unique_id=290756465]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/StaticUI/VBoxContainer/MoneyRow" unique_id=1450274096]
+clip_contents = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("6_1jxqw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/StaticUI/VBoxContainer/MoneyRow" unique_id=1873198420]
+layout_mode = 2
+
+[node name="EXPRow" type="HBoxContainer" parent="CanvasLayer/StaticUI/VBoxContainer" unique_id=1096247093]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/StaticUI/VBoxContainer/EXPRow" unique_id=1437400558]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("7_dw050")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EXPLabel" type="Label" parent="CanvasLayer/StaticUI/VBoxContainer/EXPRow" unique_id=1195120210]
+layout_mode = 2
+
+[node name="LevelRow" type="HBoxContainer" parent="CanvasLayer/StaticUI/VBoxContainer" unique_id=1645933034]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/StaticUI/VBoxContainer/LevelRow" unique_id=974238583]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("8_dw050")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelLabel" type="Label" parent="CanvasLayer/StaticUI/VBoxContainer/LevelRow" unique_id=1622041964]
+layout_mode = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=60229661]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_7lmhl")
+animation = &"walk"
+frame_progress = 0.13866937

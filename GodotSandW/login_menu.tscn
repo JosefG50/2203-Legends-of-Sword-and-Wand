@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://dl4ww2bb3qn5g"]
+
+[ext_resource type="Script" uid="uid://pkwq7k8ksgiy" path="res://Scripts/login_menu.gd" id="1_vkvku"]
+[ext_resource type="Texture2D" uid="uid://fkwcjthyomx2" path="res://PixelArt/GoBack.png" id="1_w1ogu"]
+[ext_resource type="Texture2D" uid="uid://hsjft080wbd0" path="res://PixelArt/tall.png" id="2_4n733"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5chp"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.51965994, 0.6275768, 0.60307854, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="LoginMenu" type="Control" unique_id=1972470787]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_vkvku")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=31929278]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7597189, 0.72813594, 0.521399, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1717607439]
+position = Vector2(571.84607, 338.69604)
+rotation = -1.5707964
+scale = Vector2(0.536421, 0.59569615)
+texture = ExtResource("2_4n733")
+
+[node name="GoBack" type="Button" parent="." unique_id=917150569]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 72.0
+icon = ExtResource("1_w1ogu")
+flat = true
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2067028597]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -344.0
+offset_top = -77.5
+offset_right = 376.0
+offset_bottom = 77.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=829578912]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=259139400]
+layout_mode = 2
+text = "Username"
+
+[node name="LineEdit_Username" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=1161949673]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1142155487]
+layout_mode = 2
+text = "Password"
+
+[node name="LineEdit_Password" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=201399308]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer" unique_id=997113667]
+layout_mode = 2
+
+[node name="Submit" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer" unique_id=1914421971]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_y5chp")
+text = "Submit"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=921716672]
+
+[node name="Label_Status" type="Label" parent="." unique_id=968729370]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = 416.0
+offset_right = 24.0
+offset_bottom = 439.0
+grow_horizontal = 2
+
+[connection signal="pressed" from="GoBack" to="." method="_on_go_back_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/Submit" to="." method="_on_button_pressed"]

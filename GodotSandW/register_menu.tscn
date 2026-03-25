@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dedoqq5dj58dp"]
+
+[ext_resource type="Texture2D" uid="uid://fkwcjthyomx2" path="res://PixelArt/GoBack.png" id="1_gxth6"]
+[ext_resource type="Script" uid="uid://bvgao228af2n5" path="res://Scripts/register_menu.gd" id="1_k0yvq"]
+[ext_resource type="Texture2D" uid="uid://hsjft080wbd0" path="res://PixelArt/tall.png" id="2_ayi70"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0it4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.51965994, 0.6275768, 0.60307854, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="RegisterMenu" type="Control" unique_id=261829527]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k0yvq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1267358377]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7597189, 0.72813594, 0.521399, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=952687601]
+position = Vector2(571.84607, 338.69604)
+rotation = -1.5707964
+scale = Vector2(0.536421, 0.59569615)
+texture = ExtResource("2_ayi70")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1677714313]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -352.0
+offset_top = -108.0
+offset_right = 432.0
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9200009, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=540550440]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=773542003]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Username"
+
+[node name="LineEdit_Username" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=40570324]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1672744058]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Password"
+
+[node name="LineEdit_Password" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=523752950]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer" unique_id=216155410]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Email"
+
+[node name="LineEdit_Email" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=217073753]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer" unique_id=967280020]
+layout_mode = 2
+
+[node name="Submit" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer" unique_id=1617639777]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_g0it4")
+text = "Submit"
+
+[node name="GoBack" type="Button" parent="." unique_id=1888842875]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 72.0
+icon = ExtResource("1_gxth6")
+flat = true
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=217680864]
+
+[node name="Label_Status" type="Label" parent="." unique_id=1769801016]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = 456.0
+offset_right = 24.0
+offset_bottom = 479.0
+grow_horizontal = 2
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/Submit" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GoBack" to="." method="_on_go_back_pressed"]

@@ -1,0 +1,128 @@
+[gd_scene format=3 uid="uid://b2w00txae1wkx"]
+
+[ext_resource type="Script" uid="uid://cv62rh65urc2d" path="res://Scripts/menu.gd" id="1_n4eug"]
+[ext_resource type="Script" uid="uid://bimngly3bf0na" path="res://Scripts/background.gd" id="2_1igrg"]
+[ext_resource type="Texture2D" uid="uid://clsfvucbej1o" path="res://PixelArt/DaySkyv2.png" id="3_1igrg"]
+[ext_resource type="Texture2D" uid="uid://p5t1j8jcerk0" path="res://PixelArt/Ground-removebg-preview.png" id="3_5p1lm"]
+[ext_resource type="FontFile" path="res://Roboto-Italic-VariableFont_wdth,wght.ttf" id="4_hcwhg"]
+[ext_resource type="Texture2D" uid="uid://d5m1of58kvqp" path="res://PixelArt/MoonSkyv2.png" id="4_v0s1l"]
+[ext_resource type="Texture2D" uid="uid://12pvrwd2dlkm" path="res://PixelArt/Moonv2.png" id="5_5qkn8"]
+[ext_resource type="Texture2D" uid="uid://dssahcbbq05no" path="res://PixelArt/sun.png" id="6_xucoo"]
+[ext_resource type="Texture2D" uid="uid://daigewwluqt0y" path="res://PixelArt/handdrawn magic wand - le Lézard.png" id="8_v0s1l"]
+[ext_resource type="Texture2D" uid="uid://je3p1ylal502" path="res://PixelArt/handdrawn magic wand - la Lanterne.png" id="9_5qkn8"]
+[ext_resource type="Texture2D" uid="uid://bfeyjutcod8pd" path="res://PixelArt/medium.png" id="13_xucoo"]
+
+[node name="Node2D" type="Node2D" unique_id=1698554513]
+script = ExtResource("1_n4eug")
+
+[node name="Background" type="Node2D" parent="." unique_id=769264563]
+position = Vector2(-8, -8)
+script = ExtResource("2_1igrg")
+scroll_speed = 50.0
+
+[node name="TextureRectMoon" type="TextureRect" parent="Background" unique_id=509784597]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 2312.0
+offset_bottom = 776.0
+scale = Vector2(2.0824022, 1.6799997)
+texture = ExtResource("4_v0s1l")
+stretch_mode = 1
+
+[node name="TextureRectSun" type="TextureRect" parent="Background" unique_id=1489602651]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 2312.0
+offset_bottom = 656.0
+scale = Vector2(2.0824022, 1.6799997)
+texture = ExtResource("3_1igrg")
+stretch_mode = 1
+
+[node name="Pivot" type="Node2D" parent="Background" unique_id=276093968]
+visible = false
+position = Vector2(648, 416)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Pivot" unique_id=533508581]
+texture = ExtResource("6_xucoo")
+offset = Vector2(0, -300)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/Pivot" unique_id=150291814]
+texture = ExtResource("5_5qkn8")
+offset = Vector2(0, 300)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=618046205]
+position = Vector2(608, 347.99997)
+scale = Vector2(1.7988167, 1.8861791)
+texture = ExtResource("3_5p1lm")
+
+[node name="Sword" type="Sprite2D" parent="." unique_id=1257450055]
+position = Vector2(491.21362, 242.36865)
+scale = Vector2(0.9213123, 0.5973688)
+texture = ExtResource("8_v0s1l")
+
+[node name="Wand" type="Sprite2D" parent="." unique_id=1408599366]
+position = Vector2(611.2136, 210.36865)
+rotation = 3.1415927
+scale = Vector2(0.89498186, -0.5018951)
+texture = ExtResource("9_5qkn8")
+
+[node name="Title" type="Control" parent="." unique_id=1487852337]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 587.2136
+offset_top = 170.36865
+offset_right = 587.2136
+offset_bottom = 170.36865
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-0.30236313, 0.08917166)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Sprite2D2" type="Sprite2D" parent="Title" unique_id=1888483891]
+position = Vector2(23.680225, 1935.8376)
+scale = Vector2(1.4401549, 3.4177353)
+texture = ExtResource("13_xucoo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Title/Sprite2D2" unique_id=1378194812]
+offset_left = 387.73694
+offset_top = -303.91232
+offset_right = 1154.3237
+offset_bottom = 374.08768
+scale = Vector2(-1.020899, 1)
+theme_override_constants/separation = 74
+
+[node name="Label" type="Label" parent="Title/Sprite2D2/VBoxContainer" unique_id=1776827606]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.16565639, 0.16565642, 0.16565639, 1)
+theme_override_fonts/font = ExtResource("4_hcwhg")
+theme_override_font_sizes/font_size = 123
+text = "Sword&Wand"
+
+[node name="Button" type="Button" parent="Title/Sprite2D2/VBoxContainer" unique_id=206677209]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_hcwhg")
+theme_override_font_sizes/font_size = 156
+text = "Login
+"
+flat = true
+
+[node name="Button2" type="Button" parent="Title/Sprite2D2/VBoxContainer" unique_id=1569604084]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_hcwhg")
+theme_override_font_sizes/font_size = 156
+text = "Register"
+flat = true
+
+[connection signal="pressed" from="Title/Sprite2D2/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Title/Sprite2D2/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dwiepk5iomeel"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7xaro"]
+
+[node name="Enemy" type="RigidBody2D" unique_id=343910550]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=96421300]
+shape = SubResource("RectangleShape2D_7xaro")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1776762026]

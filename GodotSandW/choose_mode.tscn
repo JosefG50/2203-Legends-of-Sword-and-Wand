@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://50hcpftaq6uc"]
+
+[ext_resource type="Script" uid="uid://cwdvgnu52t6sn" path="res://Scripts/choose_mode.gd" id="1_866kc"]
+[ext_resource type="Texture2D" uid="uid://cgmiwrgfd1qao" path="res://PixelArt/button.png" id="1_g2o3b"]
+[ext_resource type="Texture2D" uid="uid://fkwcjthyomx2" path="res://PixelArt/GoBack.png" id="1_nwwsb"]
+
+[node name="ChooseMode" type="Control" unique_id=1903458869]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_866kc")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1667585664]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7597189, 0.72813594, 0.521399, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=648343408]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="HBoxContainer" unique_id=240564340]
+custom_minimum_size = Vector2(575, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 75
+text = "PVP"
+icon = ExtResource("1_g2o3b")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button2" type="Button" parent="HBoxContainer" unique_id=332953051]
+custom_minimum_size = Vector2(575, 100)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 75
+text = "PVE"
+icon = ExtResource("1_g2o3b")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="GoBack" type="Button" parent="." unique_id=153220980]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 72.0
+icon = ExtResource("1_nwwsb")
+flat = true
+
+[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="GoBack" to="." method="_on_go_back_pressed"]

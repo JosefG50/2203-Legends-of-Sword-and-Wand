@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dqkc4gsk8bpmb"]
+
+[ext_resource type="Script" uid="uid://bxbvuqw810heg" path="res://Scripts/node_2d.gd" id="1_jtigh"]
+
+[node name="HTTPTest" type="Node2D" unique_id=1074655447]
+script = ExtResource("1_jtigh")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=1542066832]
