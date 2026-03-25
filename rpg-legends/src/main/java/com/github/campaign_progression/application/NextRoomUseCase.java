@@ -1,8 +1,8 @@
-package com.github.application;
+package com.github.campaign_progression.application;
 
-import com.github.domain.CampaignManager;
-import com.github.domain.Room;
-import com.github.application.dto.NextRoomDTO;
+import com.github.campaign_progression.domain.CampaignManager;
+import com.github.campaign_progression.domain.Room;
+import com.github.campaign_progression.application.dto.NextRoomDTO;
 
 public class NextRoomUseCase {
 

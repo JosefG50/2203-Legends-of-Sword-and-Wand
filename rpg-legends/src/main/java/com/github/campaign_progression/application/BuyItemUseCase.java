@@ -1,9 +1,9 @@
-package com.github.application;
+package com.github.campaign_progression.application;
 
-import com.github.domain.Inn;
-import com.github.domain.InventoryService;
-import com.github.domain.ItemType;
-import com.github.application.dto.BuyItemResponseDTO;
+import com.github.campaign_progression.domain.Inn;
+import com.github.campaign_progression.domain.InventoryService;
+import com.github.campaign_progression.domain.ItemType;
+import com.github.campaign_progression.application.dto.BuyItemResponseDTO;
 
 public class BuyItemUseCase {
 

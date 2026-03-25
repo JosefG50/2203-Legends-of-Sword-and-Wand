@@ -8,16 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.campaign_progression.application.ExitCampaignUseCase;
-import com.github.campaign_progression.application.LoadCampaignUseCase;
-import com.github.campaign_progression.application.NextRoomUseCase;
-import com.github.campaign_progression.application.StartCampaignUseCase;
-import com.github.campaign_progression.application.dto.CampaignEndDTO;
-import com.github.campaign_progression.application.dto.CampaignSnapshotDTO;
-import com.github.campaign_progression.application.dto.HeroInstanceDTO;
-import com.github.campaign_progression.application.dto.ItemDTO;
-import com.github.campaign_progression.application.dto.LoadCampaignDTO;
-import com.github.campaign_progression.application.dto.StartCampaignDTO;
+import com.github.campaign_progression.application.*;
+import com.github.campaign_progression.application.dto.*;
 
 @RestController
 @RequestMapping("/campaign")

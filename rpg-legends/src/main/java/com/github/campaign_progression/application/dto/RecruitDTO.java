@@ -1,5 +1,4 @@
 package com.github.campaign_progression.application.dto;
-plication.dto;
 
 public class RecruitDTO {
     private final String id;           // unique key from Inn
