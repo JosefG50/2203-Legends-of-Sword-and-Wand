@@ -1,0 +1,51 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam Style strictuml
+
+
+class Node {
+  + name: String
+  + get_parent()
+  + add_child(node)
+}
+
+class CanvasItem {
+  + modulate: Color
+  + show()
+  + hide()
+}
+
+class Control {
+  + layout_mode: int
+  + anchors_preset: int
+  + size: Vector2
+  + _gui_input(event)
+}
+
+
+class BaseButton {
+  + disabled: bool
+  + shortcut: Shortcut
+  + pressed()
+}
+
+class Button {
+  + text: String
+  + icon: Texture2D
+  + alignment: HorizontalAlignment
+}
+
+
+class "MyCustomMenu.gd" as Script {
+  + _on_button_pressed()
+  + update_ui_theme()
+}
+
+
+Node <|-- CanvasItem : Inherits "Presence"
+CanvasItem <|-- Control : Inherits "Visibility"
+Control <|-- BaseButton : Adds "Rect Logic"
+BaseButton <|-- Button : Adds "Click Logic"
+Button <|-- Script : Adds "Custom Behavior"
+
+@enduml
