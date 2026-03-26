@@ -6,49 +6,63 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
 
-    // Simple concrete class for testing abstract Item
-    static class TestItem extends Item {
-        public TestItem(int cost, int hpHeal, int manaHeal, boolean canRevive) {
-            this.cost = cost;
-            this.hpHeal = hpHeal;
-            this.manaHeal = manaHeal;
-            this.canRevive = canRevive;
-        }
+    @Test
+    void constructor_validType_createsItem() {
+        Item item = new Item(ItemType.BREAD);
+
+        assertNotNull(item);
+        assertEquals(ItemType.BREAD, item.getType());
     }
 
     @Test
-    void shouldReturnCorrectCost() {
-        Item item = new TestItem(50, 0, 0, false);
-        assertEquals(50, item.getCost());
+    void constructor_nullType_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> new Item(null));
     }
 
     @Test
-    void shouldReturnCorrectHpHeal() {
-        Item item = new TestItem(0, 25, 0, false);
-        assertEquals(25, item.getHpHeal());
+    void getName_returnsCorrectName() {
+        Item item = new Item(ItemType.BREAD);
+
+        assertEquals(ItemType.BREAD.getName(), item.getName());
     }
 
     @Test
-    void shouldReturnCorrectManaHeal() {
-        Item item = new TestItem(0, 0, 30, false);
-        assertEquals(30, item.getManaHeal());
+    void getCost_returnsCorrectCost() {
+        Item item = new Item(ItemType.BREAD);
+
+        assertEquals(ItemType.BREAD.getCost(), item.getCost());
     }
 
     @Test
-    void shouldReturnCorrectReviveFlagTrue() {
-        Item item = new TestItem(0, 0, 0, true);
-        assertTrue(item.getCanRevive());
+    void getHpHeal_returnsCorrectValue() {
+        Item item = new Item(ItemType.BREAD);
+
+        assertEquals(ItemType.BREAD.getHpHeal(), item.getHpHeal());
     }
 
     @Test
-    void shouldReturnCorrectReviveFlagFalse() {
-        Item item = new TestItem(0, 0, 0, false);
-        assertFalse(item.getCanRevive());
+    void getManaHeal_returnsCorrectValue() {
+        Item item = new Item(ItemType.BREAD);
+
+        assertEquals(ItemType.BREAD.getManaHeal(), item.getManaHeal());
     }
 
     @Test
-    void defaultReviveShouldBeFalse() {
-        Item item = new TestItem(0, 0, 0, false);
-        assertFalse(item.getCanRevive());
+    void canRevive_returnsCorrectValue() {
+        Item item = new Item(ItemType.BREAD);
+
+        assertEquals(ItemType.BREAD.canRevive(), item.canRevive());
+    }
+
+    @Test
+    void toString_containsExpectedValues() {
+        Item item = new Item(ItemType.BREAD);
+
+        String result = item.toString();
+
+        assertTrue(result.contains(ItemType.BREAD.name()));
+        assertTrue(result.contains(String.valueOf(ItemType.BREAD.getCost())));
+        assertTrue(result.contains(String.valueOf(ItemType.BREAD.getHpHeal())));
+        assertTrue(result.contains(String.valueOf(ItemType.BREAD.getManaHeal())));
     }
 }

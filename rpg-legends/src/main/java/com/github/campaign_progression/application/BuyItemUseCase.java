@@ -1,8 +1,6 @@
 package com.github.campaign_progression.application;
 
-import com.github.campaign_progression.domain.Inn;
-import com.github.campaign_progression.domain.InventoryService;
-import com.github.campaign_progression.domain.ItemType;
+import com.github.campaign_progression.domain.*;
 import com.github.campaign_progression.application.dto.BuyItemResponseDTO;
 
 public class BuyItemUseCase {
@@ -15,52 +13,31 @@ public class BuyItemUseCase {
         this.inventory = inventory;
     }
 
+    /**
+     * Buys the given amount of the specified item from the inn's shop.
+     *
+     * @param type   the item type to buy
+     * @param amount how many to buy (defaults to 1)
+     * @return a DTO indicating success/failure
+     */
     public BuyItemResponseDTO execute(ItemType type, int amount) {
-
         if (amount < 1) {
-            return new BuyItemResponseDTO(
-                    false,
-                    "Amount must be at least 1",
-                    type.getName(),
-                    0,
-                    inventory.getGold()
-            );
+            return BuyItemResponseDTO.failure("Amount must be at least 1", type.getName());
         }
 
-        boolean available = inn.getShop().contains(type);
-        if (!available) {
-            return new BuyItemResponseDTO(
-                    false,
-                    type.getName() + " is not available in the inn shop",
-                    type.getName(),
-                    0,
-                    inventory.getGold()
-            );
+        if (!inn.getShop().contains(type)) {
+            return BuyItemResponseDTO.failure(type.getName() + " not available in shop", type.getName());
         }
 
         try {
             inventory.addItem(type, amount);
-
-            return new BuyItemResponseDTO(
-                    true,
-                    "Purchase successful",
-                    type.getName(),
-                    amount,
-                    inventory.getGold()
-            );
-
+            return BuyItemResponseDTO.success(type.getName(), amount);
         } catch (IllegalArgumentException ex) {
-
-            return new BuyItemResponseDTO(
-                    false,
-                    ex.getMessage(),
-                    type.getName(),
-                    0,
-                    inventory.getGold()
-            );
+            return BuyItemResponseDTO.failure(ex.getMessage(), type.getName());
         }
     }
 
+    /** Overload: default amount = 1 */
     public BuyItemResponseDTO execute(ItemType type) {
         return execute(type, 1);
     }

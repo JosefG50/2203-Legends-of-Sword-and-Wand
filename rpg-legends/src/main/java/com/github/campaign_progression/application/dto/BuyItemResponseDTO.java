@@ -2,24 +2,32 @@ package com.github.campaign_progression.application.dto;
 
 public class BuyItemResponseDTO {
 
-    private boolean success;
-    private String message;
-    private String itemName;
-    private int quantityBought;
-    private int remainingGold;
+    private final boolean success;
+    private final String itemName;
+    private final int amountBought;
+    private final String message;
 
-    public BuyItemResponseDTO(boolean success, String message,
-                              String itemName, int quantityBought, int remainingGold) {
+    public BuyItemResponseDTO(boolean success, String itemName, int amountBought, String message) {
         this.success = success;
-        this.message = message;
         this.itemName = itemName;
-        this.quantityBought = quantityBought;
-        this.remainingGold = remainingGold;
+        this.amountBought = amountBought;
+        this.message = message;
     }
 
     public boolean isSuccess() { return success; }
-    public String getMessage() { return message; }
     public String getItemName() { return itemName; }
-    public int getQuantityBought() { return quantityBought; }
-    public int getRemainingGold() { return remainingGold; }
+    public int getAmountBought() { return amountBought; }
+    public String getMessage() { return message; }
+
+    // --------------------------
+    // Static factory methods
+    // --------------------------
+
+    public static BuyItemResponseDTO success(String itemName, int amountBought) {
+        return new BuyItemResponseDTO(true, itemName, amountBought, "Purchase successful");
+    }
+
+    public static BuyItemResponseDTO failure(String message, String itemName) {
+        return new BuyItemResponseDTO(false, itemName, 0, message);
+    }
 }

@@ -1,17 +1,40 @@
 package com.github.campaign_progression.application;
 
+import com.github.campaign_progression.application.dto.HeroInstanceDTO;
+import com.github.campaign_progression.application.dto.ItemDTO;
+import com.github.campaign_progression.application.dto.LoadCampaignDTO;
+import com.github.campaign_progression.application.dto.CampaignSnapshotDTO;
 import com.github.campaign_progression.domain.*;
-import com.github.campaign_progression.application.dto.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Use case for loading a saved campaign snapshot into the domain model.
+ *
+ * <p>Restores:</p>
+ * <ul>
+ *     <li>Campaign state (battle chance, room counter if applicable)</li>
+ *     <li>Party members with their stats and specializations</li>
+ *     <li>Inventory items and quantities</li>
+ * </ul>
+ *
+ * <p>Returns a {@link LoadCampaignDTO} reflecting the restored state for UI or further processing.</p>
+ */
 public class LoadCampaignUseCase {
 
     private final CampaignManager campaign;
     private final PartyService partyService;
     private final InventoryService inventoryService;
 
+    /**
+     * Constructs the use case.
+     *
+     * @param campaign         the campaign manager to restore state
+     * @param partyService     the party service to rebuild heroes
+     * @param inventoryService the inventory service to restore items
+     * @param inn              the inn (optional, not used in this version)
+     */
     public LoadCampaignUseCase(CampaignManager campaign,
                                PartyService partyService,
                                InventoryService inventoryService,
@@ -21,29 +44,27 @@ public class LoadCampaignUseCase {
         this.inventoryService = inventoryService;
     }
 
+    /**
+     * Loads a saved campaign snapshot into the domain.
+     *
+     * @param snapshotDTO the snapshot DTO containing saved state
+     * @return a {@link LoadCampaignDTO} reflecting the restored campaign
+     */
     public LoadCampaignDTO execute(CampaignSnapshotDTO snapshotDTO) {
 
-        // ✅ 1. Restore campaign state
+        // 1️⃣ Restore campaign state
         campaign.setBattleChance(snapshotDTO.getBattleChance());
 
-        // If you have a setter or method for roomCounter in domain, use it
-        // Otherwise this may need a domain method like loadFromSnapshot(...)
-        // campaign.setRoomCounter(snapshotDTO.getRoomCounter());
-
-        // ⚠️ Room must be reconstructed via factory or nextRoom logic
-        // (depends on your domain design)
-
-        // ✅ 2. Restore party
+        // 2️⃣ Restore party
         List<HeroState> party = snapshotDTO.getParty().stream()
                 .map(this::toDomainHero)
                 .collect(Collectors.toList());
 
-        // Clear existing party and rebuild
         for (HeroState hero : party) {
             partyService.addHero(hero);
         }
 
-        // ✅ 3. Restore inventory
+        // 3️⃣ Restore inventory
         inventoryService.setItems(
                 snapshotDTO.getItems().stream()
                         .mapToInt(ItemDTO::getQuantity)
@@ -53,16 +74,18 @@ public class LoadCampaignUseCase {
         // Optional: restore gold
         // inventoryService.setGold(snapshotDTO.getGold());
 
-
-
-        // ✅ 5. Return updated DTO
+        // 4️⃣ Return updated DTO
         return LoadCampaignDTO.fromDomain(campaign, partyService, inventoryService);
     }
 
-    // 🔥 DTO → Domain mapping
+    /**
+     * Maps a {@link HeroInstanceDTO} to a {@link HeroState}.
+     *
+     * @param dto the hero snapshot DTO
+     * @return a restored {@link HeroState} object
+     */
     private HeroState toDomainHero(HeroInstanceDTO dto) {
         HeroState hero = new HeroState();
-
         hero.setSpecialization(dto.getSpecialization());
 
         int level = dto.getLevel();

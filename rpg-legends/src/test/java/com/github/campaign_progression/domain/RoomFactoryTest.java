@@ -4,39 +4,38 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Random;
+
 class RoomFactoryTest {
-
-    private RoomFactory factory = new RoomFactory();
-
     @Test
-    void shouldReturnBattleOrInn() {
-        Room room = factory.CreateNextRoom(0.5f);
-
-        assertNotNull(room);
-        assertTrue(room instanceof Battle || room instanceof InnTest);
-    }
-
-    @Test
-    void shouldAlwaysReturnBattleWhenChanceIsOne() {
-        Room room = factory.CreateNextRoom(1.0f);
-
-        assertTrue(room instanceof Battle);
-    }
-
-    @Test
-    void shouldAlwaysReturnInnWhenChanceIsZero() {
-        Room room = factory.CreateNextRoom(0.0f);
-
-        assertTrue(room instanceof InnTest);
-    }
-
-    @Test
-    void multipleCallsShouldReturnValidRooms() {
-        for (int i = 0; i < 20; i++) {
-            Room room = factory.CreateNextRoom(0.5f);
-
-            assertNotNull(room);
-         assertTrue(room instanceof Battle || room instanceof InnTest);
+    void createNextRoom_controlledRandom_returnsBattleRoom() {
+    Random mockRandom = new Random() {
+        @Override
+        public double nextDouble() {
+            return 0.1;
         }
+    };
+
+    RoomFactory factory = new RoomFactory(mockRandom);
+
+    Room room = factory.createNextRoom(0.5);
+
+    assertTrue(room instanceof BattleRoom);
+}
+
+    @Test
+    void createNextRoom_controlledRandom_returnsInn() {
+        Random mockRandom = new Random() {
+            @Override
+            public double nextDouble() {
+                return 0.9;
+            }
+        };
+
+        RoomFactory factory = new RoomFactory(mockRandom);
+
+        Room room = factory.createNextRoom(0.5);
+
+        assertTrue(room instanceof Inn);
     }
 }

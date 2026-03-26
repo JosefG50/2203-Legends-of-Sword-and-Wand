@@ -109,8 +109,8 @@ public class CampaignConfig {
     }
 
     @Bean
-    public ViewRecruitUseCase viewRecruitUseCase(Inn inn) {
-        return new ViewRecruitUseCase(inn);
+    public ViewRecruitUseCaseTest viewRecruitUseCase(Inn inn) {
+        return new ViewRecruitUseCaseTest(inn);
     }
 
     @Bean

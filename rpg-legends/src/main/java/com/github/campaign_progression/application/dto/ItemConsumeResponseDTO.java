@@ -1,5 +1,8 @@
 package com.github.campaign_progression.application.dto;
 
+/**
+ * DTO representing the result of using an item on a hero.
+ */
 public class ItemConsumeResponseDTO {
 
     private final String heroName;
@@ -8,7 +11,8 @@ public class ItemConsumeResponseDTO {
     private final int manaRestored;
     private final boolean revived;
 
-    public ItemConsumeResponseDTO(String heroName, String itemName, int hpRestored, int manaRestored, boolean revived) {
+    public ItemConsumeResponseDTO(String heroName, String itemName,
+                                  int hpRestored, int manaRestored, boolean revived) {
         this.heroName = heroName;
         this.itemName = itemName;
         this.hpRestored = hpRestored;
@@ -16,9 +20,16 @@ public class ItemConsumeResponseDTO {
         this.revived = revived;
     }
 
-    public String getHeroName() { return heroName; }
-    public String getItemName() { return itemName; }
-    public int getHpRestored() { return hpRestored; }
-    public int getManaRestored() { return manaRestored; }
-    public boolean isRevived() { return revived; }
+    // Make getters match the test
+    public String heroName() { return heroName; }
+    public String itemName() { return itemName; }
+    public int hpRestored() { return hpRestored; }
+    public int manaRestored() { return manaRestored; }
+    public boolean revived() { return revived; }
+
+    // Optional: factory methods for convenience
+    public static ItemConsumeResponseDTO success(String heroName, String itemName,
+                                                 int hpRestored, int manaRestored, boolean revived) {
+        return new ItemConsumeResponseDTO(heroName, itemName, hpRestored, manaRestored, revived);
+    }
 }

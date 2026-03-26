@@ -7,6 +7,18 @@ import com.github.campaign_progression.domain.HeroState;
 import com.github.campaign_progression.application.dto.StartCampaignDTO;
 import com.github.campaign_progression.application.dto.HeroInstanceDTO;
 
+/**
+ * Use case for starting a new campaign with a single starting hero.
+ *
+ * <p>This use case:</p>
+ * <ul>
+ *     <li>Validates the starting hero DTO.</li>
+ *     <li>Maps the DTO to a domain {@link HeroState} object.</li>
+ *     <li>Adds the hero to the {@link PartyService}.</li>
+ *     <li>Starts a new campaign in the {@link CampaignManager}.</li>
+ *     <li>Returns a {@link StartCampaignDTO} representing the initial campaign state.</li>
+ * </ul>
+ */
 public class StartCampaignUseCase {
 
     private final CampaignManager campaign;
@@ -21,52 +33,54 @@ public class StartCampaignUseCase {
         this.inventoryService = inventoryService;
     }
 
+    /**
+     * Starts a new campaign with the given starting hero.
+     *
+     * @param startingHeroDTO the hero to add to the party; must not be null
+     * @return a DTO representing the initial state of the campaign
+     */
     public StartCampaignDTO execute(HeroInstanceDTO startingHeroDTO) {
 
-        // ✅ 1. Sanity checks
+        // 1️⃣ Sanity checks
         if (startingHeroDTO == null) {
             throw new IllegalArgumentException("Starting hero cannot be null");
         }
-
         if (startingHeroDTO.getSpecialization() == null) {
             throw new IllegalArgumentException("Hero specialization is required");
         }
-
         if (startingHeroDTO.getLevel() <= 0) {
             throw new IllegalArgumentException("Hero level must be >= 1");
         }
-
         if (!partyService.hasSpace()) {
             throw new IllegalStateException("Party is full");
         }
 
-        // ✅ 2. Convert DTO → Domain
+        // 2️⃣ Map DTO → domain
         HeroState hero = mapToDomain(startingHeroDTO);
 
-        // ✅ 3. Add to domain
+        // 3️⃣ Add hero to party
         partyService.addHero(hero);
 
-        // ⚠️ You had this — make sure it exists in domain
-        // If NOT, remove this line
-        // inventoryService.clearInventory();
-
-        // ✅ 4. Start campaign
+        // 4️⃣ Start campaign
         campaign.startNewCampaign();
 
-        // ✅ 5. Return DTO
+        // 5️⃣ Return DTO representing the initial state
         return StartCampaignDTO.fromDomain(campaign, partyService, inventoryService);
     }
 
-    // 🔥 DTO → Domain mapper
+    /**
+     * Maps a {@link HeroInstanceDTO} to a domain {@link HeroState}.
+     *
+     * @param dto the DTO to map
+     * @return a new {@link HeroState} instance
+     */
     private HeroState mapToDomain(HeroInstanceDTO dto) {
         HeroState hero = new HeroState();
-
-        // Basic fields
         hero.setSpecialization(dto.getSpecialization());
 
-        // Level handling (based on your domain design)
         int level = dto.getLevel();
 
+        // Set sub-level based on specialization
         switch (dto.getSpecialization()) {
             case "MAGE" -> hero.setMageLvl(level);
             case "WARRIOR" -> hero.setWarriorLvl(level);
@@ -75,14 +89,9 @@ public class StartCampaignUseCase {
             default -> throw new IllegalArgumentException("Invalid specialization");
         }
 
-        // Optional overrides (only if valid)
-        if (dto.getMaxHp() > 0) {
-            hero.setCurHp(Math.min(dto.getCurHp(), dto.getMaxHp()));
-        }
-
-        if (dto.getMaxMana() > 0) {
-            hero.setCurMana(Math.min(dto.getCurMana(), dto.getMaxMana()));
-        }
+        // Set HP / Mana safely
+        if (dto.getMaxHp() > 0) hero.setCurHp(Math.min(dto.getCurHp(), dto.getMaxHp()));
+        if (dto.getMaxMana() > 0) hero.setCurMana(Math.min(dto.getCurMana(), dto.getMaxMana()));
 
         return hero;
     }
