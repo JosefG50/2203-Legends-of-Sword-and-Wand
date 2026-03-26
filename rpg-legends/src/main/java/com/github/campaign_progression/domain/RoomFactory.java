@@ -13,9 +13,9 @@ public class RoomFactory {
 
     private final Random random;
 
-    public RoomFactory(Random random) {
-        this.random = random;
-    }
+    public RoomFactory() {
+    this.random = new Random();
+}
 
     public Room createNextRoom(double battlechance) {
         if (random.nextDouble() < battlechance) {

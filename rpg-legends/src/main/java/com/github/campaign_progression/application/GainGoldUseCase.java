@@ -6,6 +6,9 @@ import com.github.campaign_progression.domain.InventoryService;
 /**
  * Use case for adding gold to the player's inventory.
  */
+import org.springframework.stereotype.Service;
+
+@Service
 public class GainGoldUseCase {
 
     private final InventoryService inventoryService;

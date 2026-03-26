@@ -10,6 +10,10 @@ import java.util.List;
 /**
  * Use case for distributing experience points to all heroes in the party.
  */
+
+import org.springframework.stereotype.Service;
+
+@Service
 public class GainExpUseCase {
 
     private final PartyService partyService;
