@@ -1,370 +1,430 @@
-@startuml CampaignManager
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
+@startuml
 
+' ─────────────────────────────────────────────
+' Domain — Core entities
+' ─────────────────────────────────────────────
+package "Domain" {
 
-class InnView <<boundary>>{
-    + showPartyHealed()
-    + ShowShop()
-    + SucessfulTransaction()
-    + FailedTransaction()
-    + RecruitList()
-    + BoughtHero()
-}
-class SpawnView <<boundary>>{
-}
-class BattleEnd <<boundary>>{
-    + onNextRoomClicked()
-    + onSaveClicked()
-    + onItemConsumed()
-    - updateExperience()
-    - updateGold()
-}
-
-class BattleView <<boundary>>{
-
-}
-
-class InnController <<control>> {
-    + getShop()
-    + buyItem(id: int, amount: int = 1)
-    + viewRecruit(name: String)
-    + buyRecruit(name: String)
-    + Intialize(): DTO
-}
-class BattleController <<control>> {
-    + Intialize(): DTO
-    + attemptExperienceGain()
-    + attemptGoldGain()
-}
-class RoomController <<control>>{
-    + attemptNextRoom()
-    + attemptIntialize()
-    + endCampaign()
-
-    + attemptConsume(hero: HeroState, item: Item)
-}
-
-
-class endCampaignUseCase <<APPLICATION>>{
-    + attemptEndCampaign()
-}
-
-class gainExperienceUseCase <<APPLICATION>>{
-    + gainExperience()
-}
-class gainGoldUseCase <<APPLICATION>>{
-    + gainGold()
-}
-
-class battleIntializeUseCase <<APPLICATION>>{
-    + initialize()
-}
-class itemConsumeUseCase <<APPLICATION>>{
-
-}
-class InnIntializeUseCase <<APPLICATION>>{
-    + maxRestore(): String
-}
-class NextRoomUseCase <<APPLICATION>>{
-    + NextRoom(): Room
-}
-class BuyRecruitUseCase <<APPLICATION>> {
-    + buyRecruit(name: String): DTO
-
-}
-class ViewRecruitUseCase <<APPLICATION>>{
-    + getRecruits(): DTO
-}
-class BuyItemUseCase <<APPLICATION>>{
-    + buyItem(id: int, amount: int = 1)
-
-}
-class getShopUseCase <<APPLICATION>>{
-    + getShop()
-}
-
-
-class Inn {
-    - {static} SHOPLIST : List<Item>
-    - Recruits: map<name: String, hero: HeroState>
-
-    + recover(): void
-    + viewRecruits(): map<name: String, hero: HeroState>
-    + hasRecruit(name: String): boolean
-    + getShop(): List[Item]
-}
-class BattleRoom{
-    - enemies: List<enemy>
-
-    + getEnemies(): List
-
-    + setTurnOrder(allies: List, enemies: List)
-}
-class PartyService{
-    - heros: List<HeroState>
-
-    - hasSpace(): boolean
-    + isDefeated(): boolean
-    + levelUp(exp: int)
-    + maxRestore()
-    + addHero(hero: HeroState)
-    + getTotalLevels(): int
-    + getParty(): List<HeroState>
-}
-class InventoryService{
-    - gold: int
-    - goldspent: int
-    - items: List<Item>
-    + getGold(): int
-    + minusGold(): int
-    + addItem(item)
-    + canAfford(amount)
-    + addItem(Id: int, amount: int)
-    + getGoldSpent(): int
-
-}
-
-
-class Score{    
-    + getScore(int goldSpent, int totalLevels, int extraGold): int
-}
-abstract class CampaignManager{
-    #_curRoom: Room
-    #_battleChance: float
-    #_roomCounter: int
-    + getBattleChance(): float
-    + setBattleChance(percent: float): void
-    + getRoomCounter(): int
-    + increaseRoomCounter(): void
-    + nextRoom(): Room
-    + getCurRoom(): Room
-    + StartNewCampaign()
-}
- interface Initialize{
-        + startNewCampaign()
+    class HeroState {
+        - name: String
+        - curHp: int
+        - maxHp: int
+        - specialization: String
+        - curMana: int
+        - maxMana: int
+        - level: int
+        - mageLvl: int
+        - warriorLvl: int
+        - orderLvl: int
+        - chaosLvl: int
+        - curExp: int
+        - lvlUpExp: int
+        - defense: int
+        - attack: int
+        - ability: ArrayList<String>
+        + gainExp(expGained: int): int
+        + maxRestore(): void
+        + getName(): String
+        + setName(name: String): void
+        + getLevel(): int
+        + getCurHp(): int
+        + setCurHp(curHp: int): void
+        + gainCurHp(amount: int): void
+        + minusCurHp(amount: int): void
+        + getMaxHp(): int
+        + getCurMana(): int
+        + gainCurMana(amount: int): void
+        + minusCurMana(amount: int): void
+        + getMaxMana(): int
+        + getDefense(): int
+        + getAttack(): int
+        + getAbility(): ArrayList<String>
     }
-interface Room{
-    + intialize(PartyService partyService)
 
-}
-class HeroState {
-    - curHp: int
-    - maxHp: int
-    - specialization: String
+    class Enemy {
+        - level: int
+        - health: int
+        - attack: int
+        - defense: int
+        + getLevel(): int
+        + getHealth(): int
+        + getAttack(): int
+        + getDefense(): int
+        + getHp(): int
+    }
 
-    - curMana: int
-    - maxMana: int
+    class Item {
+        - type: ItemType
+        + getName(): String
+        + getCost(): int
+        + getHpHeal(): int
+        + getManaHeal(): int
+        + canRevive(): boolean
+    }
 
-    - mageLvl: int
-    - warriorLvl: int
-    - orderLvl: int
-    - chaosLvl: int
+    enum ItemType {
+        BREAD
+        CHEESE
+        STEAK
+        WATER
+        JUICE
+        WINE
+        EXILIR
+    }
 
-    - curExp: int
-    - lvlUpExp: int
-
-    - defense: int
-    - attack: int
-
-    - ability: List<String>
-
-    + getCurHp(): int
-    + setCurHp(curHp: int): void
-
-    + getMaxHp(): int
-    + setMaxHp(maxHp: int): void
-
-    + getSpecialization(): String
-    + setSpecialization(specialization: String): void
-
-    + getCurMana(): int
-    + setCurMana(curMana: int): void
-
-    + getMaxMana(): int
-    + setMaxMana(maxMana: int): void
-
-    + getMageLvl(): int
-    + setMageLvl(mageLvl: int): void
-
-    + getWarriorLvl(): int
-    + setWarriorLvl(warriorLvl: int): void
-
-    + getOrderLvl(): int
-    + setOrderLvl(orderLvl: int): void
-
-    + getChaosLvl(): int
-    + setChaosLvl(chaosLvl: int): void
-
-    + getCurExp(): int
-    + setCurExp(curExp: int): void
-
-    + getLvlUpExp(): int
-    + setLvlUpExp(lvlUpExp: int): void
-
-    + getDefense(): int
-    + setDefense(defense: int): void
-
-    + getAttack(): int
-    + setAttack(attack: int): void
-
-    + getAbility(): List<String>
-    + setAbility(ability: List<String>): void
-}
-abstract class Item{
-    # cost: int
-    # hpHeal: int
-    # manaHeal: int
-    # canRevive = false: boolean
-    + getCost(): int
-    + getHpHeal(): int
-    + getManaHeal(): int
-    + getCanRevive(): boolean
-}
-class Bread{
-    - cost = 200
-    - hpHeal = 20
-    - manaHeal = 0
-}
-class Cheese{
-    - cost = 500
-    - hpHeal = 50
-    - manaHeal = 0
-}
-class Steak{
-    - cost = 1000
-    - hpHeal = 200
-    - manaHeal = 0
-}
-class Water{
-    - cost = 150
-    - hpHeal = 0
-    - manaHeal = 10
-}
-class Juice{
-    - cost = 450
-    - hpHeal = 0
-    - manaHeal = 30
-}
-class Wine{
-    - cost = 750
-    - hpHeal = 0
-    - manaHeal = 100
-}
-class Elixir{
-    - cost = 2000
-    - hpHeal = 9999
-    - manaHeal = 9999
-    - canRevive = true
-}
-
-interface ScoreStats{
+    class Score {
+        - score: int
+        + calculateScore(goldSpent: int, totalLevels: int, extraGold: int): int
         + getScore(): int
-        + getParty(): List<HeroInstance>
     }
- interface CampaignSnapshot {
-        + getRoomCounter(): int
-        + setRoomCounter(roomCounter: int): void
 
-        + getBattleChance(): double
-        + setBattleChance(chance: double): void
+    interface ScoreStats {
+        + getScore(): int
+    }
 
-        + getCurRoom(): String
-        + setCurRoom(room: String): void
+    Item --> ItemType
+    Score ..|> ScoreStats
+}
 
+' ─────────────────────────────────────────────
+' Domain — Services
+' ─────────────────────────────────────────────
+package "Domain Services" {
+
+    class PartyService {
+        - partyMembers: List<HeroState>
+        + addHero(hero: HeroState): void
+        + getParty(): List<HeroState>
+        + hasSpace(): boolean
+        + isDefeated(): boolean
+        + levelUp(exp: int): void
+        + maxRestore(): void
+        + maxRestoreWithStatus(): List<RestoreStatus>
+        + getTotalLevels(): int
+    }
+
+    class InventoryService {
+        - gold: int
+        - goldSpent: int
+        - items: int[]
+        + addItem(type: ItemType, amount: int): void
+        + useItem(type: ItemType, amount: int): void
+        + gainGold(amount: int): void
+        + canAfford(amount: int): boolean
         + getGold(): int
-        + setGold(gold: int): void
-
-        + getExp(): int
-        + setExp(exp: int): void
-
-        + getParty(): List<HeroInstance>
-        + setParty(party: List<HeroInstance>): void
-
-        + getInnRecruits(): List<HeroInstance>
-        + setInnRecruits(recruits: List<HeroInstance>): void
-
-        + getItems(): List<Item>
-        + setItems(items: List<Item>): void
+        + getItemCount(type: ItemType): int
     }
-class CampaignSnapshotAdapter{
 
+    class EnemyFactory {
+        - random: Random
+        + createEnemies(partyTotalLevel: int): List<Enemy>
+        - distributeLevels(totalLevel: int, count: int): List<Integer>
+        - createScaledEnemy(level: int): Enemy
+    }
+
+    PartyService --> HeroState
+    InventoryService --> ItemType
+    EnemyFactory --> Enemy : creates
 }
 
-class RoomFactory{
-    + createNextRoom(battleChance: float): Room
+' ─────────────────────────────────────────────
+' Domain — Rooms
+' ─────────────────────────────────────────────
+package "Rooms" {
+
+    interface Room
+
+    class BattleRoom {
+        - enemies: List<Enemy>
+        + BattleRoom()
+        + addEnemies(enemies: List<Enemy>)
+        + getEnemies(): List<Enemy>
+        + getExp(): int
+        + getGold(): int
+        + setTurnOrder(allies: List<HeroState>, enemies: List<Enemy>)
+        + intialize(partyService: PartyService)
+    }
+
+    class Inn {
+        - MAX_PARTY_SIZE: int
+        - CLASSES: String[]
+        - shop: List<ItemType>
+        - recruits: Map<String, HeroState>
+        + generateRecruit(partyService: PartyService, roomCounter: int): Optional<HeroState>
+        + viewRecruits(): Map<String, HeroState>
+        + hasRecruit(name: String): boolean
+        + getShop(): List<ItemType>
+        + addRecruit(hero: HeroState)
+    }
+
+    BattleRoom ..|> Room
+    Inn ..|> Room
+    BattleRoom --> "0..*" Enemy
+    Inn --> "0..*" HeroState : manages
+    Inn --> "0..*" ItemType : sells
+    Inn ..> PartyService : uses
 }
 
-CampaignManager --> RoomFactory
-RoomFactory --> Room
+' ─────────────────────────────────────────────
+' Domain — Campaign Management
+' ─────────────────────────────────────────────
+package "Campaign Management" {
 
+    class CampaignManager {
+        - currentRoom: Room
+        - battleChance: double
+        - roomCounter: int
+        - endOfRoom: boolean
+        - RoomFactory: RoomFactory
+        - MAX_ROOMS: int = 30
+        + CampaignManager(RoomFactory)
+        + startNewCampaign()
+        + isEndOfRoom(): boolean
+        + setEndOfRoom(value: boolean)
+        + getBattleChance(): double
+        + setBattleChance(value: double)
+        + getRoomCounter(): int
+        + getCurrentRoom(): Room
+        + nextRoom(): Room
+    }
 
-SpawnView -->  RoomController
-BattleEnd -->  RoomController
-InnView -->  InnController
+    interface CampaignSnapshot {
+        + getRoomCounter(): int
+        + setRoomCounter(roomCounter: int)
+        + getBattleChance(): double
+        + setBattleChance(chance: double)
+        + getCurRoom(): String
+        + setCurRoom(room: String)
+        + getGold(): int
+        + setGold(gold: int)
+        + getExp(): int
+        + setExp(exp: int)
+        + getParty(): List<HeroState>
+        + setParty(party: List<HeroState>)
+        + getItems(): int[]
+        + setItems(items: int[])
+    }
 
-BattleView --> BattleController
+    class CampaignSnapshotImpl {
+        - roomCounter: int
+        - battleChance: double
+        - curRoom: String
+        - gold: int
+        - exp: int
+        - party: List<HeroState>
+        - items: int[]
+        + getRoomCounter(): int
+        + setRoomCounter(roomCounter: int)
+        + getBattleChance(): double
+        + setBattleChance(chance: double)
+        + getCurRoom(): String
+        + setCurRoom(room: String)
+        + getGold(): int
+        + setGold(gold: int)
+        + getExp(): int
+        + setExp(exp: int)
+        + getParty(): List<HeroState>
+        + setParty(party: List<HeroState>)
+        + getItems(): int[]
+        + setItems(items: int[])
+    }
 
+    class CampaignStateManager {
+        - campaignManager: CampaignManager
+        - partyService: PartyService
+        - InventoryService: InventoryService
+        + createSnapshot(): CampaignSnapshot
+        + loadFromSnapshot(snapshot: CampaignSnapshot)
+    }
 
-BattleController --> battleIntializeUseCase
-BattleController --> gainExperienceUseCase
-BattleController --> gainGoldUseCase
+    CampaignSnapshotImpl ..|> CampaignSnapshot
+    CampaignStateManager --> CampaignManager
+    CampaignStateManager --> PartyService
+    CampaignStateManager --> InventoryService
+    CampaignStateManager ..> CampaignSnapshot
+    CampaignManager --> Room
+}
 
+' ─────────────────────────────────────────────
+' Application — Use Cases
+' ─────────────────────────────────────────────
+package "Application Use Cases" {
 
+    class StartCampaignUseCase {
+        + execute(startingHeroDTO: HeroInstanceDTO): StartCampaignDTO
+        - mapToDomain(dto: HeroInstanceDTO): HeroState
+    }
 
-RoomController -->  NextRoomUseCase
-RoomController --> itemConsumeUseCase
+    class LoadCampaignUseCase {
+        + execute(snapshotDTO: CampaignSnapshotDTO): LoadCampaignDTO
+        - toDomainHero(dto: HeroInstanceDTO): HeroState
+    }
 
+    class ExitCampaignUseCase {
+        + execute(): CampaignSnapshotDTO
+    }
 
+    class EndCampaignUseCase {
+        + execute(): CampaignEndDTO
+    }
 
-InnController--> InnIntializeUseCase
-InnController--> BuyRecruitUseCase
-InnController--> ViewRecruitUseCase
-InnController--> BuyItemUseCase
-InnController--> getShopUseCase
+    class SaveCampaignToPvpUseCase {
+        - pvpUrl: String
+        + execute(): CampaignEndDTO
+    }
 
-gainExperienceUseCase --> PartyService
-gainGoldUseCase --> InventoryService
-gainExperienceUseCase --> BattleRoom
-gainGoldUseCase --> BattleRoom
+    class NextRoomUseCase {
+        + execute(): NextRoomDTO
+    }
 
-CampaignSnapshotAdapter --> Inn
-CampaignSnapshotAdapter --> CampaignManager
-CampaignSnapshotAdapter --> PartyService 
-CampaignSnapshotAdapter --> InventoryService
-CampaignSnapshotAdapter ..> CampaignSnapshot
-Score ..> ScoreStats
-CampaignManager ..> Initialize 
+    class InnInitializeUseCase {
+        + execute(): InnInitializeResponseDTO
+    }
 
-NextRoomUseCase -->  CampaignManager
-itemConsumeUseCase --> InventoryService
+    class GetPartyUseCase {
+        + execute(): List<HeroInstanceDTO>
+    }
 
-battleIntializeUseCase --> BattleRoom
+    class GetInventoryUseCase {
+        + execute(): List<ItemDTO>
+    }
 
-getShopUseCase  --> Inn
+    class GetShopUseCase {
+        + execute(): GetShopResponseDTO
+    }
+
+    class ViewRecruitUseCase {
+        + execute(): List<RecruitDTO>
+    }
+
+    class BuyItemUseCase {
+        + execute(type: ItemType, amount: int): BuyItemResponseDTO
+        + execute(type: ItemType): BuyItemResponseDTO
+    }
+
+    class BuyRecruitUseCase {
+        + execute(roomCounter: int): BuyRecruitResponseDTO
+    }
+
+    class ItemConsumeUseCase {
+        + execute(itemType: ItemType, heroIndex: int): ItemConsumeResponseDTO
+    }
+
+    class GenerateBattleRoomUseCase {
+        + execute(): BattleRoomResponseDTO
+    }
+
+    class InitializeBattleUseCase {
+        - battleLibUrl: String
+        + execute(): BattleRoomResponseDTO
+    }
+
+    class GainExpUseCase {
+        + execute(totalExp: int): List<HeroExpDTO>
+    }
+
+    class GainGoldUseCase {
+        + execute(amount: int): GoldDTO
+    }
+
+    SaveCampaignToPvpUseCase --> EndCampaignUseCase
+    InitializeBattleUseCase --> GenerateBattleRoomUseCase
+}
+
+' ─────────────────────────────────────────────
+' Application → Domain dependencies
+' ─────────────────────────────────────────────
+StartCampaignUseCase --> CampaignManager
+StartCampaignUseCase --> PartyService
+StartCampaignUseCase --> InventoryService
+StartCampaignUseCase --> HeroState : creates
+
+LoadCampaignUseCase --> CampaignManager
+LoadCampaignUseCase --> PartyService
+LoadCampaignUseCase --> InventoryService
+LoadCampaignUseCase --> HeroState : creates
+
+ExitCampaignUseCase --> CampaignManager
+ExitCampaignUseCase --> PartyService
+ExitCampaignUseCase --> InventoryService
+
+EndCampaignUseCase --> PartyService
+EndCampaignUseCase --> InventoryService
+EndCampaignUseCase --> Score
+
+NextRoomUseCase --> CampaignManager
+
+InnInitializeUseCase --> PartyService
+
+GetPartyUseCase --> PartyService
+
+GetInventoryUseCase --> InventoryService
+
+GetShopUseCase --> Inn
+
 ViewRecruitUseCase --> Inn
-InnIntializeUseCase-->  PartyService
-BuyItemUseCase  --> InventoryService
 
-RoomController -> endCampaignUseCase
-endCampaignUseCase --> Score
-endCampaignUseCase --> InventoryService
-endCampaignUseCase --> PartyService
+BuyItemUseCase --> Inn
+BuyItemUseCase --> InventoryService
 
-Inn  --|> Room
-BattleRoom  --|> Room
-Inn --> HeroState
-PartyService --> HeroState
+BuyRecruitUseCase --> Inn
+BuyRecruitUseCase --> PartyService
+BuyRecruitUseCase --> InventoryService
 
+ItemConsumeUseCase --> InventoryService
+ItemConsumeUseCase --> PartyService
+ItemConsumeUseCase --> CampaignManager
 
+GenerateBattleRoomUseCase --> PartyService
+GenerateBattleRoomUseCase --> EnemyFactory
 
-InventoryService -> "0..*" Item
+GainExpUseCase --> PartyService
 
-Item <|-- Bread
-Item <|-- Cheese
-Item <|-- Steak
-Item <|-- Water
-Item <|-- Juice
-Item <|-- Wine
-Item <|-- Elixir
+GainGoldUseCase --> InventoryService
+
+' ─────────────────────────────────────────────
+' Presentation — Controller
+' ─────────────────────────────────────────────
+package "Presentation" {
+
+    class CampaignController {
+        + startCampaign(initialHero: HeroInstanceDTO): StartCampaignDTO
+        + loadCampaign(snapshot: CampaignSnapshotDTO): LoadCampaignDTO
+        + exitCampaign(): CampaignSnapshotDTO
+        + nextRoom(): Object
+        + getParty(): List<HeroInstanceDTO>
+        + getInventory(): List<ItemDTO>
+        + buyItem(request: BuyItemRequestDTO): BuyItemResponseDTO
+        + buyRecruit(request: BuyRecruitRequestDTO): BuyRecruitResponseDTO
+        + generateBattle(): BattleRoomResponseDTO
+        + getShop(): GetShopResponseDTO
+        + innInitialize(): InnInitializeResponseDTO
+        + useItem(request: ItemConsumeRequestDTO): ItemConsumeResponseDTO
+        + viewRecruits(): List<RecruitDTO>
+        + initializeBattle(): BattleRoomResponseDTO
+        + saveCampaign(): CampaignEndDTO
+        + gainExp(exp: int): List<HeroExpDTO>
+        + gainGold(amount: int): GoldDTO
+    }
+
+    CampaignController --> StartCampaignUseCase
+    CampaignController --> LoadCampaignUseCase
+    CampaignController --> ExitCampaignUseCase
+    CampaignController --> EndCampaignUseCase
+    CampaignController --> NextRoomUseCase
+    CampaignController --> GetPartyUseCase
+    CampaignController --> GetInventoryUseCase
+    CampaignController --> BuyItemUseCase
+    CampaignController --> BuyRecruitUseCase
+    CampaignController --> GenerateBattleRoomUseCase
+    CampaignController --> GetShopUseCase
+    CampaignController --> InnInitializeUseCase
+    CampaignController --> ItemConsumeUseCase
+    CampaignController --> ViewRecruitUseCase
+    CampaignController --> InitializeBattleUseCase
+    CampaignController --> SaveCampaignToPvpUseCase
+    CampaignController --> GainExpUseCase
+    CampaignController --> GainGoldUseCase
+}
+
 @enduml
