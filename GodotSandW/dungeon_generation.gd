@@ -52,18 +52,31 @@ func spawn_verticledoor_at(pos: Vector2):
 
 
 func _on_area_y_door_body_entered(body: Node2D) -> void:
-	# Only trigger if the Player walks into it
 	if body == player:
-		print("Player hit a door! Generating new floor...")
 		var floor_dup = Floor.duplicate()
-		get_parent().add_child(floor_dup) # Add to world, not the current room
-		floor_dup.global_position = player.global_position + Vector2(0, 200)
-
+		get_parent().add_child(floor_dup)
+		
+		# If Player's Y is lower (larger number) than the Marker, they hit BOTTOM
+		# If Player's Y is higher (smaller number) than the Marker, they hit TOP
+		if player.global_position.y > global_position.y:
+			print("Hit BOTTOM door")
+			floor_dup.global_position = BotDoorMark.global_position + Vector2(0, 200)
+		else:
+			print("Hit TOP door")
+			# You'll need to offset the new floor by its own height 
+			# so its bottom matches your top
+			floor_dup.global_position = TopDoorMark.global_position - Vector2(0, 0) # Example height
 
 func _on_area_x_door_body_entered(body: Node2D) -> void:
-	# Only trigger if the Player walks into it
 	if body == player:
-		print("Player hit a door! Generating new floor...")
 		var floor_dup = Floor.duplicate()
-		get_parent().add_child(floor_dup) # Add to world, not the current room
-		floor_dup.global_position = player.global_position + Vector2(200, 0)
+		get_parent().add_child(floor_dup)
+		
+		# If Player's X is further right than the Marker, they hit RIGHT
+		if player.global_position.x > global_position.x:
+			print("Hit RIGHT door")
+			floor_dup.global_position = RightDoorMark.global_position + Vector2(0, 0)
+		else:
+			print("Hit LEFT door")
+			# Offset by floor width so its right side matches your left
+			floor_dup.global_position = LeftDoorMark.global_position - Vector2(0, 0) # Example width
