@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Sword and Wand"
-run/main_scene="uid://cdnnxtxntd6u7"
+run/main_scene="uid://du5ntuihxpfpu"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

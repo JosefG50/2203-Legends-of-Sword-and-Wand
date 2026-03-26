@@ -58,21 +58,25 @@ theme_override_constants/separation = 40
 
 [node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn/VBoxContainer" unique_id=1428951792]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
 [node name="Scores" type="Label" parent="HBoxContainer/FileBtn/VBoxContainer" unique_id=121028244]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
 [node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn/VBoxContainer" unique_id=670250192]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
 [node name="Party" type="Label" parent="HBoxContainer/FileBtn/VBoxContainer" unique_id=1207265552]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Party:"
 
@@ -105,21 +109,25 @@ theme_override_constants/separation = 40
 
 [node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=229253018]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
 [node name="Scores" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=508237417]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
 [node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=156432947]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
 [node name="Party" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=667400528]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Party:"
 
@@ -153,21 +161,25 @@ theme_override_constants/separation = 40
 
 [node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1106486026]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
 [node name="Scores" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=693297164]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
 [node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1503871572]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
 [node name="Party" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=191890131]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Party:"
 
@@ -200,21 +212,25 @@ theme_override_constants/separation = 40
 
 [node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=975703405]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
 [node name="Scores" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=683726411]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
 [node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=2061917330]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
 [node name="Party" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=657084492]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Party:"
 
