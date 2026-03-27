@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://du5ntuihxpfpu"]
 
-[ext_resource type="Script" uid="uid://da6pcewbawgt" path="res://dungeon_generation.gd" id="1_4qov2"]
+[ext_resource type="Script" uid="uid://da6pcewbawgt" path="res://Scripts/dungeon_generation.gd" id="1_4qov2"]
 [ext_resource type="Texture2D" uid="uid://0h07gimmqiwy" path="res://dungeonparts/Bedroom Asset Pack 001.png" id="1_oyrm0"]
 [ext_resource type="Texture2D" uid="uid://cqycglo05ttqr" path="res://dungeonparts/2D Pixel Dungeon Asset Pack/Dungeon_Tileset_at.png" id="2_1d6v1"]
 [ext_resource type="Texture2D" uid="uid://brw13dv7wksmg" path="res://dungeonparts/dungeon_ v1.0/dungeon_ v1.0/dungeonDecoration_1.png" id="3_4qov2"]
@@ -776,76 +776,93 @@ sources/23 = SubResource("TileSetAtlasSource_ei14f")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dv6ho"]
 size = Vector2(10, 32)
 
+[sub_resource type="BoxMesh" id="BoxMesh_4qov2"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig11i"]
 size = Vector2(64, 20)
 
 [node name="DungeonGeneration" type="Node2D" unique_id=1526564037]
 script = ExtResource("1_4qov2")
 
-[node name="Floor" type="TileMapLayer" parent="." unique_id=693346714]
+[node name="Template" type="Node2D" parent="." unique_id=94035217]
+position = Vector2(-528, 2)
+
+[node name="Floor" type="TileMapLayer" parent="Template" unique_id=693346714]
 z_index = -1
 position = Vector2(96, 64)
 tile_map_data = PackedByteArray("AAAAAAQAAQAQABoAAAABAAEAAQAQABoAAAABAAIAAQAQABoAAAACAAEAAQAQABoAAAACAAIAAQAQABoAAAACAAMAAQAQABoAAAADAAEAAQAQABoAAAADAAIAAQAQABoAAAADAAMAAQAQABoAAAAEAAEAAQAQABoAAAAEAAIAAQAQABoAAAAEAAMAAQAQABoAAAAFAAIAAQAQABoAAAAFAAMAAQAQABoAAAAGAAAAAQAQABoAAAD6////AQAQABoAAAD6/wAAAQAQABoAAAD7//3/AQAQABoAAAD7//7/AQAQABoAAAD7/wEAAQAQABoAAAD7/wIAAQAQABoAAAD7/wMAAQAQABoAAAD8//3/AQAQABoAAAD8//7/AQAQABoAAAD8////AQAQABoAAAD8/wAAAQAQABoAAAD8/wEAAQAQABoAAAD8/wIAAQAQABoAAAD8/wMAAQAQABoAAAD9//3/AQAQABoAAAD9//7/AQAQABoAAAD9////AQAQABoAAAD9/wAAAQAQABoAAAD9/wEAAQAQABoAAAD9/wIAAQAQABoAAAD9/wMAAQAQABoAAAD+//3/AQAQABoAAAD+//7/AQAQABoAAAD+////AQAQABoAAAD+/wAAAQAQABoAAAD+/wEAAQAQABoAAAD+/wIAAQAQABoAAAD+/wMAAQAQABoAAAD///z/AQAQABoAAAD///7/AQAQABoAAAD/////AQAQABoAAAD//wAAAQAQABoAAAD//wEAAQAQABoAAAD//wIAAQAQABoAAAD//wQAAQAQABoAAAAAAPz/AQAQABoAAAAAAP7/AQAQABoAAAAAAP//AQAQABoAAAAAAAAAAQAQABoAAAAAAAEAAQAQABoAAAAAAAIAAQAQABoAAAABAPz/AQAQABoAAAABAP7/AQAQABoAAAABAP//AQAQABoAAAABAAAAAQAQABoAAAABAAQAAQAQABoAAAACAP3/AQAQABoAAAACAP7/AQAQABoAAAACAP//AQAQABoAAAACAAAAAQAQABoAAAADAP3/AQAQABoAAAADAP7/AQAQABoAAAADAP//AQAQABoAAAADAAAAAQAQABoAAAAEAP3/AQAQABoAAAAEAP7/AQAQABoAAAAEAP//AQAQABoAAAAEAAAAAQAQABoAAAAFAP3/AQAQABoAAAAFAP7/AQAQABoAAAAGAP//AQAQABoAAAAGAAEAAQAQABoAAAA=")
 tile_set = SubResource("TileSet_nqiq4")
 
-[node name="AllOpen" type="TileMapLayer" parent="." unique_id=70589234]
+[node name="AllOpen" type="TileMapLayer" parent="Template" unique_id=70589234]
 z_index = 1
 y_sort_enabled = true
 position = Vector2(96, 64)
 tile_map_data = PackedByteArray("AAD6//3/FwALAB4AAAD6/wQAFwALABYAAAD7//3/FwAMABYAAAD7/wQAFwAMABYAAAD8//3/FwANABYAAAD8/wQAFwANABYAAAD9//3/FwAMABYAAAD9/wQAFwAMABYAAAACAP3/FwAMABYAAAACAAQAFwAMABYAAAADAP3/FwANABYAAAADAAQAFwANABYAAAAEAP3/FwAMABYAAAAEAAQAFwAMABYAAAAFAP3/FwANABYAAAAFAAQAFwANABYAAAD6//7/FwALABYAAAD6/wEAFwAUABgAADD6/wIAFwAUABgAADD+//3/FwANABYAAAD+/wQAFwANABYAAAAGAP3/FwAUAB4AAAAGAP7/FwAUABgAAAAGAAIAFwAUABgAAAAGAAQAFwAUABYAAAA=")
 tile_set = SubResource("TileSet_t47ch")
 
-[node name="TopDoor" type="Marker2D" parent="." unique_id=1311098239]
+[node name="TopDoor" type="Marker2D" parent="Template" unique_id=1311098239]
 position = Vector2(104, 14)
 
-[node name="BotDoor" type="Marker2D" parent="." unique_id=1328509672]
+[node name="BotDoor" type="Marker2D" parent="Template" unique_id=1328509672]
 position = Vector2(104, 128)
 
-[node name="LeftDoor" type="Marker2D" parent="." unique_id=1480555451]
+[node name="LeftDoor" type="Marker2D" parent="Template" unique_id=1480555451]
 position = Vector2(8, 64)
 
-[node name="RightDoor" type="Marker2D" parent="." unique_id=1375355627]
+[node name="RightDoor" type="Marker2D" parent="Template" unique_id=1375355627]
 position = Vector2(200, 64)
 
-[node name="CenterMark" type="Marker2D" parent="." unique_id=816888025]
+[node name="CenterMark" type="Marker2D" parent="Template" unique_id=816888025]
 position = Vector2(104, 64)
 
-[node name="AreaXDoor" type="Area2D" parent="." unique_id=1587626444]
+[node name="AreaXDoor" type="Area2D" parent="Template" unique_id=1587626444]
 position = Vector2(-80, -32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaXDoor" unique_id=562095786]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Template/AreaXDoor" unique_id=562095786]
 shape = SubResource("RectangleShape2D_dv6ho")
 
-[node name="AreaYDoor" type="Area2D" parent="." unique_id=360153371]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Template/AreaXDoor" unique_id=96626879]
+modulate = Color(0.7220794, 0.63647497, 0.4546808, 1)
+position = Vector2(0, 0.12500048)
+scale = Vector2(8.5, 32.25)
+mesh = SubResource("BoxMesh_4qov2")
+
+[node name="AreaYDoor" type="Area2D" parent="Template" unique_id=360153371]
 y_sort_enabled = true
 position = Vector2(-128, -32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaYDoor" unique_id=2091753151]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Template/AreaYDoor" unique_id=878559386]
+modulate = Color(0.7220794, 0.63647497, 0.4546808, 1)
+scale = Vector2(64, 16.000002)
+mesh = SubResource("BoxMesh_4qov2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Template/AreaYDoor" unique_id=2091753151]
 shape = SubResource("RectangleShape2D_ig11i")
 
-[node name="XDoorSprite" type="TileMapLayer" parent="." unique_id=213209862]
+[node name="XDoorSprite" type="TileMapLayer" parent="Template" unique_id=213209862]
 z_index = 1
 y_sort_enabled = true
 position = Vector2(28, -16)
 tile_map_data = PackedByteArray("AAD/////FwAVABAAAAA=")
 tile_set = SubResource("TileSet_t47ch")
 
-[node name="Marker2D" type="Marker2D" parent="XDoorSprite" unique_id=1752569817]
+[node name="Marker2D" type="Marker2D" parent="Template/XDoorSprite" unique_id=1752569817]
 position = Vector2(-8, -16)
 
-[node name="YDoorSprite" type="TileMapLayer" parent="." unique_id=1703751370]
+[node name="YDoorSprite" type="TileMapLayer" parent="Template" unique_id=1703751370]
 y_sort_enabled = true
 position = Vector2(-24, -16)
 tile_map_data = PackedByteArray("AAD/////FwAOABYAAAA=")
 tile_set = SubResource("TileSet_t47ch")
 
-[node name="Marker2D" type="Marker2D" parent="YDoorSprite" unique_id=1382490400]
+[node name="Marker2D" type="Marker2D" parent="Template/YDoorSprite" unique_id=1382490400]
 position = Vector2(-8, -16)
 
-[node name="Player" parent="." unique_id=2006832785 instance=ExtResource("8_65o63")]
-z_index = 1
-y_sort_enabled = true
-position = Vector2(112, 64)
+[node name="Marker2D" type="Marker2D" parent="." unique_id=314813555]
+position = Vector2(0, 2)
 
-[connection signal="body_entered" from="AreaXDoor" to="." method="_on_area_x_door_body_entered"]
-[connection signal="body_entered" from="AreaYDoor" to="." method="_on_area_y_door_body_entered"]
+[node name="Player" parent="." unique_id=2006832785 instance=ExtResource("8_65o63")]
+position = Vector2(8, -72)
+
+[connection signal="body_entered" from="Template/AreaXDoor" to="." method="_on_area_x_door_body_entered"]
+[connection signal="body_entered" from="Template/AreaYDoor" to="." method="_on_area_y_door_body_entered"]

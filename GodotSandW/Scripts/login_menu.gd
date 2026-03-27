@@ -42,7 +42,7 @@ func _on_http_request_request_completed(_result, response_code, _headers, body):
 		status_label.text = "Success!"
 		# If it was a login, move to the next part of the RPG
 		if current_mode == "login":
-			get_tree().change_scene_to_file("res://choose_mode.tscn")
+			get_tree().change_scene_to_file("res://choose_profile.tscn")
 	else:
 		# Show the specific error from Spring Boot (e.g., "Wrong password")
 		status_label.text = response_text

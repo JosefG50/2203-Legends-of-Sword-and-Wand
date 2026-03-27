@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bbdd02kep1jc8"]
 
 [ext_resource type="Texture2D" uid="uid://cgmiwrgfd1qao" path="res://PixelArt/button.png" id="1_20pk5"]
+[ext_resource type="Script" uid="uid://nhoqxvx1u5c0" path="res://Scripts/choose_profile.gd" id="1_urwny"]
 [ext_resource type="Texture2D" uid="uid://fkwcjthyomx2" path="res://PixelArt/GoBack.png" id="2_urwny"]
 
 [node name="choose_profile" type="Control" unique_id=6677793]
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_urwny")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1787868216]
 layout_mode = 1
@@ -54,7 +56,11 @@ offset_right = 72.5
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 30
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/FileBtn/VBoxContainer" unique_id=230816276]
+layout_mode = 2
+text = "Campign name:"
 
 [node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn/VBoxContainer" unique_id=1428951792]
 layout_mode = 2
@@ -92,7 +98,7 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FileBtn2" unique_id=714970863]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FileBtn2" unique_id=717896604]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -105,27 +111,31 @@ offset_right = 72.5
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 30
 
-[node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=229253018]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=713475742]
+layout_mode = 2
+text = "Campign name:"
+
+[node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=1062391344]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
-[node name="Scores" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=508237417]
+[node name="Scores" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=1873149044]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
-[node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=156432947]
+[node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=1016487986]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
-[node name="Party" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=667400528]
+[node name="Party" type="Label" parent="HBoxContainer/FileBtn2/VBoxContainer" unique_id=498330388]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
@@ -144,7 +154,7 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FileBtn3" unique_id=671978263]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FileBtn3" unique_id=1333578185]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -157,27 +167,31 @@ offset_right = 72.5
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 30
 
-[node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1106486026]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1425191139]
+layout_mode = 2
+text = "Campign name:"
+
+[node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1002719549]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
-[node name="Scores" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=693297164]
+[node name="Scores" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1650099023]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
-[node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1503871572]
+[node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1355112665]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
-[node name="Party" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=191890131]
+[node name="Party" type="Label" parent="HBoxContainer/FileBtn3/VBoxContainer" unique_id=1032135440]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
@@ -195,7 +209,7 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FileBtn4" unique_id=1971859875]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FileBtn4" unique_id=1896434619]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -208,27 +222,31 @@ offset_right = 72.5
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 30
 
-[node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=975703405]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=1071558421]
+layout_mode = 2
+text = "Campign name:"
+
+[node name="CampaignData" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=1578103888]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campaign Data:"
 
-[node name="Scores" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=683726411]
+[node name="Scores" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=692145705]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Scores:"
 
-[node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=2061917330]
+[node name="CampaignProgress" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=1262351866]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
 text = "Campign Progress:"
 
-[node name="Party" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=657084492]
+[node name="Party" type="Label" parent="HBoxContainer/FileBtn4/VBoxContainer" unique_id=976117368]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_font_sizes/font_size = 22
@@ -240,3 +258,5 @@ offset_right = 72.0
 offset_bottom = 72.0
 icon = ExtResource("2_urwny")
 flat = true
+
+[connection signal="pressed" from="HBoxContainer/FileBtn" to="." method="_on_file_btn_pressed"]
