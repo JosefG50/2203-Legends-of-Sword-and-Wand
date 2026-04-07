@@ -5,9 +5,9 @@ public class BattleInvitation {
     private String invitationId;
     private String senderName;
     private String receiverName;
-    private String status;
+    private InvitationStatus status;
 
-    public BattleInvitation(String invitationId, String senderName, String receiverName, String status) {
+    public BattleInvitation(String invitationId, String senderName, String receiverName, InvitationStatus status) {
         this.invitationId = invitationId;
         this.senderName = senderName;
         this.receiverName = receiverName;
@@ -27,10 +27,14 @@ public class BattleInvitation {
     }
 
     public String getStatus() {
-        return status;
+        return status.name();
     }
 
-    public void setStatus(String status) {
+    public void setStatus(InvitationStatus status) {
         this.status = status;
+    }
+
+    public boolean isPending() {
+        return status == InvitationStatus.PENDING;
     }
 }

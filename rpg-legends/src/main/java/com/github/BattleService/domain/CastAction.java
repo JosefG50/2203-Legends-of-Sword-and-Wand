@@ -19,11 +19,7 @@ public class CastAction implements Action {
         LivingEntity actor = context.getActor();
         LivingEntity target = context.getTarget();
 
-        if (actor == null || target == null) {
-            return;
-        }
-
-        if (!actor.isAlive() || !target.isAlive()) {
+        if (!LivingEntityCombat.areActorAndTargetAlive(actor, target)) {
             return;
         }
 

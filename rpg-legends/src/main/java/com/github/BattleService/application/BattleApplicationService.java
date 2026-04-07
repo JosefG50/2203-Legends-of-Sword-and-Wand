@@ -13,8 +13,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+/**
+ * Application service for starting a battle, submitting actions, and reading state.
+ * <p>
+ * This Spring bean is a singleton with mutable instance fields ({@code hero},
+ * {@code enemy}, {@code battleEngine}). All HTTP clients therefore share one
+ * in-memory battle; concurrent requests can overwrite each other's state. This
+ * deliverable does not introduce per-session storage so existing tests and API
+ * behavior remain unchanged.
+ */
 @Service
 public class BattleApplicationService {
+
+    private static final int DEFAULT_CAST_MANA_COST = 20;
+    private static final int DEFAULT_CAST_SPELL_DAMAGE = 25;
 
     private BattleEngine battleEngine;
     private LivingEntity hero;
@@ -47,15 +59,7 @@ public class BattleApplicationService {
 
     public BattleStateResponse submitAction(ActionRequest request) {
         if (battleEngine == null || hero == null || enemy == null) {
-            return new BattleStateResponse(
-                    "None",
-                    0,
-                    0,
-                    0,
-                    0,
-                    true,
-                    "No active battle"
-            );
+            return noActiveBattleResponse();
         }
 
         if (request == null || !request.isValid()) {
@@ -65,30 +69,30 @@ public class BattleApplicationService {
         String actionType = request.getNormalizedActionType();
         String targetName = request.getNormalizedTargetName();
 
-        LivingEntity target;
+        BattleCommand command = BattleCommand.fromNormalized(actionType);
+        LivingEntity target = resolveTarget(targetName);
 
-        if (targetName.equalsIgnoreCase(hero.getName())) {
-            target = hero;
-        } else if (targetName.equalsIgnoreCase(enemy.getName())) {
-            target = enemy;
-        } else {
+        if (target == null) {
             return getBattleState();
         }
 
-        switch (actionType) {
-            case "attack":
+        switch (command) {
+            case ATTACK:
                 battleEngine.submitAction(new AttackAction(), target);
                 break;
-            case "defend":
+            case DEFEND:
                 battleEngine.submitAction(new DefendAction(), target);
                 break;
-            case "wait":
+            case WAIT:
                 battleEngine.submitAction(new WaitAction(), target);
                 break;
-            case "cast":
-                battleEngine.submitAction(new CastAction(20, 25), target);
+            case CAST:
+                battleEngine.submitAction(
+                        new CastAction(DEFAULT_CAST_MANA_COST, DEFAULT_CAST_SPELL_DAMAGE),
+                        target
+                );
                 break;
-            default:
+            case UNKNOWN:
                 return getBattleState();
         }
 
@@ -97,15 +101,7 @@ public class BattleApplicationService {
 
     public BattleStateResponse getBattleState() {
         if (battleEngine == null || hero == null || enemy == null) {
-            return new BattleStateResponse(
-                    "None",
-                    0,
-                    0,
-                    0,
-                    0,
-                    true,
-                    "No active battle"
-            );
+            return noActiveBattleResponse();
         }
 
         String currentUnitName = battleEngine.getCurrentUnit() != null
@@ -121,5 +117,27 @@ public class BattleApplicationService {
                 battleEngine.isBattleOver(),
                 battleEngine.getBattleResult()
         );
+    }
+
+    private BattleStateResponse noActiveBattleResponse() {
+        return new BattleStateResponse(
+                "None",
+                0,
+                0,
+                0,
+                0,
+                true,
+                "No active battle"
+        );
+    }
+
+    private LivingEntity resolveTarget(String targetName) {
+        if (targetName.equalsIgnoreCase(hero.getName())) {
+            return hero;
+        }
+        if (targetName.equalsIgnoreCase(enemy.getName())) {
+            return enemy;
+        }
+        return null;
     }
 }

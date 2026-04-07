@@ -1,6 +1,7 @@
 package com.github.BattleService.application;
 
 import com.github.BattleService.domain.BattleInvitation;
+import com.github.BattleService.domain.InvitationStatus;
 import com.github.BattleService.dto.CreateInvitationRequest;
 import com.github.BattleService.dto.InvitationResponse;
 import com.github.BattleService.dto.RespondInvitationRequest;
@@ -32,7 +33,7 @@ public class BattleInvitationService {
                 invitationId,
                 request.getSenderName().trim(),
                 request.getReceiverName().trim(),
-                "PENDING"
+                InvitationStatus.PENDING
         );
 
         invitations.put(invitationId, invitation);
@@ -69,12 +70,9 @@ public class BattleInvitationService {
             );
         }
 
-        if (!invitation.getStatus().equals("PENDING")) {
-            return new InvitationResponse(
-                    invitation.getInvitationId(),
-                    invitation.getSenderName(),
-                    invitation.getReceiverName(),
-                    invitation.getStatus(),
+        if (!invitation.isPending()) {
+            return invitationSnapshotResponse(
+                    invitation,
                     "Invitation has already been responded to"
             );
         }
@@ -82,32 +80,23 @@ public class BattleInvitationService {
         String response = request.getNormalizedResponse();
 
         if (response.equals("accept")) {
-            invitation.setStatus("ACCEPTED");
-            return new InvitationResponse(
-                    invitation.getInvitationId(),
-                    invitation.getSenderName(),
-                    invitation.getReceiverName(),
-                    invitation.getStatus(),
+            invitation.setStatus(InvitationStatus.ACCEPTED);
+            return invitationSnapshotResponse(
+                    invitation,
                     "Invitation accepted. Battle can now be started."
             );
         }
 
         if (response.equals("reject")) {
-            invitation.setStatus("REJECTED");
-            return new InvitationResponse(
-                    invitation.getInvitationId(),
-                    invitation.getSenderName(),
-                    invitation.getReceiverName(),
-                    invitation.getStatus(),
+            invitation.setStatus(InvitationStatus.REJECTED);
+            return invitationSnapshotResponse(
+                    invitation,
                     "Invitation rejected"
             );
         }
 
-        return new InvitationResponse(
-                invitation.getInvitationId(),
-                invitation.getSenderName(),
-                invitation.getReceiverName(),
-                invitation.getStatus(),
+        return invitationSnapshotResponse(
+                invitation,
                 "Response must be either accept or reject"
         );
     }
@@ -141,6 +130,16 @@ public class BattleInvitationService {
                 invitation.getReceiverName(),
                 invitation.getStatus(),
                 "Invitation retrieved successfully"
+        );
+    }
+
+    private static InvitationResponse invitationSnapshotResponse(BattleInvitation invitation, String message) {
+        return new InvitationResponse(
+                invitation.getInvitationId(),
+                invitation.getSenderName(),
+                invitation.getReceiverName(),
+                invitation.getStatus(),
+                message
         );
     }
 }

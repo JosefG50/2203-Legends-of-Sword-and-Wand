@@ -18,11 +18,7 @@ public class BattleEngine {
     }
 
     public void submitAction(Action action, LivingEntity target) {
-        if (battleState == null || turnManager == null) {
-            return;
-        }
-
-        if (isBattleOver()) {
+        if (lacksBattleSetup() || isBattleOver()) {
             return;
         }
 
@@ -32,11 +28,7 @@ public class BattleEngine {
 
         LivingEntity actor = turnManager.getCurrentUnit();
 
-        if (actor == null) {
-            return;
-        }
-
-        if (actor.getHp() <= 0 || target.getHp() <= 0) {
+        if (cannotProcessCombatAction(actor, target)) {
             return;
         }
 
@@ -46,6 +38,18 @@ public class BattleEngine {
         if (!isBattleOver()) {
             turnManager.advanceTurn();
         }
+    }
+
+    private boolean lacksBattleSetup() {
+        return battleState == null || turnManager == null;
+    }
+
+    private boolean cannotProcessCombatAction(LivingEntity actor, LivingEntity target) {
+        if (actor == null) {
+            return true;
+        }
+
+        return actor.getHp() <= 0 || target.getHp() <= 0;
     }
 
     public boolean isBattleOver() {

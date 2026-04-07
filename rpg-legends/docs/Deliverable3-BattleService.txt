@@ -1,0 +1,491 @@
+================================================================================
+DELIVERABLE 3 — MAINTENANCE & REFACTORING (BattleService SUBSYSTEM ONLY)
+Legends of Sword and Wand — com.github.BattleService
+================================================================================
+
+SUBMISSION CHECKLIST (do this before uploading)
+--------------------------------------------------------------------------------
+[ ] Copy sections below into your course template or export this file to PDF
+    if the syllabus requires PDF.
+[ ] Submit SOURCE CODE only unless instructed otherwise; do NOT hand in
+    rpg-legends/target/ (build output, Checkstyle cache, etc.).
+[ ] Confirm "git status" shows only intentional changes under BattleService.
+[ ] This document matches the refactored codebase: mvn test passes from
+    rpg-legends/ (full suite; BattleService tests included).
+
+Scope statement: Only the BattleService package under
+  rpg-legends/src/main/java/com/github/BattleService
+was analyzed and refactored. Other modules are out of scope.
+
+
+================================================================================
+1. INTRODUCTION
+================================================================================
+
+This deliverable is limited to the implemented BattleService component: REST
+controllers, Spring application services, domain logic for turn-based combat
+and invitations, DTOs, and the Spring Boot bootstrap class in that package.
+Unrelated subsystems are not discussed. Refactorings are maintenance-level:
+behavior is preserved as verified by the project test suite (mvn test).
+
+
+================================================================================
+2. TOOL USED AND SCOPE
+================================================================================
+
+Measured properties (BattleService Java sources only):
+
+  - Physical lines of code (LOC):  wc -l on each *.java under BattleService.
+  - Method logical lines & cyclomatic complexity (CCN):  Lizard
+      (python3 -m lizard ...), default per-function CCN.
+  - Coupling (structural):  manual efferent "fan-out" — count of distinct
+      com.github.BattleService.* types imported (excluding java.* and
+      third-party). This approximates coupling; it is not full CBO from a UML
+      tool.
+  - Cohesion (LCOM):  NOT computed — no LCOM tool was integrated into this
+      project. Cohesion is only discussed qualitatively where obvious.
+  - Nesting depth:  estimated manually (max if/switch nesting in named
+      methods), not from an automated report.
+
+Subsystem size (after refactor, physical LOC):  1199 lines total across
+BattleService *.java (wc -l sum).
+
+Before refactor (baseline for comparison in this document):  1124 physical
+lines; Lizard reported 907 "NLOC" (method logical lines) over 135 functions
+across the BattleService tree at that time. After refactor (current tree,
+25 files): Lizard reports 961 NLOC over 145 functions — growth from helper
+types and extracted methods.
+
+
+================================================================================
+3. METRICS BEFORE REFACTORING
+================================================================================
+
+3.A Class-level table (representative classes, BEFORE)
+--------------------------------------------------------------------------------
+Class                         Physical LOC   Methods (approx)   Fan-out*
+----------------------------  -------------  -----------------  --------
+BattleApplicationService      124            3 public           9
+BattleInvitationService       145            3 public           4
+BattleEngine                  82             5 public           3
+LivingEntity                  101            14 public          0
+BattleInvitation              35             5 (ctor+acc+mut)   0
+BattleController              33             4                  3
+BattleInvitationController    33             4                  4
+
+* Fan-out = distinct BattleService types imported (manual).
+
+3.B Method-level table (key methods, BEFORE — Lizard)
+--------------------------------------------------------------------------------
+Class                       Method                 NLOC   CCN   Length*
+---------------------------- ---------------------  -----  ----  -----
+BattleApplicationService    submitAction           43     12    49
+BattleApplicationService    getBattleState         25     5     27
+BattleInvitationService     respondToInvitation   58     7     65
+BattleEngine                submitAction           23     10    30
+LivingEntity                takeDamage             14     5     17
+CastAction                  execute                18     7     23
+AttackAction                execute                9      6     13
+
+* Length = physical line span of method in file (Lizard).
+
+3.C Estimated max nesting depth (BEFORE, manual)
+--------------------------------------------------------------------------------
+BattleApplicationService.submitAction      ~3 (if + if + if/else + switch)
+BattleInvitationService.respondToInvitation ~3
+BattleEngine.submitAction                 ~2 (sequential guards)
+
+3.D Observations
+--------------------------------------------------------------------------------
+The highest cyclomatic complexity (Lizard) sat in BattleApplicationService.
+submitAction, BattleEngine.submitAction, and BattleInvitationService.
+respondToInvitation. Literal duplication ("No active battle" response),
+string-coded invitation states, magic numbers for cast/defend tuning, and
+repeated combat preconditions in AttackAction/CastAction increased the risk
+of inconsistent changes.
+
+BattleApplicationService also holds the active battle as mutable instance
+state on a Spring @Service singleton (default scope): three non-final fields
+(hero, enemy, battleEngine) are written in startBattle and read in
+submitAction and getBattleState. That structural pattern means every caller
+shares one battle; overlapping HTTP calls can corrupt each other's state.
+This report treats that as smell 8 and as a documented design limitation for
+this maintenance pass (see section 5).
+
+
+================================================================================
+4. CODE SMELLS — EXACTLY 10 (≥ 5 DISTINCT TYPES)
+================================================================================
+
+Smell types represented: Duplicated code; Magic numbers; Primitive obsession;
+Long method; Complex / high-CCN guard chain; Inconsistent style; Duplicated
+validation logic; Mutable session-like state on a Spring singleton;
+String-based command dispatch.
+
+--------------------------------------------------------------------------------
+SMELL 1 — Duplicated code
+Location:   BattleApplicationService — submitAction AND getBattleState
+Metrics:   Two separate construction sites for the same BattleStateResponse
+            ("None", 0,0,0,0, true, "No active battle") — duplicated logic
+            creates two edit points for one API contract.
+Explanation: Any change to the empty-battle payload (field order, wording,
+            defaults) must be applied twice; missing one path yields asymmetric
+            responses from submitAction vs getBattleState for the same state.
+Risk:       Regression probability rises because the two branches are not
+            mechanically tied: one fix can be forgotten, producing divergent
+            client-visible behavior.
+BEFORE (representative excerpt — submitAction branch):
+        if (battleEngine == null || hero == null || enemy == null) {
+            return new BattleStateResponse(
+                    "None", 0, 0, 0, 0, true, "No active battle");
+        }
+
+--------------------------------------------------------------------------------
+SMELL 2 — Magic numbers
+Location:   BattleApplicationService — submitAction (cast branch)
+Metrics:   Literals 20 and 25 with no names at call site.
+Explanation: Fixed spell cost/damage are game rules but were invisible to
+            readers searching for balance constants.
+Risk:       Inconsistent tuning if another path adds casting later.
+BEFORE:
+            case "cast":
+                battleEngine.submitAction(new CastAction(20, 25), target);
+                break;
+
+--------------------------------------------------------------------------------
+SMELL 3 — Primitive obsession (string status)
+Location:   BattleInvitation, BattleInvitationService
+Metrics:   Status values "PENDING", "ACCEPTED", "REJECTED" as raw strings.
+Explanation: Finite invitation lifecycle was not encoded in the type system.
+Risk:       Typos and invalid states surface only at runtime.
+BEFORE (constructor argument):
+        new BattleInvitation(..., "PENDING");
+
+--------------------------------------------------------------------------------
+SMELL 4 — Long method
+Location:   BattleInvitationService — respondToInvitation
+Metrics (Lizard before): NLOC 58, CCN 7, physical span 65 lines.
+Explanation: With CCN 7, this method admits seven independent decision
+            outcomes through Lizard’s count; combined with NLOC 58, a single
+            edit (e.g. adding a new response code) can interact with several
+            nested branches, increasing the chance of regression when changing
+            invitation rules or messages.
+Risk:       A larger NLOC footprint means more lines must be re-read and
+            re-tested for each change; the high CCN multiplies execution paths
+            that tests must cover to catch broken branches.
+BEFORE (excerpt — already-responded branch):
+        if (!invitation.getStatus().equals("PENDING")) {
+            return new InvitationResponse(
+                    invitation.getInvitationId(),
+                    invitation.getSenderName(),
+                    invitation.getReceiverName(),
+                    invitation.getStatus(),
+                    "Invitation has already been responded to");
+        }
+
+--------------------------------------------------------------------------------
+SMELL 5 — Complex method / many guard clauses (high CCN)
+Location:   BattleEngine — submitAction
+Metrics (Lizard before): CCN 10, NLOC 23.
+Explanation: A CCN of 10 implies many distinct execution paths through early
+            returns; reordering or extending one guard (e.g. a new invalid
+            action rule) can accidentally skip or double-invoke turn logic,
+            which is harder to spot without stepping through each path.
+Risk:       Each additional path raises the number of test cases needed to
+            prove submitAction still advances turns and respects battle-over
+            semantics after a localized change.
+BEFORE (excerpt):
+        if (battleState == null || turnManager == null) { return; }
+        if (isBattleOver()) { return; }
+        if (action == null || target == null) { return; }
+        LivingEntity actor = turnManager.getCurrentUnit();
+        if (actor == null) { return; }
+        if (actor.getHp() <= 0 || target.getHp() <= 0) { return; }
+
+--------------------------------------------------------------------------------
+SMELL 6 — Inconsistent style / readability
+Location:   AttackAction — execute
+Metrics (Lizard before): CCN 6 in a very compact method.
+Explanation: One-line "if (...) return;" mixed with expanded style in sibling
+            actions (e.g. CastAction).
+Risk:       Copy-paste introduces inconsistent guards in new actions.
+BEFORE:
+        if (context == null) return;
+        ...
+        if (attacker == null || target == null) return;
+
+--------------------------------------------------------------------------------
+SMELL 7 — Duplicated validation logic
+Location:   AttackAction.execute AND CastAction.execute
+Metrics:   CastAction execute CCN 7 before consolidation.
+Explanation: The same actor/target null and alive predicates were duplicated;
+            duplicated logic creates multiple edit points for the same combat
+            rule, so a future bugfix might update AttackAction but not CastAction.
+Risk:       Divergent guards change who can be targeted or damaged without
+            a single authoritative check, complicating regression analysis.
+BEFORE (CastAction excerpt):
+        if (actor == null || target == null) { return; }
+        if (!actor.isAlive() || !target.isAlive()) { return; }
+
+--------------------------------------------------------------------------------
+SMELL 8 — Mutable session-like state on a Spring singleton
+Type:      Inappropriate lifetime / shared mutable state (singleton bean)
+Location:  BattleApplicationService — class fields hero, enemy, battleEngine
+Metrics / structural evidence:
+  - @Service defaults to singleton scope in Spring: one bean instance per
+    application context.
+  - Three mutable, non-final instance fields hold the active battle graph:
+    written fully in startBattle, read/mutated through submitAction and engine
+    calls, read in getBattleState.
+  - Fan-out remains moderate (9 BattleService types), but lifetime coupling
+    is structural: all HTTP threads share those fields.
+Explanation: In this project, battle orchestration is not keyed by session or
+            client id; the service effectively acts as a global in-memory slot
+            for exactly one battle. That matches current tests (single-threaded
+            service instantiation) but is a real defect for concurrent use.
+Risk:       Without serialization of access or per-battle identity, two
+            clients can interleave startBattle and submitAction and corrupt
+            hero/enemy references or engine state; debugging such races is
+            costly because field state depends on request ordering.
+BEFORE (excerpt):
+@Service
+public class BattleApplicationService {
+
+    private BattleEngine battleEngine;
+    private LivingEntity hero;
+    private LivingEntity enemy;
+
+--------------------------------------------------------------------------------
+SMELL 9 — Magic numbers (balance tuning)
+Location:   DefendAction — execute
+Metrics:   Literals 10 (HP) and 5 (mana) unnamed.
+Explanation: Defend recovery values are balance parameters buried in code.
+Risk:       Hard to find and keep consistent with design docs.
+BEFORE:
+        actor.restoreHp(10);
+        actor.restoreMana(5);
+
+--------------------------------------------------------------------------------
+SMELL 10 — String-based command dispatch
+Location:   BattleApplicationService — submitAction
+Metrics:   switch on normalized String with four command literals + default.
+Explanation: Commands are a closed set known at compile time but modeled only
+            as strings in the core service.
+Risk:       Adding commands requires synchronized edits across normalization
+            and switch; easier to miss a branch.
+BEFORE (excerpt):
+        switch (actionType) {
+            case "attack": ...
+            case "defend": ...
+            case "wait": ...
+            case "cast": ...
+            default: return getBattleState();
+        }
+
+
+================================================================================
+5. REFACTORINGS (ONE PER SMELL) — TYPE, WHY, BEFORE/AFTER, BEHAVIOR
+================================================================================
+
+General: All changes were verified with `mvn test` (full project). Public
+strings and numeric rule values exposed through behavior (e.g. cast cost 20,
+damage 25; defend +10 HP, +5 mana) are unchanged.
+
+--------------------------------------------------------------------------------
+(1) DUPLICATE CODE — Refactoring: Extract Method (noActiveBattleResponse)
+Why: Single source of truth for the empty battle DTO.
+Before: See smell 1.
+After:  Private method noActiveBattleResponse() returns the same
+        BattleStateResponse; submitAction and getBattleState call it.
+Preserved: Same field values and "No active battle" message; tests unchanged.
+
+--------------------------------------------------------------------------------
+(2) MAGIC NUMBERS (cast) — Refactoring: Named constants
+Why: Makes spell tuning visible at the top of the service class.
+After:  DEFAULT_CAST_MANA_COST = 20, DEFAULT_CAST_SPELL_DAMAGE = 25 passed to
+        new CastAction(...).
+Preserved: Numeric behavior identical; cast tests unchanged.
+
+--------------------------------------------------------------------------------
+(3) PRIMITIVE OBSESSION — Refactoring: Introduce Enum (InvitationStatus)
+Why: Invitation lifecycle is a finite state set; enum prevents invalid domain
+     states while keeping API strings via status.name().
+After:   
+  - New enum InvitationStatus { PENDING, ACCEPTED, REJECTED }
+  - BattleInvitation stores InvitationStatus; getStatus() returns name();
+    setStatus(InvitationStatus); isPending() for guards.
+  - BattleInvitationService uses InvitationStatus constants and isPending().
+Preserved: InvitationResponse still exposes "PENDING"/"ACCEPTED"/"REJECTED";
+           tests assert same strings.
+
+--------------------------------------------------------------------------------
+(4) LONG METHOD — Refactoring: Extract Method (invitationSnapshotResponse)
+Why: DRY for "full invitation row + message" responses inside respond flow.
+After:  Private static invitationSnapshotResponse(BattleInvitation, message).
+Preserved: Same invitationId, names, status strings, and user-visible
+           messages for accept/reject/already-handled paths covered by tests.
+
+--------------------------------------------------------------------------------
+(5) COMPLEX GUARDS — Refactoring: Extract Method (BattleEngine)
+Why: Names the two phases: setup missing vs combatants invalid.
+After:  lacksBattleSetup(); cannotProcessCombatAction(actor, target).
+Preserved: Same early-return order and semantics; turn advancement unchanged.
+
+--------------------------------------------------------------------------------
+(6) INCONSISTENT STYLE — Refactoring: Normalize formatting (AttackAction)
+Why: Align with sibling actions for review and onboarding.
+After:  Block if-statements with explicit returns instead of one-line returns.
+Preserved: Same branching; damage formula unchanged.
+
+--------------------------------------------------------------------------------
+(7) DUPLICATED VALIDATION — Refactoring: Extract helper type (LivingEntityCombat)
+Why: One implementation of "actor and target exist and are alive" for strike
+     and spell paths.
+After:  package-private LivingEntityCombat.areActorAndTargetAlive(actor,target)
+        used in AttackAction and CastAction.
+Preserved: Equivalent boolean logic to paired null/alive checks.
+
+--------------------------------------------------------------------------------
+(8) MUTABLE SINGLETON STATE — Refactoring: Documented design limitation
+     (no session store or scope change in this pass)
+Why: Correct multi-client behavior needs explicit battle identity and storage
+     (e.g. request/scoped bean, map of battle id → session, or similar).
+     That is an architectural expansion beyond minimal, behavior-preserving
+     maintenance: it would change how startBattle and submitAction locate
+     state and would require new tests and API contracts.
+After:  Class-level Javadoc on BattleApplicationService states that the bean
+        is a singleton with shared mutable fields and that concurrent clients
+        can overwrite state; the fields themselves are unchanged so existing
+        tests and single-client flows behave as before.
+Preserved: All field semantics and method outcomes; mvn test unchanged.
+
+--------------------------------------------------------------------------------
+(9) MAGIC NUMBERS (defend) — Refactoring: Named constants (DefendAction)
+Why: Same as (2) for defensive stance tuning.
+After:  DEFEND_HP_RESTORE, DEFEND_MANA_RESTORE.
+Preserved: Still +10 HP and +5 mana; defend-related assertions unchanged.
+
+--------------------------------------------------------------------------------
+(10) STRING DISPATCH — Refactoring: Introduce enum mapper (BattleCommand)
+Why: Centralizes normalized string → command; service switches on enum.
+After:  package-private BattleCommand.fromNormalized(String); UNKNOWN mirrors
+        default branch returning current getBattleState() without mutation.
+Preserved: Same command set and invalid-command behavior.
+
+
+Additional extraction (supporting smell 10 / readability, same class):
+  resolveTarget(String) — preserves hero/enemy name matching
+  (equalsIgnoreCase).
+
+
+================================================================================
+6. METRICS AFTER REFACTORING (AFFECTED CLASSES / METHODS ONLY)
+================================================================================
+
+6.A Method-level — Lizard BEFORE vs AFTER
+--------------------------------------------------------------------------------
+Location                         Metric    BEFORE   AFTER
+-------------------------------  --------  -------  -----
+BattleApplicationService         submitAction CCN     12      12
+BattleApplicationService         submitAction NLOC    43      35
+BattleApplicationService         submitAction length  49      41
+BattleApplicationService         getBattleState CCN   5       5
+BattleApplicationService         getBattleState NLOC   25      17
+BattleInvitationService          respondToInvitation CCN   7   7
+BattleInvitationService          respondToInvitation NLOC  58  46
+BattleInvitationService          respondToInvitation len 65  53
+BattleEngine                     submitAction CCN      10      7
+BattleEngine                     submitAction NLOC     23      17
+AttackAction                     execute CCN          6       3
+CastAction                       execute CCN          7       4
+CastAction                       execute NLOC         18      15
+
+New helpers (after): BattleCommand.fromNormalized CCN 6; noActiveBattleResponse
+CCN 1; resolveTarget CCN 3; invitationSnapshotResponse CCN 1;
+LivingEntityCombat.areActorAndTargetAlive CCN 4;
+BattleEngine lacksBattleSetup CCN 2; cannotProcessCombatAction CCN 3.
+
+Note: submitAction in BattleApplicationService still has HIGH CCN (12) after
+refactor — the multi-way dispatch dominates Lizard’s count. Gains are mostly
+shorter methods, less duplication, and clearer domain types rather than a large
+drop in that single CCN number.
+
+6.B Physical LOC (wc -l) — selected classes BEFORE vs AFTER
+--------------------------------------------------------------------------------
+Class                     BEFORE   AFTER
+------------------------  -------  -----
+BattleApplicationService   124      143  (includes class Javadoc for smell 8)
+BattleInvitationService    145      144
+BattleEngine               82       86
+BattleInvitation           35       39
+AttackAction               16       19
+DefendAction               18       22
+CastAction                 36       32
+WaitAction                 16       16
+LivingEntity               101      101  (unchanged — not a target of the 10)
+
+New files: InvitationStatus.java (~7 LOC), BattleCommand.java (~27 LOC),
+LivingEntityCombat.java (~11 LOC).
+
+Subsystem total physical LOC: 1124 → 1199 (+75; helper types, extractions,
+and documentation).
+
+6.C Coupling (fan-out) — AFTER vs BEFORE (manual)
+--------------------------------------------------------------------------------
+BattleApplicationService:   9 → 9 (BattleCommand same package)
+BattleInvitationService:    4 → 5 (+ InvitationStatus)
+BattleInvitation:           0 → 1 (InvitationStatus)
+AttackAction / CastAction:  0 → 1 (LivingEntityCombat)
+
+
+================================================================================
+7. OVERALL IMPROVEMENT
+================================================================================
+
+Maintainability improved by removing duplicated empty-state construction,
+centralizing invitation snapshot responses, and replacing string invitation
+states with InvitationStatus while preserving external string values. Cast and
+defend balance numbers are named. BattleEngine guards read as named predicates.
+Combat preconditions for attack and cast are shared. Command parsing is
+isolated in BattleCommand.
+
+The shared mutable battle fields on BattleApplicationService were not
+replaced with a session model in this pass; they are documented on the
+service class (smell 8; refactoring (8) in section 5) so future work can
+target concurrency and isolation explicitly without rediscovering the scope
+hazard by inspection.
+
+
+================================================================================
+8. CONCLUSION
+================================================================================
+
+BattleService received a maintenance pass scoped to measurable smells in real
+code: duplication, literals, stringly-typed states and commands, long flows,
+dense guards, and singleton-scoped battle state. Refactorings were kept
+minimal and test-backed. Some metrics (e.g. class LCOM) were explicitly not
+collected. The subsystem is slightly larger in line count due to small helper
+types and documentation, but hot paths are clearer and less error-prone to
+extend. Even where CCN did not drop significantly (notably
+BattleApplicationService.submitAction), the refactoring still improved
+structural clarity, reduced duplication, and strengthened domain modeling,
+which improves long-term maintainability.
+
+
+================================================================================
+APPENDIX — FILES TOUCHED (BattleService)
+================================================================================
+application/BattleApplicationService.java
+application/BattleInvitationService.java
+application/BattleCommand.java                    (new)
+domain/BattleEngine.java
+domain/BattleInvitation.java
+domain/InvitationStatus.java                    (new)
+domain/LivingEntityCombat.java                  (new)
+domain/AttackAction.java
+domain/CastAction.java
+domain/DefendAction.java
+
+================================================================================
+END OF DELIVERABLE 3 TEXT
+================================================================================
