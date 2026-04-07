@@ -1,64 +1,63 @@
 extends Node2D
 
-# Reference the two different master sprites
-@onready var allies_master = $AlliesAnim
-@onready var enemies_master = $EnemiesAnim
+signal battle_ended
 
-# Reference the marker containers
-@onready var allies_container = $Allies
-@onready var enemies_container = $Enemies
+@onready var ally = $AlliesAnim
+@onready var enemy = $EnemiesAnim
+@onready var ally_pos = $Allies/Pos_Front.global_position
+@onready var enemy_pos = $Enemies/Pos_Front.global_position
+@onready var battle_camera = $Camera2D
+
+var hp_ally = 100
+var hp_enemy = 100
 
 func _ready():
-	# Hide the master templates so they don't sit in the middle of the screen
-	allies_master.visible = false
-	enemies_master.visible = false
+	self.hide()
 
-func _input(event):
-	# Allies (Up/Down)
-	if event.is_action_pressed("ui_up"):
-		spawn_unit(allies_container, allies_master)
-	elif event.is_action_pressed("ui_down"):
-		remove_unit(allies_container)
 
-	# Enemies (Left/Right)
-	if event.is_action_pressed("ui_left"):
-		spawn_unit(enemies_container, enemies_master)
-	elif event.is_action_pressed("ui_right"):
-		remove_unit(enemies_container)
+func start_battle():
+	self.show()
 
-func spawn_unit(container, master_template):
-	# 1. Get all Marker2D nodes in this container
-	var markers = []
-	for child in container.get_children():
-		if child is Marker2D:
-			markers.append(child)
 	
-	# 2. Count how many AnimatedSprite2Ds we already spawned here
-	var spawned_count = 0
-	for child in container.get_children():
-		if child is AnimatedSprite2D:
-			spawned_count += 1
-			
-	# 3. If we have an empty marker, spawn the clone
-	if spawned_count < markers.size():
-		var new_sprite = master_template.duplicate()
-		new_sprite.visible = true
-		
-		# Add as child of the container
-		container.add_child(new_sprite)
-		
-		# Snap to the specific marker's position
-		new_sprite.position = markers[spawned_count].position
-		
-		# Ensure it starts playing its idle
-		new_sprite.play("idle")
+	ally.global_position = ally_pos
+	enemy.global_position = enemy_pos
+	
+	hp_ally = 100
+	hp_enemy = 100
+	enemy.modulate.a = 1.0 
+	print("Battle Start!")
 
-func remove_unit(container):
-	# Find the last sprite added and delete it
-	var clones = []
-	for child in container.get_children():
-		if child is AnimatedSprite2D:
-			clones.append(child)
-			
-	if clones.size() > 0:
-		clones[-1].queue_free()
+func _on_attack_pressed():
+	if hp_ally <= 0 or hp_enemy <= 0: return
+
+	hp_enemy -= 10
+	_flash(enemy)
+	print("Enemy HP: ", hp_enemy)
+	
+	if hp_enemy <= 0:
+		_finish(true)
+	else:
+	
+		await get_tree().create_timer(0.4).timeout
+		hp_ally -= 10
+		_flash(ally)
+		print("Ally HP: ", hp_ally)
+		if hp_ally <= 0: _finish(false)
+
+func _flash(target):
+	var t = create_tween()
+	t.tween_property(target, "modulate", Color.RED, 0.1)
+	t.tween_property(target, "modulate", Color.WHITE, 0.1)
+
+func _finish(won):
+	if won:
+		print("Victory!")
+		var p = get_tree().get_first_node_in_group("player")
+		if p: p.add_exp(20)
+	else:
+		print("Defeat!")
+
+	await get_tree().create_timer(1.0).timeout
+	battle_camera.enabled = false
+	self.hide()
+	battle_ended.emit()

@@ -180,16 +180,16 @@ grow_vertical = 2
 color = Color(0.8276526, 0.41785556, 0.3862985, 1)
 
 [node name="AlliesAnim" type="AnimatedSprite2D" parent="." unique_id=773569054]
-visible = false
 y_sort_enabled = true
 texture_filter = 1
+position = Vector2(404.99997, 338.99997)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_dw4jg")
 animation = &"idle"
 
 [node name="EnemiesAnim" type="AnimatedSprite2D" parent="." unique_id=1162095523]
-visible = false
 y_sort_enabled = true
+position = Vector2(771, 330.00003)
 scale = Vector2(-10, 10)
 sprite_frames = SubResource("SpriteFrames_ol6im")
 animation = &"idle"
@@ -229,3 +229,13 @@ position = Vector2(-286, 106)
 
 [node name="Pos_Back_Lower" type="Marker2D" parent="Enemies" unique_id=1915277807]
 position = Vector2(-286, 538)
+
+[node name="attack button" type="Button" parent="." unique_id=2037603990]
+offset_left = 558.0
+offset_top = 534.0
+offset_right = 616.0
+offset_bottom = 565.0
+size_flags_vertical = 4
+text = "Attack"
+
+[connection signal="pressed" from="attack button" to="." method="_on_attack_button_pressed"]

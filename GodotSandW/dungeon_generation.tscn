@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://cmap0dko51d62" path="res://dungeonparts/dungeon_ v1.0/dungeon_ v1.0/dungeonDecoration_0 [blueCarpet].png" id="4_65o63"]
 [ext_resource type="Texture2D" uid="uid://bmmtwlpaja52p" path="res://dungeonparts/dungeon_ v1.0/dungeon_ v1.0/dungeonDecoration_0.png" id="5_dv6ho"]
 [ext_resource type="Texture2D" uid="uid://v8oh0dlwhu7f" path="res://dungeonparts/dungeon_ v1.0/dungeon_ v1.0/dungeon_.png" id="6_ig11i"]
-[ext_resource type="PackedScene" uid="uid://d0y1hadawb87t" path="res://player.tscn" id="8_65o63"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gduu8"]
 texture = ExtResource("1_oyrm0")
@@ -860,9 +859,6 @@ position = Vector2(-8, -16)
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=314813555]
 position = Vector2(0, 2)
-
-[node name="Player" parent="." unique_id=2006832785 instance=ExtResource("8_65o63")]
-position = Vector2(8, -72)
 
 [connection signal="body_entered" from="Template/AreaXDoor" to="." method="_on_area_x_door_body_entered"]
 [connection signal="body_entered" from="Template/AreaYDoor" to="." method="_on_area_y_door_body_entered"]

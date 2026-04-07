@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://mboagss3fe3h"]
+
+[ext_resource type="Script" uid="uid://exot0130edc2" path="res://control.gd" id="1_0bxp5"]
+
+[node name="Control" type="Control" unique_id=2098060637]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0bxp5")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=900208833]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.90553826, 0.72904515, 0.4940974, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=438736928]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button2" type="Button" parent="HBoxContainer" unique_id=1515993421]
+layout_mode = 2
+text = "Host"
+
+[node name="Button3" type="Button" parent="HBoxContainer" unique_id=1824805078]
+layout_mode = 2
+text = "Join"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1106732270]
+visible = false
+layout_mode = 0
+offset_left = 540.0
+offset_top = 6.0
+offset_right = 580.0
+offset_bottom = 46.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=463706592]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "IP Address of Other players:"
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=1508905449]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "129.001.273"
+
+[node name="Label3" type="Label" parent="VBoxContainer" unique_id=2014562627]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "129.001.273"
+
+[node name="Label4" type="Label" parent="VBoxContainer" unique_id=1613136785]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "129.001.273"
+
+[node name="Label5" type="Label" parent="VBoxContainer" unique_id=1195840989]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "129.001.273"
+
+[node name="Label6" type="Label" parent="VBoxContainer" unique_id=170265940]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "129.001.273"
+
+[node name="Label7" type="Label" parent="VBoxContainer" unique_id=1427705316]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "129.001.273"
+
+[connection signal="pressed" from="HBoxContainer/Button3" to="." method="_on_button_3_pressed"]

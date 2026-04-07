@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bfyb4604scwik" path="res://dungeonparts/dungeon_ v1.0/dungeon_ v1.0/fire_.png" id="7_6qsgm"]
 [ext_resource type="PackedScene" uid="uid://d0y1hadawb87t" path="res://player.tscn" id="8_05x41"]
 [ext_resource type="PackedScene" uid="uid://du5ntuihxpfpu" path="res://dungeon_generation.tscn" id="9_gqbix"]
+[ext_resource type="PackedScene" uid="uid://cdnnxtxntd6u7" path="res://battle.tscn" id="10_oysan"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4d7sh"]
 texture = ExtResource("1_71pa8")
@@ -1051,6 +1052,10 @@ sources/1 = SubResource("TileSetAtlasSource_0h7mo")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05x41"]
 size = Vector2(96, 5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gqbix"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_oysan"]
+
 [node name="Map" type="Node2D" unique_id=639952365]
 y_sort_enabled = true
 
@@ -1090,5 +1095,21 @@ position = Vector2(-479, 24)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1264693333]
 position = Vector2(88, 264)
 shape = SubResource("RectangleShape2D_05x41")
+
+[node name="BattleBox" type="Area2D" parent="." unique_id=1242443029]
+position = Vector2(315, 180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BattleBox" unique_id=622985125]
+shape = SubResource("RectangleShape2D_gqbix")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="BattleBox" unique_id=1884419747]
+position = Vector2(2.026558e-06, 8.404255e-06)
+scale = Vector2(19.999996, 19.999985)
+mesh = SubResource("BoxMesh_oysan")
+
+[node name="battle" parent="." unique_id=2064662911 instance=ExtResource("10_oysan")]
+position = Vector2(1405, 0)
+
+[connection signal="body_entered" from="BattleBox" to="Player" method="_on_battle_box_body_entered"]
 
 [editable path="DungeonGeneration"]

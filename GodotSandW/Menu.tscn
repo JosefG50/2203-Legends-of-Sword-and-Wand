@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bimngly3bf0na" path="res://Scripts/background.gd" id="2_1igrg"]
 [ext_resource type="Texture2D" uid="uid://clsfvucbej1o" path="res://PixelArt/DaySkyv2.png" id="3_1igrg"]
 [ext_resource type="Texture2D" uid="uid://p5t1j8jcerk0" path="res://PixelArt/Ground-removebg-preview.png" id="3_5p1lm"]
-[ext_resource type="FontFile" path="res://Roboto-Italic-VariableFont_wdth,wght.ttf" id="4_hcwhg"]
+[ext_resource type="FontFile" uid="uid://ccvk722d4e8t0" path="res://Roboto-Italic-VariableFont_wdth,wght.ttf" id="4_hcwhg"]
 [ext_resource type="Texture2D" uid="uid://d5m1of58kvqp" path="res://PixelArt/MoonSkyv2.png" id="4_v0s1l"]
 [ext_resource type="Texture2D" uid="uid://12pvrwd2dlkm" path="res://PixelArt/Moonv2.png" id="5_5qkn8"]
 [ext_resource type="Texture2D" uid="uid://dssahcbbq05no" path="res://PixelArt/sun.png" id="6_xucoo"]
@@ -39,7 +39,6 @@ texture = ExtResource("3_1igrg")
 stretch_mode = 1
 
 [node name="Pivot" type="Node2D" parent="Background" unique_id=276093968]
-visible = false
 position = Vector2(648, 416)
 
 [node name="Sprite2D2" type="Sprite2D" parent="Background/Pivot" unique_id=533508581]
