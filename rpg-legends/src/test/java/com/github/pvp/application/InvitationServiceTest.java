@@ -1,20 +1,20 @@
-package com.github.BattleService.application;
+package com.github.pvp.application;
 
-import com.github.BattleService.dto.CreateInvitationRequest;
-import com.github.BattleService.dto.InvitationResponse;
-import com.github.BattleService.dto.RespondInvitationRequest;
+import com.github.pvp.dto.CreateInvitationRequest;
+import com.github.pvp.dto.InvitationResponse;
+import com.github.pvp.dto.RespondInvitationRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BattleInvitationServiceTest {
+class InvitationServiceTest {
 
-    private BattleInvitationService service;
+    private InvitationService service;
 
     @BeforeEach
     void setUp() {
-        service = new BattleInvitationService();
+        service = new InvitationService();
     }
 
     private CreateInvitationRequest createRequest(String sender, String receiver) {

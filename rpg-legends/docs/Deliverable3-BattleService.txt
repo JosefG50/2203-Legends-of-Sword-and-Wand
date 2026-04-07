@@ -9,13 +9,15 @@ SUBMISSION CHECKLIST (do this before uploading)
     if the syllabus requires PDF.
 [ ] Submit SOURCE CODE only unless instructed otherwise; do NOT hand in
     rpg-legends/target/ (build output, Checkstyle cache, etc.).
-[ ] Confirm "git status" shows only intentional changes under BattleService.
+[ ] Confirm "git status" shows intentional changes under BattleService and pvp.
 [ ] This document matches the refactored codebase: mvn test passes from
     rpg-legends/ (full suite; BattleService tests included).
 
-Scope statement: Only the BattleService package under
-  rpg-legends/src/main/java/com/github/BattleService
-was analyzed and refactored. Other modules are out of scope.
+Scope statement: The maintenance work described here targeted combat and API
+code originally under com.github.BattleService. Invitation / PvP matchmaking HTTP
+code now lives in com.github.pvp (same repo); that move is a later packaging
+change and does not alter the metrics narrative, which still refers to class
+names as they existed during Deliverable 3 analysis (e.g. BattleInvitationService).
 
 
 ================================================================================
@@ -473,18 +475,24 @@ which improves long-term maintainability.
 
 
 ================================================================================
-APPENDIX — FILES TOUCHED (BattleService)
+APPENDIX — PACKAGE LAYOUT (after Deliverable 3 + PvP extraction)
 ================================================================================
-application/BattleApplicationService.java
-application/BattleInvitationService.java
-application/BattleCommand.java                    (new)
-domain/BattleEngine.java
-domain/BattleInvitation.java
-domain/InvitationStatus.java                    (new)
-domain/LivingEntityCombat.java                  (new)
-domain/AttackAction.java
-domain/CastAction.java
-domain/DefendAction.java
+BattleService (com.github.BattleService) — combat HTTP + domain:
+  BattleServiceApplication.java
+  application/BattleApplicationService.java
+  application/BattleCommand.java
+  controller/BattleController.java
+  domain/* (battle engine, actions, LivingEntity, …)
+  dto/* (battle/action/start requests & BattleStateResponse only)
+
+pvp (com.github.pvp) — PvP invitation HTTP + domain + DTOs:
+  application/InvitationService.java
+  controller/InvitationController.java
+  domain/BattleInvitation.java
+  domain/InvitationStatus.java
+  dto/CreateInvitationRequest.java
+  dto/InvitationResponse.java
+  dto/RespondInvitationRequest.java
 
 ================================================================================
 END OF DELIVERABLE 3 TEXT

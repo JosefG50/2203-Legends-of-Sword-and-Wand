@@ -1,4 +1,4 @@
-package com.github.BattleService.dto;
+package com.github.pvp.dto;
 
 public class CreateInvitationRequest {
 

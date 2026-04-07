@@ -1,4 +1,4 @@
-package com.github.BattleService.domain;
+package com.github.pvp.domain;
 
 public enum InvitationStatus {
     PENDING,

@@ -1,10 +1,10 @@
-package com.github.BattleService.application;
+package com.github.pvp.application;
 
-import com.github.BattleService.domain.BattleInvitation;
-import com.github.BattleService.domain.InvitationStatus;
-import com.github.BattleService.dto.CreateInvitationRequest;
-import com.github.BattleService.dto.InvitationResponse;
-import com.github.BattleService.dto.RespondInvitationRequest;
+import com.github.pvp.domain.BattleInvitation;
+import com.github.pvp.domain.InvitationStatus;
+import com.github.pvp.dto.CreateInvitationRequest;
+import com.github.pvp.dto.InvitationResponse;
+import com.github.pvp.dto.RespondInvitationRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class BattleInvitationService {
+public class InvitationService {
 
     private final Map<String, BattleInvitation> invitations = new HashMap<>();
 
