@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class ExitCampaignUseCase {
 
-    private final CampaignManager campaign;
+    private final CampaignService campaign;
     private final PartyService partyService;
     private final InventoryService inventory;
 
@@ -35,7 +35,7 @@ public class ExitCampaignUseCase {
      * @param inventory the inventory service
      * @param inn (ignored, can be removed if unused)
      */
-    public ExitCampaignUseCase(CampaignManager campaign,
+    public ExitCampaignUseCase(CampaignService campaign,
                                PartyService partyService,
                                InventoryService inventory,
                                Inn inn) {

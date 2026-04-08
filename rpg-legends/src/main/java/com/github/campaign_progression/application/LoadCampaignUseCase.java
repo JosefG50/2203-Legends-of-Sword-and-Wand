@@ -1,89 +1,67 @@
 package com.github.campaign_progression.application;
 
-import com.github.campaign_progression.application.dto.HeroInstanceDTO;
-import com.github.campaign_progression.application.dto.ItemDTO;
-import com.github.campaign_progression.application.dto.LoadCampaignDTO;
-import com.github.campaign_progression.application.dto.CampaignSnapshotDTO;
-import com.github.campaign_progression.domain.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Use case for loading a saved campaign snapshot into the domain model.
- *
- * <p>Restores:</p>
- * <ul>
- *     <li>Campaign state (battle chance, room counter if applicable)</li>
- *     <li>Party members with their stats and specializations</li>
- *     <li>Inventory items and quantities</li>
- * </ul>
- *
- * <p>Returns a {@link LoadCampaignDTO} reflecting the restored state for UI or further processing.</p>
- */
+import com.github.campaign_progression.application.dto.CampaignSnapshotDTO;
+import com.github.campaign_progression.application.dto.HeroInstanceDTO;
+import com.github.campaign_progression.application.dto.ItemDTO;
+import com.github.campaign_progression.application.dto.LoadCampaignDTO;
+import com.github.campaign_progression.domain.CampaignManager;
+import com.github.campaign_progression.domain.HeroState;
+import com.github.campaign_progression.domain.InventoryService;
+import com.github.campaign_progression.domain.PartyService;
+import com.github.campaign_progression.domain.Room;
+import com.github.campaign_progression.domain.RoomFactory;
+
 public class LoadCampaignUseCase {
 
     private final CampaignManager campaign;
     private final PartyService partyService;
     private final InventoryService inventoryService;
+    private final RoomFactory roomFactory;
 
-    /**
-     * Constructs the use case.
-     *
-     * @param campaign         the campaign manager to restore state
-     * @param partyService     the party service to rebuild heroes
-     * @param inventoryService the inventory service to restore items
-     * @param inn              the inn (optional, not used in this version)
-     */
     public LoadCampaignUseCase(CampaignManager campaign,
                                PartyService partyService,
                                InventoryService inventoryService,
-                               Inn inn) {
+                               RoomFactory roomFactory) {
         this.campaign = campaign;
         this.partyService = partyService;
         this.inventoryService = inventoryService;
+        this.roomFactory = roomFactory;
     }
 
-    /**
-     * Loads a saved campaign snapshot into the domain.
-     *
-     * @param snapshotDTO the snapshot DTO containing saved state
-     * @return a {@link LoadCampaignDTO} reflecting the restored campaign
-     */
-    public LoadCampaignDTO execute(CampaignSnapshotDTO snapshotDTO) {
+public LoadCampaignDTO execute(CampaignSnapshotDTO snapshotDTO) {
 
-        // 1️⃣ Restore campaign state
-        campaign.setBattleChance(snapshotDTO.getBattleChance());
+    // 1️⃣ Restore campaign state
+    campaign.setBattleChance(snapshotDTO.getBattleChance());
+    campaign.setRoomCounter(snapshotDTO.getRoomCounter());
+    campaign.setEndOfRoom(false);
 
-        // 2️⃣ Restore party
-        List<HeroState> party = snapshotDTO.getParty().stream()
-                .map(this::toDomainHero)
-                .collect(Collectors.toList());
+    // 2️⃣ Restore room (safe)
+    Room restoredRoom = roomFactory.createNextRoom(snapshotDTO.getBattleChance());
+    campaign.setCurrentRoom(restoredRoom);
 
-        for (HeroState hero : party) {
-            partyService.addHero(hero);
-        }
+    // 3️⃣ Restore party (NO reset method exists → DO NOT duplicate logic)
+    List<HeroState> party = snapshotDTO.getParty().stream()
+            .map(this::toDomainHero)
+            .collect(Collectors.toList());
 
-        // 3️⃣ Restore inventory
-        inventoryService.setItems(
-                snapshotDTO.getItems().stream()
-                        .mapToInt(ItemDTO::getQuantity)
-                        .toArray()
-        );
-
-        // Optional: restore gold
-        // inventoryService.setGold(snapshotDTO.getGold());
-
-        // 4️⃣ Return updated DTO
-        return LoadCampaignDTO.fromDomain(campaign, partyService, inventoryService);
+    for (HeroState hero : party) {
+        partyService.addHero(hero);
     }
 
-    /**
-     * Maps a {@link HeroInstanceDTO} to a {@link HeroState}.
-     *
-     * @param dto the hero snapshot DTO
-     * @return a restored {@link HeroState} object
-     */
+    // 4️⃣ Restore inventory
+    inventoryService.setItems(
+            snapshotDTO.getItems().stream()
+                    .mapToInt(ItemDTO::getQuantity)
+                    .toArray()
+    );
+
+    // 5️⃣ Return DTO
+    return LoadCampaignDTO.fromDomain(campaign, partyService, inventoryService);
+}
+
     private HeroState toDomainHero(HeroInstanceDTO dto) {
         HeroState hero = new HeroState();
         hero.setSpecialization(dto.getSpecialization());
@@ -98,7 +76,6 @@ public class LoadCampaignUseCase {
             default -> throw new IllegalArgumentException("Invalid specialization");
         }
 
-        // Restore stats (clamped safely)
         hero.setCurHp(Math.min(dto.getCurHp(), dto.getMaxHp()));
         hero.setCurMana(Math.min(dto.getCurMana(), dto.getMaxMana()));
 

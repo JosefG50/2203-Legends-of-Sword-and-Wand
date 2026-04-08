@@ -14,7 +14,7 @@ class ItemConsumeUseCaseTest {
 
     private InventoryService inventory;
     private PartyService partyService;
-    private CampaignManager campaign;
+    private CampaignService campaign;
     private ItemConsumeUseCase useCase;
     private HeroState hero;
     private ItemType potion;
@@ -23,7 +23,7 @@ class ItemConsumeUseCaseTest {
     void setup() {
         inventory = mock(InventoryService.class);
         partyService = mock(PartyService.class);
-        campaign = mock(CampaignManager.class);
+        campaign = mock(CampaignService.class);
 
         hero = mock(HeroState.class);
         when(hero.getName()).thenReturn("Alice");

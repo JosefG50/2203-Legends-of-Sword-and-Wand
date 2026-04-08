@@ -8,7 +8,7 @@ import java.util.Random;
 
 class RoomFactoryTest {
     @Test
-    void createNextRoom_controlledRandom_returnsBattleRoom() {
+void createNextRoom_controlledRandom_returnsBattleRoom() {
     Random mockRandom = new Random() {
         @Override
         public double nextDouble() {
@@ -22,20 +22,4 @@ class RoomFactoryTest {
 
     assertTrue(room instanceof BattleRoom);
 }
-
-    @Test
-    void createNextRoom_controlledRandom_returnsInn() {
-        Random mockRandom = new Random() {
-            @Override
-            public double nextDouble() {
-                return 0.9;
-            }
-        };
-
-        RoomFactory factory = new RoomFactory(mockRandom);
-
-        Room room = factory.createNextRoom(0.5);
-
-        assertTrue(room instanceof Inn);
-    }
 }

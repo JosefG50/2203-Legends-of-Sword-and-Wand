@@ -13,12 +13,16 @@ public class RoomFactory {
 
     private final Random random;
 
-    public RoomFactory() {
-    this.random = new Random();
-}
+    public RoomFactory(Random random) {
+        this.random = random;
+    }
 
-    public Room createNextRoom(double battlechance) {
-        if (random.nextDouble() < battlechance) {
+    public RoomFactory() {
+        this(new Random());
+    }
+
+    public Room createNextRoom(double battleChance) {
+        if (random.nextDouble() < battleChance) {
             return new BattleRoom();
         } else {
             return new Inn();

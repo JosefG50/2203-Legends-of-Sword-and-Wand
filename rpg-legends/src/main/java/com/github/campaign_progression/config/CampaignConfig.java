@@ -5,8 +5,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import com.github.campaign_progression.domain.*;
-import com.github.campaign_progression.application.*;
+import com.github.campaign_progression.application.BuyItemUseCase;
+import com.github.campaign_progression.application.BuyRecruitUseCase;
+import com.github.campaign_progression.application.EndCampaignUseCase;
+import com.github.campaign_progression.application.ExitCampaignUseCase;
+import com.github.campaign_progression.application.GenerateBattleRoomUseCase;
+import com.github.campaign_progression.application.GetInventoryUseCase;
+import com.github.campaign_progression.application.GetPartyUseCase;
+import com.github.campaign_progression.application.GetShopUseCase;
+import com.github.campaign_progression.application.InitializeBattleUseCase;
+import com.github.campaign_progression.application.InnInitializeUseCase;
+import com.github.campaign_progression.application.ItemConsumeUseCase;
+import com.github.campaign_progression.application.LoadCampaignUseCase;
+import com.github.campaign_progression.application.NextRoomUseCase;
+import com.github.campaign_progression.application.SaveCampaignToPvpUseCase;
+import com.github.campaign_progression.application.StartCampaignUseCase;
+import com.github.campaign_progression.application.ViewRecruitUseCase;
+import com.github.campaign_progression.domain.CampaignManager;
+import com.github.campaign_progression.domain.EnemyFactory;
+import com.github.campaign_progression.domain.Inn;
+import com.github.campaign_progression.domain.InventoryService;
+import com.github.campaign_progression.domain.PartyService;
+import com.github.campaign_progression.domain.RoomFactory;
 
 @Configuration
 public class CampaignConfig {
@@ -51,12 +71,19 @@ public class CampaignConfig {
     }
 
     @Bean
-    public LoadCampaignUseCase loadCampaignUseCase(CampaignManager campaignManager,
-                                                    PartyService partyService,
-                                                    InventoryService inventoryService,
-                                                    Inn inn) {
-        return new LoadCampaignUseCase(campaignManager, partyService, inventoryService, inn);
-    }
+public LoadCampaignUseCase loadCampaignUseCase(
+        CampaignManager campaignManager,
+        PartyService partyService,
+        InventoryService inventoryService,
+        RoomFactory roomFactory) {
+
+    return new LoadCampaignUseCase(
+            campaignManager,
+            partyService,
+            inventoryService,
+            roomFactory
+    );
+}
 
     @Bean
     public ExitCampaignUseCase exitCampaignUseCase(CampaignManager campaignManager,

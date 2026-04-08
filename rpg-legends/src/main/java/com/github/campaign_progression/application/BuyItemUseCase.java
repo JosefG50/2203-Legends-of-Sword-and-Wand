@@ -1,7 +1,9 @@
 package com.github.campaign_progression.application;
 
-import com.github.campaign_progression.domain.*;
 import com.github.campaign_progression.application.dto.BuyItemResponseDTO;
+import com.github.campaign_progression.domain.Inn;
+import com.github.campaign_progression.domain.InventoryService;
+import com.github.campaign_progression.domain.ItemType;
 
 public class BuyItemUseCase {
 
@@ -13,21 +15,15 @@ public class BuyItemUseCase {
         this.inventory = inventory;
     }
 
-    /**
-     * Buys the given amount of the specified item from the inn's shop.
-     *
-     * @param type   the item type to buy
-     * @param amount how many to buy (defaults to 1)
-     * @return a DTO indicating success/failure
-     */
     public BuyItemResponseDTO execute(ItemType type, int amount) {
+
         if (amount < 1) {
             return BuyItemResponseDTO.failure("Amount must be at least 1", type.getName());
         }
 
-        if (!inn.getShop().contains(type)) {
-            return BuyItemResponseDTO.failure(type.getName() + " not available in shop", type.getName());
-        }
+        if (inn.getShop() == null || inn.getShop().stream().noneMatch(i -> i == type)) {
+    return BuyItemResponseDTO.failure(type.getName() + " not available in shop", type.getName());
+}
 
         try {
             inventory.addItem(type, amount);
@@ -37,7 +33,6 @@ public class BuyItemUseCase {
         }
     }
 
-    /** Overload: default amount = 1 */
     public BuyItemResponseDTO execute(ItemType type) {
         return execute(type, 1);
     }
